@@ -1,8 +1,5 @@
 language: generic
 os: osx
-branches:
-  only:
-  - master
 notifications:
   email:
     on_success: never
