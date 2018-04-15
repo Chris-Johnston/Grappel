@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 76345578}
   - component: {fileID: 76345577}
   - component: {fileID: 76345576}
+  - component: {fileID: 76345580}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -233,6 +234,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &76345580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 76345575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0852802976732dc4cad4cae31d7a4a72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  jumpHeight: 5
 --- !u!1 &120696472
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,7 +501,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
       propertyPath: m_TagString
-      value: Untagged
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
@@ -929,7 +943,7 @@ GameObject:
   - component: {fileID: 1837623362}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
