@@ -4,14 +4,14 @@
 #  The below link will need to change depending on the version, this one is for 5.5.1
 #  Refer to https://unity3d.com/get-unity/download/archive and find the link pointed to by Mac "Unity Editor"
 echo 'Downloading Unity 5.5.1 pkg:'
-curl --retry 5 -o Unity.pkg https://download.unity3d.com/download_unity/4596dd67072f/MacEditorInstaller/Unity.pkg
+curl --retry 5 -o Unity.pkg https://download.unity3d.com/download_unity/7f25373c3e03/MacEditorInstaller/Unity.pkg
 if [ $? -ne 0 ]; then { echo "Download failed"; exit $?; } fi
 
 # In Unity 5 they split up build platform support into modules which are installed separately
 # By default, only Mac OSX support is included in the original editor package; Windows, Linux, iOS, Android, and others are separate
 # In this example we download Windows support. Refer to http://unity.grimdork.net/ to see what form the URLs should take
 echo 'Downloading Unity 5.5.1 Windows Build Support pkg:'
-curl --retry 5 -o Unity_win.pkg https://download.unity3d.com/download_unity/4596dd67072f/MacEditorTargetInstaller/UnitySetup-Windows-Support-for-Editor-2017.3.0p1.pkg
+curl --retry 5 -o Unity_win.pkghttps://download.unity3d.com/download_unity/7f25373c3e03/MacEditorTargetInstaller/UnitySetup-Windows-Support-for-Editor-2017.3.1p4.pkg
 if [ $? -ne 0 ]; then { echo "Download failed"; exit $?; } fi
 
 # Run installer(s)
