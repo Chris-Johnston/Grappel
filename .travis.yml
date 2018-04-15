@@ -1,0 +1,16 @@
+language: generic
+os: osx
+branches:
+  only:
+  - master
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+install:
+- sudo -E sh ./Scripts/install.sh
+script:
+- sudo -E sh ./Scripts/build.sh
+env:
+  global:
+  - UNITYCI_PROJECT_NAME="385"
