@@ -8,8 +8,10 @@ notifications:
     on_success: never
     on_failure: change
 install:
+- echo "starting install"
 - sudo -E sh ./build-scripts/install.sh
 script:
+- echo "starting script"
 - sudo -E sh ./build-scripts/build.sh
 env:
   global:
