@@ -248,7 +248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc25fe71505fa4418a61c555b20f415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RopeSystem: {fileID: 0}
+  MaxSwingingVelocity: 5
+  SwingForce: 400
+  ShowDebugging: 1
+  RopeSystem: {fileID: 76345581}
 --- !u!114 &76345581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,9 +281,9 @@ DistanceJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.033033848, y: 2.7590418}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 4.7189417
+  m_Distance: 4.3712926
   m_MaxDistanceOnly: 0
 --- !u!120 &76345583
 LineRenderer:
