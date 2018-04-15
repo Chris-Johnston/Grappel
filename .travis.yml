@@ -8,9 +8,9 @@ notifications:
     on_success: never
     on_failure: change
 install:
-- sudo -E sh ./Scripts/install.sh
+- sudo -E sh ./build-scripts/install.sh
 script:
-- sudo -E sh ./Scripts/build.sh
+- sudo -E sh ./build-scripts/build.sh
 env:
   global:
   - UNITYCI_PROJECT_NAME="385"
