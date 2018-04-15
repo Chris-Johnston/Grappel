@@ -9,7 +9,7 @@
 
 ## Run the editor unit tests
 echo "Running editor unit tests for ${UNITYCI_PROJECT_NAME}"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -nographics -logFile $(pwd)/unity.log -projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}"	-runTests -editorTestsResultFile $(pwd)/test.xml -quit
+/Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -nographics -logFile $(pwd)/unity.log -projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}"	-runEditorTests -editorTestsResultFile $(pwd)/test.xml -quit
 
 rc0=$?
 echo "Unit test logs"
