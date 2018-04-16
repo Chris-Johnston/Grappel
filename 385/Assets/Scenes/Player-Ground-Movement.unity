@@ -245,8 +245,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0852802976732dc4cad4cae31d7a4a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  jumpHeight: 5
+  MaxSwingingVelocity: 500
+  SwingForce: 200
+  ShowDebugging: 1
+  RopeSystem: {fileID: 0}
+  StrafingForce: 340
+  JumpingForce: 10
 --- !u!1 &120696472
 GameObject:
   m_ObjectHideFlags: 0

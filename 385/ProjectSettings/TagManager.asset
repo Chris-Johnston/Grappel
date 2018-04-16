@@ -3,7 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
   - Floor & Wall
   layers:
   - Default
@@ -47,4 +47,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 819359671
+    locked: 0
+  - name: Rope
+    uniqueID: 3535232725
     locked: 0
