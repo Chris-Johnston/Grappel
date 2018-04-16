@@ -250,7 +250,7 @@ MonoBehaviour:
   ShowDebugging: 1
   RopeSystem: {fileID: 0}
   StrafingForce: 340
-  JumpingForce: 500
+  JumpingForce: 10
 --- !u!1 &120696472
 GameObject:
   m_ObjectHideFlags: 0
