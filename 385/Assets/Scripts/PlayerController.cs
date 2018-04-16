@@ -43,10 +43,54 @@ public class PlayerController : MonoBehaviour
 	void Start ()
     {
         PlayerRigidBody = GetComponent<Rigidbody2D>();
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        onGround = true;
+    }
+
+    //This works for back and forth
+    [Range(0, 40)]
+    public float speed;
+    [Range(0, 40)]
+    public float jumpHeight;
+
+    // is the player colliding with the ground?
+    private bool onGround;
+
+    void FixedUpdate()
+    {
+        //Left and Right movement
+        float moveHorizontal = Input.GetAxis(STRAFE);
+        //float moveVertical = Input.GetAxis("Vertical");
+        Vector2 movement = new Vector2(moveHorizontal, 0);
+        PlayerRigidBody.AddForce(movement * speed);
+
+        //Jump
+        if (Input.GetKeyDown(KeyCode.Space) && onGround)
+        {
+            PlayerRigidBody.velocity = new Vector2(0, jumpHeight);
+            onGround = false;
+        }
+    }
+
+    //Ground check for player - can only jump while on ground
+    void OnCollisionEnter2D(Collision2D collide)
+    {
+        //any game objects tagged as Ground will allow the player to jump
+        if (collide.gameObject.tag == "Ground")
+        {
+            onGround = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collide)
+    {
+        if (collide.gameObject.tag == "Ground")
+        {
+            onGround = false;
+        }
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         // Check that the ref to RopeSystem is not null, and the rope system is connected
         // the == true is not redundant because of the ?. operator

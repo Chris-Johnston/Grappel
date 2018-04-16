@@ -11,4 +11,4 @@ When submitting a new pull request, please be sure to include the following info
 Please include the following template somewhere visible inside your task.
 Please also delete this text from the issue when posted.
 
-**Estimated:** **Min:** **Max:** **Actual: **
+**Estimated:** **Min:** **Max:** **Actual:**
