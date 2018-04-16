@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
         onGround = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //Left and Right movement
         float moveHorizontal = Input.GetAxis("Horizontal");
