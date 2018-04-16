@@ -39,13 +39,6 @@ public class PlayerController : MonoBehaviour
     // ref to the player's rigidbody
     private Rigidbody2D PlayerRigidBody;
 
-	// Use this for initialization
-	void Start ()
-    {
-        PlayerRigidBody = GetComponent<Rigidbody2D>();
-        onGround = true;
-    }
-
     //This works for back and forth
     /// <summary>
     /// How much force to give to the player when they strafe, per second
@@ -60,6 +53,13 @@ public class PlayerController : MonoBehaviour
 
     // is the player colliding with the ground?
     private bool onGround;
+
+    // Use this for initialization
+    void Start ()
+    {
+        PlayerRigidBody = GetComponent<Rigidbody2D>();
+        onGround = true;
+    }
 
     //Ground check for player - can only jump while on ground
     void OnCollisionEnter2D(Collision2D collide)
