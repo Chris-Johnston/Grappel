@@ -44,5 +44,10 @@ public class PlayerController : MonoBehaviour {
             onGround = true;
         }
     }
+    
+    void OnCollisionExit ()
+    {
+        onGround = true;
+    }
 
 }
