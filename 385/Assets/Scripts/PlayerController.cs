@@ -45,9 +45,11 @@ public class PlayerController : MonoBehaviour {
         }
     }
     
-    void OnCollisionExit ()
+    void OnCollisionExit2D (Collision2D collide)
     {
-        onGround = true;
-    }
+        if (collide.gameObject.tag == "Ground")
+        {
+            onGround = false;
+        }
 
 }
