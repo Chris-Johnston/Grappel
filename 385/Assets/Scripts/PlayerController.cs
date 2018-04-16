@@ -47,10 +47,16 @@ public class PlayerController : MonoBehaviour
     }
 
     //This works for back and forth
-    [Range(0, 40)]
-    public float StrafingSpeed = 20.0f;
+    /// <summary>
+    /// How much force to give to the player when they strafe, per second
+    /// </summary>
     [Range(0, 40)]
     public float StrafingForce = 20.0f;
+    /// <summary>
+    /// How much force to give to the player when they jump
+    /// </summary>
+    [Range(0, 40)]
+    public float JumpingForce = 20.0f;
 
     // is the player colliding with the ground?
     private bool onGround;
@@ -141,13 +147,13 @@ public class PlayerController : MonoBehaviour
             //Left and Right strafing movement 
             float moveHorizontal = Input.GetAxis(STRAFE);
             Vector2 movement = new Vector2(moveHorizontal, 0);
-            PlayerRigidBody.AddForce(movement * StrafingSpeed * Time.deltaTime);
+            PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
 
             //Jump if the player is on the ground
             //TODO: Have jumping code use an input that can be rebound instead of binding directly to Space
             if (Input.GetKeyDown(KeyCode.Space) && onGround)
             {
-                PlayerRigidBody.velocity = new Vector2(0, StrafingForce);
+                PlayerRigidBody.velocity = new Vector2(0, JumpingForce);
                 onGround = false;
             }
         }
