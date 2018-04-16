@@ -51,5 +51,5 @@ public class PlayerController : MonoBehaviour {
         {
             onGround = false;
         }
-
+    }
 }
