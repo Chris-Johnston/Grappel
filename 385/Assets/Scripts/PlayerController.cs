@@ -50,21 +50,16 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// How much force to give to the player when they strafe, per second
     /// </summary>
-    [Range(0, 40)]
-    public float StrafingForce = 20.0f;
+    [Range(0, 500)]
+    public float StrafingForce = 150.0f;
     /// <summary>
     /// How much force to give to the player when they jump
     /// </summary>
-    [Range(0, 40)]
-    public float JumpingForce = 20.0f;
+    [Range(0, 50)]
+    public float JumpingForce = 10.0f;
 
     // is the player colliding with the ground?
     private bool onGround;
-
-    void FixedUpdate()
-    {
-        
-    }
 
     //Ground check for player - can only jump while on ground
     void OnCollisionEnter2D(Collision2D collide)
@@ -153,7 +148,7 @@ public class PlayerController : MonoBehaviour
             //TODO: Have jumping code use an input that can be rebound instead of binding directly to Space
             if (Input.GetKeyDown(KeyCode.Space) && onGround)
             {
-                PlayerRigidBody.velocity = new Vector2(0, JumpingForce);
+                PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, JumpingForce);
                 onGround = false;
             }
         }
