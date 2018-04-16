@@ -48,27 +48,16 @@ public class PlayerController : MonoBehaviour
 
     //This works for back and forth
     [Range(0, 40)]
-    public float speed;
+    public float StrafingSpeed = 20.0f;
     [Range(0, 40)]
-    public float jumpHeight;
+    public float StrafingForce = 20.0f;
 
     // is the player colliding with the ground?
     private bool onGround;
 
     void FixedUpdate()
     {
-        //Left and Right movement
-        float moveHorizontal = Input.GetAxis(STRAFE);
-        //float moveVertical = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(moveHorizontal, 0);
-        PlayerRigidBody.AddForce(movement * speed);
-
-        //Jump
-        if (Input.GetKeyDown(KeyCode.Space) && onGround)
-        {
-            PlayerRigidBody.velocity = new Vector2(0, jumpHeight);
-            onGround = false;
-        }
+        
     }
 
     //Ground check for player - can only jump while on ground
@@ -94,6 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         // Check that the ref to RopeSystem is not null, and the rope system is connected
         // the == true is not redundant because of the ?. operator
+        // if this were expanded for multiple ropes, would just need to check that any are connected
         if (RopeSystem?.IsRopeConnected() == true)
         {
             // check the strafe axis
@@ -144,6 +134,22 @@ public class PlayerController : MonoBehaviour
                 // Debug.Log("low " + velocityInDirection.magnitude);
             }
 
+        }
+        // Player is not suspended by a rope
+        else
+        {
+            //Left and Right strafing movement 
+            float moveHorizontal = Input.GetAxis(STRAFE);
+            Vector2 movement = new Vector2(moveHorizontal, 0);
+            PlayerRigidBody.AddForce(movement * StrafingSpeed * Time.deltaTime);
+
+            //Jump if the player is on the ground
+            //TODO: Have jumping code use an input that can be rebound instead of binding directly to Space
+            if (Input.GetKeyDown(KeyCode.Space) && onGround)
+            {
+                PlayerRigidBody.velocity = new Vector2(0, StrafingForce);
+                onGround = false;
+            }
         }
 	}
 
