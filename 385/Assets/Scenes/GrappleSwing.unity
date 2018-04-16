@@ -124,10 +124,10 @@ GameObject:
   - component: {fileID: 76345578}
   - component: {fileID: 76345577}
   - component: {fileID: 76345576}
-  - component: {fileID: 76345580}
   - component: {fileID: 76345581}
   - component: {fileID: 76345582}
   - component: {fileID: 76345583}
+  - component: {fileID: 76345580}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -245,13 +245,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 76345575}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc25fe71505fa4418a61c555b20f415, type: 3}
+  m_Script: {fileID: 11500000, guid: 0852802976732dc4cad4cae31d7a4a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSwingingVelocity: 5
-  SwingForce: 400
+  MaxSwingingVelocity: 500
+  SwingForce: 200
   ShowDebugging: 1
   RopeSystem: {fileID: 76345581}
+  speed: 14.2
+  jumpHeight: 14.4
 --- !u!114 &76345581
 MonoBehaviour:
   m_ObjectHideFlags: 0
