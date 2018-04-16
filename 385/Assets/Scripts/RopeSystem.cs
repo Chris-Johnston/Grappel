@@ -55,7 +55,11 @@ public class RopeSystem : MonoBehaviour
         if (IsRopeConnected())
         {
             // ensure that the line renderer is enabled when the rope is connected
+            // and the distance joint
             RopeLineRenderer.enabled = true;
+            RopeDistanceJoint.enabled = true;
+
+            RopeDistanceJoint.connectedAnchor = RopeAnchorPoint.transform.position;
 
             // update the first point to be the same as the player origin w/ the offset
             //TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
@@ -68,7 +72,9 @@ public class RopeSystem : MonoBehaviour
         else
         {
             // when the rope isn't connected, just disable the renderer
+            // and the distance joint
             RopeLineRenderer.enabled = false;
+            RopeDistanceJoint.enabled = false;
         }        
     }
 
