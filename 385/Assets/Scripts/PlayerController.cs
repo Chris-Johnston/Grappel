@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     [Range(0, 50)]
     public float JumpingForce = 10.0f;
 
+<<<<<<< Updated upstream
     // is the player colliding with the ground?
     private bool onGround;
 
@@ -59,6 +60,28 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRigidBody = GetComponent<Rigidbody2D>();
         onGround = true;
+=======
+    void Start()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+        onGround = true;
+    }
+
+    void FixedUpdate()
+    {
+        //Left and Right movement
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        //float moveVertical = Input.GetAxis("Vertical");
+        Vector2 movement = new Vector2(moveHorizontal, 0);
+        rigid.AddForce(movement * speed);
+
+        //Jump
+        if (Input.GetKeyDown(KeyCode.Space) && onGround)
+        {
+            rigid.velocity = new Vector2(0, jumpHeight);
+            onGround = false;
+        }
+>>>>>>> Stashed changes
     }
 
     //Ground check for player - can only jump while on ground
@@ -69,14 +92,21 @@ public class PlayerController : MonoBehaviour
         {
             onGround = true;
         }
+<<<<<<< Updated upstream
     }
 
     void OnCollisionExit2D(Collision2D collide)
+=======
+    }
+
+    void OnCollisionExit2D (Collision2D collide)
+>>>>>>> Stashed changes
     {
         if (collide.gameObject.tag == "Ground")
         {
             onGround = false;
         }
+<<<<<<< Updated upstream
     }
 
     // Update is called once per frame
@@ -169,4 +199,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 ToVector3(Vector2 v)
         => new Vector3(v.x, v.y, 0);
+=======
+    }
+>>>>>>> Stashed changes
 }
