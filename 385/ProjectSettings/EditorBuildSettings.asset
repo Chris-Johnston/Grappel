@@ -14,3 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GrappleSwing.unity
     guid: a471e3e609e163741aae1327ee27255f
+  - enabled: 1
+    path: Assets/Scenes/GrappleThrow.unity
+    guid: 55d20cfd09c3c4cc88971903f1588812
+  - enabled: 1
+    path: Assets/Scenes/Player-Ground-Movement.unity
+    guid: ae9c17a9bc441814dbf762ccc01ec185
