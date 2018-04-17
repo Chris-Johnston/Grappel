@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    private const string FLOORANDWALL = "Floor & Wall";
+
     /// <summary>
     /// The maximum velocity that a player can swing at
     /// </summary>
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collide)
     {
         //any game objects tagged as Ground will allow the player to jump
-        if (collide.gameObject.tag == "Ground")
+        if (collide.gameObject.tag == FLOORANDWALL)
         {
             onGround = true;
         }
@@ -73,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collide)
     {
-        if (collide.gameObject.tag == "Ground")
+        if (collide.gameObject.tag == FLOORANDWALL)
         {
             onGround = false;
         }
