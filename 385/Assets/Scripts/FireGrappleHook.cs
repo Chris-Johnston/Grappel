@@ -12,27 +12,68 @@ public class FireGrappleHook : MonoBehaviour {
 	private Vector2 endPoint;
 
 	// Time taken for the object to travel from start to endPoint
-	public float castDuration = 15.0f;
+	public float castDuration = 6.0f;
 
-	// Vertical position of the object
-	private float yAxis;
+	// References to player x and y position
+	private float playerX; 
+	private float playerY;
+
+	// References to hook x and y position
+	private float hookX;
+	private float hookY;
+
+	// This draws the rope between the grapple hook and the player
+	private LineRenderer ropeLineRenderer;
+
+	/* Two vectors: player position (0) and grapple hook position (1). These are used to 
+	 * draw the rope between the player and the hook. */
+	private Vector3[] lineRendererVectors;
 
 	// Use this for initialization
 	void Start () 
 	{
-		yAxis = gameObject.transform.position.y;
+		playerY = gameObject.transform.parent.transform.position.y;
+		playerX = gameObject.transform.parent.transform.position.x;
+
+		hookX = gameObject.transform.position.x;
+		hookY = gameObject.transform.position.y;
+
+		ropeLineRenderer = gameObject.GetComponent<LineRenderer>();
+
+		// Two vectors: player position (0) and grapple hook position (1)
+		lineRendererVectors = new Vector3[2];
+		lineRendererVectors [0] = new Vector3 (playerX, playerY, 0);
+		lineRendererVectors [1] = new Vector3 (hookX, hookY, 0);
 	}
 	
 
 	void FixedUpdate () 
 	{
+		// Update the player and hook position variables
+		playerY = gameObject.transform.parent.transform.position.y;
+		playerX = gameObject.transform.parent.transform.position.x;
+		hookX = gameObject.transform.position.x;
+		hookY = gameObject.transform.position.y;
+
+		// Update lineRendererVectors with the new player and hook positions
+		lineRendererVectors [0].x = playerX;
+		lineRendererVectors [0].y = playerY;
+		lineRendererVectors [1].x = hookX;
+		lineRendererVectors [1].y = hookY;
+
+		// Keep the LineRenderer attached to the Player object
+		ropeLineRenderer.SetPositions(lineRendererVectors);
+
 		if (Input.GetMouseButtonDown(0) && !casting) 
 		{
-			RaycastHit hit;
+			Vector3 playerVector = new Vector3 (1, 0, 0);
+			Vector3 mouseClickVector =
+				new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
 
-			// Create a ray on the clicked position
-			Ray ray;
-			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			float angleFromPlayerToMouseClick = Vector3.Angle (playerVector, mouseClickVector);
+
+			
+			Debug.Log ("ANGLE: " + angleFromPlayerToMouseClick);
 
 			casting = true;
 			endPoint = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -52,7 +93,6 @@ public class FireGrappleHook : MonoBehaviour {
 		else if (casting && Mathf.Approximately (gameObject.transform.position.magnitude, endPoint.magnitude)) 
 		{
 			casting = false;
-			Debug.Log ("Game object arrived at clicked point.");
 		}
 
 		// If not casting, the hook should be with the player
@@ -66,12 +106,15 @@ public class FireGrappleHook : MonoBehaviour {
 	// be initiated).
 	void OnCollisionEnter2D(Collision2D collision)
 	{
+		// Don't check for collisions with the Player object
 		if (collision.collider.tag == "Player") 
 		{
 			Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D>(), collision.collider);
 			return;
 		}
+
 		casting = false;
+
 		if (collision.collider.tag == "GrapplePoint") 
 		{
 			Debug.Log ("GrappleHook collided with GrapplePoint: " + collision.collider.name);
@@ -79,25 +122,18 @@ public class FireGrappleHook : MonoBehaviour {
 			 * until the player lets go of the rope. Might need to return in this if block to prevent the hook from 
 			 * being reset to the Player coordinates (shouldn't happen until they let go of the swinging rope) */
 		}
-
-		// Shouldn't be called if the player hits a GrapplePoint.
-		ResetToPlayerLocation ();
 	}
 
 	// Sets the location of the grappling hook to the player location. Use after collision or whiffed hook
 	void ResetToPlayerLocation ()
 	{
-		// Grappling hook should go back to location of player object. Difference between Player's and
-		// GrappleHook's x and y coordinates should be subtracted from GrappleHook's coordinates to achieve this.
-		float resetX = gameObject.transform.parent.transform.position.x - gameObject.transform.position.x;
-		float resetY = gameObject.transform.parent.transform.position.y - gameObject.transform.position.y;
+		/* Grappling hook should go back to location of player object. Difference between Player's and
+		 * GrappleHook's x and y coordinates should be subtracted from GrappleHook's coordinates to achieve this. */
+		float resetX = playerX - hookX;
+		float resetY = playerY - hookY;
 
-		// Construt a new Vector3 with the correct offset values to be added to the current GrappleHook coordinates.
+		// Construct a new Vector3 with the correct offset values to be added to the current GrappleHook coordinates.
 		Vector3 reset = new Vector3 (resetX, resetY, 0);
 		gameObject.transform.position += reset;
-
-		/* Clear the TrailRenderer which showed the path of the hook. When combined with latching/swinging
-		 * mechanic, we'll want to replace this with the rope texture. Maybe there's a better way to do this? */
-		gameObject.GetComponent<TrailRenderer> ().Clear ();
 	}
 }

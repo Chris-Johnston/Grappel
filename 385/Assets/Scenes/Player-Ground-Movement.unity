@@ -899,7 +899,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!1001 &1932055517
+--- !u!1001 &2109323406
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -908,11 +908,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -5.12
+      value: -2.1384504
       objectReference: {fileID: 0}
     - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.7
+      value: 1.0198334
       objectReference: {fileID: 0}
     - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalPosition.z
@@ -938,15 +938,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 120723417022086492, guid: 982b977e0e8b71f4fb49001bc2fa0086,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 232240381057485000, guid: 982b977e0e8b71f4fb49001bc2fa0086,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 1769458565573904, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+      propertyPath: m_Name
+      value: Player 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
