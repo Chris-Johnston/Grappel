@@ -536,6 +536,11 @@ Prefab:
       propertyPath: m_Color.g
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114272269268600046, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: StrafeAxis
+      value: Strafe_P2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
   m_IsPrefabParent: 0
