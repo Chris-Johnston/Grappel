@@ -336,7 +336,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
       propertyPath: m_Name
-      value: 
+      value: floor and wall
       objectReference: {fileID: 0}
     - target: {fileID: 61972783870502272, guid: ca37e0b2abe3b7a4484b7c84ec8f0889,
         type: 2}
@@ -404,7 +404,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
       propertyPath: m_Name
-      value: 
+      value: floor and wall
       objectReference: {fileID: 0}
     - target: {fileID: 61972783870502272, guid: ca37e0b2abe3b7a4484b7c84ec8f0889,
         type: 2}
@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 1133093649}
   - component: {fileID: 1133093648}
   m_Layer: 0
-  m_Name: 
+  m_Name: floor and wall
   m_TagString: Floor & Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,7 +645,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
       propertyPath: m_Name
-      value: 
+      value: floor and wall
       objectReference: {fileID: 0}
     - target: {fileID: 61972783870502272, guid: ca37e0b2abe3b7a4484b7c84ec8f0889,
         type: 2}
@@ -684,7 +684,7 @@ GameObject:
   - component: {fileID: 1807419566}
   - component: {fileID: 1807419565}
   m_Layer: 0
-  m_Name: 
+  m_Name: floor and wall
   m_TagString: Floor & Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -868,7 +868,7 @@ GameObject:
   - component: {fileID: 1837623361}
   - component: {fileID: 1837623362}
   m_Layer: 0
-  m_Name: 
+  m_Name: floor and wall
   m_TagString: Floor & Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

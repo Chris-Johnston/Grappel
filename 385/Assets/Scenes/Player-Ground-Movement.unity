@@ -407,6 +407,10 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 38.357662
       objectReference: {fileID: 0}
+    - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
+      propertyPath: m_TagString
+      value: Floor & Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
   m_IsPrefabParent: 0
@@ -470,7 +474,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
       propertyPath: m_TagString
-      value: Ground
+      value: Floor & Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
@@ -535,7 +539,7 @@ GameObject:
   - component: {fileID: 1133093648}
   m_Layer: 0
   m_Name: WallRight
-  m_TagString: Untagged
+  m_TagString: Floor & Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -759,6 +763,10 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 0.9155275
       objectReference: {fileID: 0}
+    - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
+      propertyPath: m_TagString
+      value: Floor & Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
   m_IsPrefabParent: 0
@@ -775,7 +783,7 @@ GameObject:
   - component: {fileID: 1807419565}
   m_Layer: 0
   m_Name: WallLeft
-  m_TagString: Untagged
+  m_TagString: Floor & Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -959,7 +967,7 @@ GameObject:
   - component: {fileID: 1837623362}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Ground
+  m_TagString: Floor & Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
