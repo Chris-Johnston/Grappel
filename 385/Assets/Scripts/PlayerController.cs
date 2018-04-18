@@ -7,7 +7,16 @@ using UnityEngine;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    /// The tag of a collision that the Player has to be in contact with in order to jump
+    /// </summary>
     private const string GROUND = "Ground";
+
+    /// <summary>
+    /// Which axis does the player use to strafe left and right on the ground, or adjust
+    /// their velocity when swinging?
+    /// </summary>
+    public string StrafeAxis = "Strafe"; // use Strafe_P2 for Player 2
 
     /// <summary>
     /// The maximum velocity that a player can swing at
@@ -26,11 +35,6 @@ public class PlayerController : MonoBehaviour
     /// Toggle to show the debugging lines
     /// </summary>
     public bool ShowDebugging = true;
-
-    // constants for the inputs to check
-    // the strafe axis is defined negative going to the left and positive going
-    // to the right. Currently A goes left, D goes right
-    public const string STRAFE = "Strafe";
 
     /// <summary>
     /// Reference to the RopeSystem attribute of the Player.
@@ -90,7 +94,7 @@ public class PlayerController : MonoBehaviour
         if (RopeSystem?.IsRopeConnected() == true)
         {
             // check the strafe axis
-            var strafeAmount = Input.GetAxis(STRAFE);
+            var strafeAmount = Input.GetAxis(StrafeAxis);
 
             // get the perpendicular axis to the rope from the player
             var perpendicularAxis = RopeSystem.GetRopePerpendicularAxis().Value;
@@ -142,7 +146,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //Left and Right strafing movement 
-            float moveHorizontal = Input.GetAxis(STRAFE);
+            float moveHorizontal = Input.GetAxis(StrafeAxis);
             Vector2 movement = new Vector2(moveHorizontal, 0);
             PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
 
