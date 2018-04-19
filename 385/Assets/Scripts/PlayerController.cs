@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
     private const string GROUND = "Ground";
 
     /// <summary>
+    /// Tag given to all the ends of the grapple hooks
+    /// </summary>
+    private const string GRAPPLE_HOOK = "GrappleHook";
+
+    /// <summary>
     /// Which axis does the player use to strafe left and right on the ground, or adjust
     /// their velocity when swinging?
     /// </summary>
@@ -87,6 +92,10 @@ public class PlayerController : MonoBehaviour
         if (collide.gameObject.tag == GROUND)
         {
             onGround = true;
+        }
+        else if (collide.gameObject.tag == GRAPPLE_HOOK)
+        {
+            Debug.Log("Oh no this player was hit with a grapple hook!");
         }
     }
 
