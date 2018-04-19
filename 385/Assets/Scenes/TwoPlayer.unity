@@ -503,6 +503,11 @@ Prefab:
       propertyPath: JumpAxis
       value: Jump_P2
       objectReference: {fileID: 0}
+    - target: {fileID: 114000042095073020, guid: 48169880e105ee34c82c2e1d2d51d029,
+        type: 2}
+      propertyPath: ShowDebugging
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 48169880e105ee34c82c2e1d2d51d029, type: 2}
   m_IsPrefabParent: 0

@@ -175,7 +175,7 @@ MonoBehaviour:
   JumpAxis: Jump_P2
   MaxSwingingVelocity: 500
   SwingForce: 200
-  ShowDebugging: 1
+  ShowDebugging: 0
   RopeSystem: {fileID: 114111225198324956}
   StrafingForce: 400
   JumpingForce: 10
