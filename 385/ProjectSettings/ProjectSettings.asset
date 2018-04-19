@@ -633,7 +633,7 @@ PlayerSettings:
   cloudServicesEnabled:
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 8ea93af5-3534-4097-b3e1-98c61c8be72b
   projectName: Grappel
   organizationId: enbaikuang

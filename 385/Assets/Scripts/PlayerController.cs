@@ -1,13 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts;
 
 /// <summary>
 /// Controller script for the player
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    /// The tag of a collision that the Player has to be in contact with in order to jump
+    /// </summary>
     private const string GROUND = "Ground";
+
+    /// <summary>
+    /// Tag given to all the ends of the grapple hooks
+    /// </summary>
+    private const string GRAPPLE_HOOK = "GrappleHook";
+
+    /// <summary>
+    /// Which axis does the player use to strafe left and right on the ground, or adjust
+    /// their velocity when swinging?
+    /// </summary>
+    public string StrafeAxis = "Strafe"; // use Strafe_P2 for Player 2
+
+    /// <summary>
+    /// Which axis to check that indicates that the player wanted to jump
+    /// </summary>
+    public string JumpAxis = "Jump"; // use Jump_P2 for Player 2
+
+    // util wrapper for this class
+    // that helps determine if the button is pressed or clicked
+    private AxisButton JumpButton;
 
     /// <summary>
     /// The maximum velocity that a player can swing at
@@ -26,11 +50,6 @@ public class PlayerController : MonoBehaviour
     /// Toggle to show the debugging lines
     /// </summary>
     public bool ShowDebugging = true;
-
-    // constants for the inputs to check
-    // the strafe axis is defined negative going to the left and positive going
-    // to the right. Currently A goes left, D goes right
-    public const string STRAFE = "Strafe";
 
     /// <summary>
     /// Reference to the RopeSystem attribute of the Player.
@@ -61,6 +80,9 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRigidBody = GetComponent<Rigidbody2D>();
         onGround = true;
+
+        // set up the jump button axis
+        JumpButton = new AxisButton(JumpAxis, 0.5f);
     }
 
     //Ground check for player - can only jump while on ground
@@ -70,6 +92,10 @@ public class PlayerController : MonoBehaviour
         if (collide.gameObject.tag == GROUND)
         {
             onGround = true;
+        }
+        else if (collide.gameObject.tag == GRAPPLE_HOOK)
+        {
+            Debug.Log("Oh no this player was hit with a grapple hook!");
         }
     }
 
@@ -84,13 +110,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        // update the axisbutton utils first
+        JumpButton.Update();
+
         // Check that the ref to RopeSystem is not null, and the rope system is connected
         // the == true is not redundant because of the ?. operator
         // if this were expanded for multiple ropes, would just need to check that any are connected
         if (RopeSystem?.IsRopeConnected() == true)
         {
             // check the strafe axis
-            var strafeAmount = Input.GetAxis(STRAFE);
+            var strafeAmount = Input.GetAxis(StrafeAxis);
 
             // get the perpendicular axis to the rope from the player
             var perpendicularAxis = RopeSystem.GetRopePerpendicularAxis().Value;
@@ -142,13 +171,18 @@ public class PlayerController : MonoBehaviour
         else
         {
             //Left and Right strafing movement 
-            float moveHorizontal = Input.GetAxis(STRAFE);
+            float moveHorizontal = Input.GetAxis(StrafeAxis);
+
+            if (ShowDebugging)
+            {
+                Debug.Log($"Axis: {StrafeAxis} Value: {moveHorizontal}");
+            }
+
             Vector2 movement = new Vector2(moveHorizontal, 0);
             PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
 
-            //Jump if the player is on the ground
-            //TODO: Have jumping code use an input that can be rebound instead of binding directly to Space
-            if (Input.GetKeyDown(KeyCode.Space) && onGround)
+            //Jump if the player is on the ground and they just clicked the button
+            if (JumpButton.IsButtonClicked() && onGround)
             {
                 PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, JumpingForce);
                 onGround = false;
