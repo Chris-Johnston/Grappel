@@ -120,7 +120,7 @@ public class FireGrappleHook : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.tag == "GrapplePoint")
+        if (collider.tag == Tags.TAG_GRAPPLE_POINT)
         {
             casting = false;
             Debug.Log("GrappleHook collided with GrapplePoint: " + collider.name);
@@ -136,12 +136,12 @@ public class FireGrappleHook : MonoBehaviour {
 	{
 		string colliderTag = collision.collider.tag;
 		// Don't check for collisions with the Player object
-		if (collision.collider.tag == "Player") 
+		if (colliderTag == Tags.TAG_PLAYER) 
 		{
 			Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D> (), collision.collider);
 		} 
 		// If the hook collides with the floor or a wall, reset
-		else if (colliderTag == "Ground" || colliderTag == "Floor & Wall") 
+		else if (colliderTag == Tags.TAG_GROUND || colliderTag == Tags.TAG_FLOOR_WALL) 
 		{
 			casting = false;
 		}
