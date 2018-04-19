@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts;
 
 /// <summary>
 /// Controller script for the player
@@ -17,6 +18,15 @@ public class PlayerController : MonoBehaviour
     /// their velocity when swinging?
     /// </summary>
     public string StrafeAxis = "Strafe"; // use Strafe_P2 for Player 2
+
+    /// <summary>
+    /// Which axis to check that indicates that the player wanted to jump
+    /// </summary>
+    public string JumpAxis = "Jump"; // use Jump_P2 for Player 2
+
+    // util wrapper for this class
+    // that helps determine if the button is pressed or clicked
+    private AxisButton JumpButton;
 
     /// <summary>
     /// The maximum velocity that a player can swing at
@@ -65,6 +75,9 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRigidBody = GetComponent<Rigidbody2D>();
         onGround = true;
+
+        // set up the jump button axis
+        JumpButton = new AxisButton(JumpAxis, 0.5f);
     }
 
     //Ground check for player - can only jump while on ground
@@ -88,6 +101,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        // update the axisbutton utils first
+        JumpButton.Update();
+
         // Check that the ref to RopeSystem is not null, and the rope system is connected
         // the == true is not redundant because of the ?. operator
         // if this were expanded for multiple ropes, would just need to check that any are connected
@@ -150,9 +166,8 @@ public class PlayerController : MonoBehaviour
             Vector2 movement = new Vector2(moveHorizontal, 0);
             PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
 
-            //Jump if the player is on the ground
-            //TODO: Have jumping code use an input that can be rebound instead of binding directly to Space
-            if (Input.GetKeyDown(KeyCode.Space) && onGround)
+            //Jump if the player is on the ground and they just clicked the button
+            if (JumpButton.IsButtonClicked() && onGround)
             {
                 PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, JumpingForce);
                 onGround = false;
