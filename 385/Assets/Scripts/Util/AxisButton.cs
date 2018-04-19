@@ -12,6 +12,8 @@ namespace Assets.Scripts
     /// </summary>
     public class AxisButton
     {
+        private const bool DEBUG = false;
+
         /// <summary>
         /// The name of the axis to watch
         /// </summary>
@@ -59,6 +61,11 @@ namespace Assets.Scripts
             var axisValue = Input.GetAxis(AxisName);
 
             CurrentState = axisValue >= ActivationThreshold;
+
+            if (DEBUG)
+            {
+                Debug.Log($"Axis: {AxisName} Value: {axisValue} State: {CurrentState}");
+            }
         }
 
         /// <summary>

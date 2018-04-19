@@ -1,8 +1,19 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FireGrappleHook : MonoBehaviour {
+
+    /// <summary>
+    /// Which axis to monitor to detect when the player wants to fire their grapple hook
+    /// </summary>
+    public string FireAxis = "Fire"; // use Fire_P2 for player 2
+
+    /// <summary>
+    /// Util wrapper that allows for an axis to act as a button
+    /// </summary>
+    private AxisButton FireButton;
 
 	/* Flag to indicate if currently "casting" the hook.
 	 * True on click, reset to false after collision/miss */
@@ -44,11 +55,16 @@ public class FireGrappleHook : MonoBehaviour {
 		lineRendererVectors = new Vector3[2];
 		lineRendererVectors [0] = new Vector3 (playerX, playerY, 0);
 		lineRendererVectors [1] = new Vector3 (hookX, hookY, 0);
+
+        // set up the util class for treating axis like buttons
+        FireButton = new AxisButton(FireAxis);
 	}
 	
 
 	void FixedUpdate () 
 	{
+        FireButton.Update();
+
 		// Update the player and hook position variables
 		playerY = gameObject.transform.parent.transform.position.y;
 		playerX = gameObject.transform.parent.transform.position.x;
@@ -64,7 +80,7 @@ public class FireGrappleHook : MonoBehaviour {
 		// Keep the LineRenderer attached to the Player object
 		ropeLineRenderer.SetPositions(lineRendererVectors);
 
-		if (Input.GetMouseButtonDown(0) && !casting) 
+		if (FireButton.IsButtonClicked() && !casting) 
 		{
 			Vector3 playerVector = new Vector3 (1, 0, 0);
 			Vector3 mouseClickVector =

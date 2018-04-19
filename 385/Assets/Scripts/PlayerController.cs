@@ -163,6 +163,12 @@ public class PlayerController : MonoBehaviour
         {
             //Left and Right strafing movement 
             float moveHorizontal = Input.GetAxis(StrafeAxis);
+
+            if (ShowDebugging)
+            {
+                Debug.Log($"Axis: {StrafeAxis} Value: {moveHorizontal}");
+            }
+
             Vector2 movement = new Vector2(moveHorizontal, 0);
             PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
 

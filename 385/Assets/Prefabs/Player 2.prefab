@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88662fa7603646da8d217f7c4128dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FireAxis: Fire_P2
   castDuration: 6
 --- !u!114 &114111225198324956
 MonoBehaviour:
