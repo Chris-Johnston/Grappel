@@ -102,25 +102,27 @@ public class FireGrappleHook : MonoBehaviour {
 		}
 	}
 
-	// Check for a collision; if it's a GrapplePoint, log for now (later this is where swinging logic will
-	// be initiated).
-	void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "GrapplePoint")
+        {
+            casting = false;
+            Debug.Log("GrappleHook collided with GrapplePoint: " + collider.name);
+            /* Player attaches to the point and starts swinging. Here we'll probably need to keep "casting" as true 
+			 * until the player lets go of the rope. Might need to return in this if block to prevent the hook from 
+			 * being reset to the Player coordinates (shouldn't happen until they let go of the swinging rope) */
+        }
+    }
+
+    // Check for a collision; if it's a GrapplePoint, log for now (later this is where swinging logic will
+    // be initiated).
+    void OnCollisionEnter2D(Collision2D collision)
 	{
 		// Don't check for collisions with the Player object
 		if (collision.collider.tag == "Player") 
 		{
 			Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D>(), collision.collider);
 			return;
-		}
-
-		casting = false;
-
-		if (collision.collider.tag == "GrapplePoint") 
-		{
-			Debug.Log ("GrappleHook collided with GrapplePoint: " + collision.collider.name);
-			/* Player attaches to the point and starts swinging. Here we'll probably need to keep "casting" as true 
-			 * until the player lets go of the rope. Might need to return in this if block to prevent the hook from 
-			 * being reset to the Player coordinates (shouldn't happen until they let go of the swinging rope) */
 		}
 	}
 
