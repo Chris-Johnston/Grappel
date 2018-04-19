@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
             // get the velocity of the player in this perpendicular axis (and in the direction they want to go)
             // if the player already has a large amount of velocity in this axis
-            // then don't let them get more velocity in this axis
+            // then don't let them get more velocity  in this axis
             var velocityInDirection = Vector2Project(PlayerRigidBody.velocity, directionForceAxis);
 
             // show some debug lines if debugging enabled
