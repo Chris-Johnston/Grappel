@@ -9,16 +9,6 @@ using Assets.Scripts;
 public class PlayerController : MonoBehaviour
 {
     /// <summary>
-    /// The tag of a collision that the Player has to be in contact with in order to jump
-    /// </summary>
-    private const string GROUND = "Ground";
-
-    /// <summary>
-    /// Tag given to all the ends of the grapple hooks
-    /// </summary>
-    private const string GRAPPLE_HOOK = "GrappleHook";
-
-    /// <summary>
     /// Which axis does the player use to strafe left and right on the ground, or adjust
     /// their velocity when swinging?
     /// </summary>
@@ -89,11 +79,11 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collide)
     {
         //any game objects tagged as Ground will allow the player to jump
-        if (collide.gameObject.tag == GROUND)
+        if (collide.gameObject.tag == Tags.TAG_GROUND)
         {
             onGround = true;
         }
-        else if (collide.gameObject.tag == GRAPPLE_HOOK)
+        else if (collide.gameObject.tag == Tags.TAG_GRAPPLE_HOOK)
         {
             Debug.Log("Oh no this player was hit with a grapple hook!");
         }
@@ -101,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collide)
     {
-        if (collide.gameObject.tag == GROUND)
+        if (collide.gameObject.tag == Tags.TAG_GROUND)
         {
             onGround = false;
         }
