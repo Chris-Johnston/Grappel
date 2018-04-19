@@ -134,11 +134,16 @@ public class FireGrappleHook : MonoBehaviour {
     // be initiated).
     void OnCollisionEnter2D(Collision2D collision)
 	{
+		string colliderTag = collision.collider.tag;
 		// Don't check for collisions with the Player object
 		if (collision.collider.tag == "Player") 
 		{
-			Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D>(), collision.collider);
-			return;
+			Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D> (), collision.collider);
+		} 
+		// If the hook collides with the floor or a wall, reset
+		else if (colliderTag == "Ground" || colliderTag == "Floor & Wall") 
+		{
+			casting = false;
 		}
 	}
 
