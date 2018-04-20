@@ -82,11 +82,14 @@ public class FireGrappleHook : MonoBehaviour {
 
 		if (FireButton.IsButtonClicked() && !casting) 
 		{
-			Vector3 playerVector = new Vector3 (1, 0, 0);
-			Vector3 mouseClickVector =
-				new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
+			Vector3 playerVector = new Vector3 (playerX, playerY, 0);
+			Vector3 mousePosVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-			float angleFromPlayerToMouseClick = Vector3.Angle (playerVector, mouseClickVector);
+			//Vector3 mouseClickVector =
+			//	new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
+
+			float angleFromPlayerToMouseClick = Vector3.Angle (playerVector, mousePosVector);
+			//Debug.DrawLine (playerVector, mousePosVector, Color.black, 5.0f);
 
 			
 			Debug.Log ("ANGLE: " + angleFromPlayerToMouseClick);
