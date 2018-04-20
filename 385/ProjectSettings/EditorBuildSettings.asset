@@ -23,3 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TwoPlayer.unity
     guid: 0c8fef0b087f82740912fe7e77ff2b4d
+  - enabled: 1
+    path: Assets/Scenes/KillTrigger.unity
+    guid: 18864d97cf0b04a499fae140da57784d
