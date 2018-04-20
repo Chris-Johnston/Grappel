@@ -140,9 +140,12 @@ public class FireGrappleHook : MonoBehaviour {
 		{
 			Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D> (), collision.collider);
 		} 
-		// If the hook collides with the floor or a wall, reset
-		else if (colliderTag == Tags.TAG_GROUND || colliderTag == Tags.TAG_FLOOR_WALL) 
+		// If the hook collides with the floor, a wall, or another player's hook, reset
+		else if (colliderTag == Tags.TAG_GROUND || colliderTag == Tags.TAG_FLOOR_WALL
+				|| colliderTag == Tags.TAG_GRAPPLE_HOOK)
 		{
+			// Log to know that collision between hooks occurred and that they didn't stick together
+			if (colliderTag == Tags.TAG_GRAPPLE_HOOK) Debug.Log("Hook-on-hook collision occurred");
 			casting = false;
 		}
 	}
