@@ -120,7 +120,7 @@ public class FireGrappleHook : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.tag == Tags.TAG_GRAPPLE_POINT)
+        if (collider.tag == Tags.TAG_GRAPPLE_POINT && casting)
         {
             casting = false;
             Debug.Log("GrappleHook collided with GrapplePoint: " + collider.name);
