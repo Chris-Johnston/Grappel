@@ -179,6 +179,8 @@ MonoBehaviour:
   RopeSystem: {fileID: 114596187521871214}
   StrafingForce: 400
   JumpingForce: 10
+  mainCam: {fileID: 20481198885336750, guid: f6e75f4b112a61e46bb6fba22ffbbc53, type: 2}
+  playerCam: {fileID: 20840281611868002, guid: 3a879106795ff5242b3a3c4df095d3c7, type: 2}
 --- !u!114 &114523634946994250
 MonoBehaviour:
   m_ObjectHideFlags: 1

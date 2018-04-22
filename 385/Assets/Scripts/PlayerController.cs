@@ -65,6 +65,10 @@ public class PlayerController : MonoBehaviour
     // is the player colliding with the ground?
     private bool onGround;
 
+    public Camera mainCam;
+    public Camera playerCam;
+
+
     // Use this for initialization
     void Start ()
     {
@@ -73,6 +77,9 @@ public class PlayerController : MonoBehaviour
 
         // set up the jump button axis
         JumpButton = new AxisButton(JumpAxis, 0.5f);
+
+        mainCam.enabled = true;
+        playerCam.enabled = false;
     }
 
     //Ground check for player - can only jump while on ground
@@ -178,7 +185,18 @@ public class PlayerController : MonoBehaviour
                 onGround = false;
             }
         }
+        changeCam();
 	}
+
+    private void changeCam()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            mainCam.enabled = !mainCam.enabled;
+            playerCam.enabled = !playerCam.enabled;
+        }
+        
+    }
 
     /// <summary>
     /// Projects vec on the direction normal
