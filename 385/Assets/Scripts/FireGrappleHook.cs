@@ -28,10 +28,12 @@ public class FireGrappleHook : MonoBehaviour {
 	// References to player x and y position
 	private float playerX; 
 	private float playerY;
+    private float playerZ;
 
 	// References to hook x and y position
 	private float hookX;
 	private float hookY;
+    private float hookZ;
 
 	// This draws the rope between the grapple hook and the player
 	private LineRenderer ropeLineRenderer;
@@ -45,16 +47,18 @@ public class FireGrappleHook : MonoBehaviour {
 	{
 		playerY = gameObject.transform.parent.transform.position.y;
 		playerX = gameObject.transform.parent.transform.position.x;
+        playerZ = gameObject.transform.parent.transform.position.z;
 
 		hookX = gameObject.transform.position.x;
 		hookY = gameObject.transform.position.y;
+        hookZ = gameObject.transform.position.z;
 
 		ropeLineRenderer = gameObject.GetComponent<LineRenderer>();
 
 		// Two vectors: player position (0) and grapple hook position (1)
 		lineRendererVectors = new Vector3[2];
-		lineRendererVectors [0] = new Vector3 (playerX, playerY, 0);
-		lineRendererVectors [1] = new Vector3 (hookX, hookY, 0);
+		lineRendererVectors [0] = new Vector3 (playerX, playerY, playerZ);
+		lineRendererVectors [1] = new Vector3 (hookX, hookY, hookZ);
 
         // set up the util class for treating axis like buttons
         FireButton = new AxisButton(FireAxis);
@@ -68,21 +72,25 @@ public class FireGrappleHook : MonoBehaviour {
 		// Update the player and hook position variables
 		playerY = gameObject.transform.parent.transform.position.y;
 		playerX = gameObject.transform.parent.transform.position.x;
-		hookX = gameObject.transform.position.x;
+        playerZ = gameObject.transform.parent.transform.position.z;
+        hookX = gameObject.transform.position.x;
 		hookY = gameObject.transform.position.y;
+        hookZ = gameObject.transform.position.z;
 
-		// Update lineRendererVectors with the new player and hook positions
-		lineRendererVectors [0].x = playerX;
+        // Update lineRendererVectors with the new player and hook positions
+        lineRendererVectors [0].x = playerX;
 		lineRendererVectors [0].y = playerY;
-		lineRendererVectors [1].x = hookX;
+        lineRendererVectors [0].z = playerZ;
+        lineRendererVectors [1].x = hookX;
 		lineRendererVectors [1].y = hookY;
+        lineRendererVectors [1].z = hookZ;
 
-		// Keep the LineRenderer attached to the Player object
-		ropeLineRenderer.SetPositions(lineRendererVectors);
+        // Keep the LineRenderer attached to the Player object
+        ropeLineRenderer.SetPositions(lineRendererVectors);
 
 		if (FireButton.IsButtonClicked() && !casting) 
 		{
-			Vector3 playerVector = new Vector3 (playerX, playerY, 0);
+			Vector3 playerVector = new Vector3 (playerX, playerY, playerZ);
 			Vector3 mousePosVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 			//Vector3 mouseClickVector =
@@ -160,9 +168,10 @@ public class FireGrappleHook : MonoBehaviour {
 		 * GrappleHook's x and y coordinates should be subtracted from GrappleHook's coordinates to achieve this. */
 		float resetX = playerX - hookX;
 		float resetY = playerY - hookY;
+        float resetZ = playerZ - hookZ;
 
 		// Construct a new Vector3 with the correct offset values to be added to the current GrappleHook coordinates.
-		Vector3 reset = new Vector3 (resetX, resetY, 0);
+		Vector3 reset = new Vector3 (resetX, resetY, resetZ);
 		gameObject.transform.position += reset;
 	}
 }
