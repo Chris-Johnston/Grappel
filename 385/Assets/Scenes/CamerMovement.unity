@@ -619,6 +619,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1098193717}
+  playerCam: {fileID: 1482512320}
+  CameraAxis: Camera1
 --- !u!81 &1482512318
 AudioListener:
   m_ObjectHideFlags: 0
@@ -653,7 +655,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.067686
+  orthographic size: 3.212722
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1178,12 +1180,12 @@ Prefab:
     - target: {fileID: 224748268797164018, guid: 3102f46f6380f468897d9dc963dd0cfe,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 11.7
+      value: 11.700012
       objectReference: {fileID: 0}
     - target: {fileID: 224748268797164018, guid: 3102f46f6380f468897d9dc963dd0cfe,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -9.7
+      value: -9.699997
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3102f46f6380f468897d9dc963dd0cfe, type: 2}

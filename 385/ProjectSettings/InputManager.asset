@@ -229,3 +229,19 @@ InputManager:
     type: 0
     axis: 19
     joyNum: 0
+  - serializedVersion: 3
+    m_Name: Camera1
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: c
+    altNegativeButton: 
+    altPositiveButton: joystick button 5
+    gravity: 1000
+    dead: 0.1
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
