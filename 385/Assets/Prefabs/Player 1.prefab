@@ -177,8 +177,8 @@ MonoBehaviour:
   SwingForce: 200
   ShowDebugging: 0
   RopeSystem: {fileID: 114596187521871214}
-  StrafingForce: 400
-  JumpingForce: 10
+  StrafingForce: 300
+  JumpingForce: 5.5
 --- !u!114 &114523634946994250
 MonoBehaviour:
   m_ObjectHideFlags: 1
