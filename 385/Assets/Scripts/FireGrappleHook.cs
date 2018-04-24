@@ -25,12 +25,12 @@ public class FireGrappleHook : MonoBehaviour {
 	// Time taken for the object to travel from start to endPoint
 	public float castDuration = 6.0f;
 
-	// References to player x and y position
+	// References to player x, y, and z positions
 	private float playerX; 
 	private float playerY;
     private float playerZ;
 
-	// References to hook x and y position
+	// References to hook x, y, and z positions
 	private float hookX;
 	private float hookY;
     private float hookZ;
@@ -95,14 +95,15 @@ public class FireGrappleHook : MonoBehaviour {
         // Keep the LineRenderer attached to the Player object
         ropeLineRenderer.SetPositions(lineRendererVectors);
 
+		// Fire button not held
+		if (!(FireButton.IsButtonHeld ())) 
+		{
+			// Detach player from grapple point
+			GameObject.Find ("Player 1").GetComponent<RopeSystem> ().RopeAnchorPoint = null;
+		}
+
 		if (FireButton.IsButtonClicked() && !casting) 
 		{
-			// REMOVEE Vector3 playerVector = new Vector3 (playerX, playerY, playerZ);
-			// REMOVEE Vector3 mousePosVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-			// REMOVEE Vector3 mouseClickVector =
-			//	new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
-
 			casting = true;
 
 			// Get the end point of the reticle
@@ -148,9 +149,9 @@ public class FireGrappleHook : MonoBehaviour {
         {
             casting = false;
             Debug.Log("GrappleHook collided with GrapplePoint: " + collider.name);
-            /* Player attaches to the point and starts swinging. Here we'll probably need to keep "casting" as true 
-			 * until the player lets go of the rope. Might need to return in this if block to prevent the hook from 
-			 * being reset to the Player coordinates (shouldn't happen until they let go of the swinging rope) */
+            
+			// Set RopeAnchorPoint in RopeSystem to be the Rigidbody2D of the GrapplePoint hit
+			GameObject.Find ("Player 1").GetComponent<RopeSystem> ().RopeAnchorPoint = collider.attachedRigidbody;
         }
     }
 

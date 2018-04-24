@@ -43,7 +43,7 @@ public class RopeSystem : MonoBehaviour
     /// <returns>True, if the anchor point of the rope is connected, or false if not.</returns>
     public bool IsRopeConnected()
     {
-        return RopeAnchorPoint != null;
+		return (RopeAnchorPoint != null);
     }
 
     /// <summary>
