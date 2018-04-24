@@ -38,7 +38,9 @@ public class RenderReticle : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (GameObject.Find ("GrappleHook").GetComponent<FireGrappleHook> ().casting) 
+		// Don't draw the reticle when the player is casting or attached to a grapple point
+		if (GameObject.Find ("GrappleHook").GetComponent<FireGrappleHook> ().casting ||
+			GameObject.Find ("Player 1").GetComponent<RopeSystem>().IsRopeConnected()) 
 		{
 			reticleLineRenderer.enabled = false;
 			GetComponent<SpriteRenderer> ().enabled = false;

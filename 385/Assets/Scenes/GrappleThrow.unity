@@ -178,6 +178,11 @@ Prefab:
       propertyPath: m_TagString
       value: Floor & Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 61972783870502272, guid: ca37e0b2abe3b7a4484b7c84ec8f0889,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 835a265ac1f66ed4eb9c627baadaf1cc, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
   m_IsPrefabParent: 0
@@ -208,7 +213,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 323371822}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 835a265ac1f66ed4eb9c627baadaf1cc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -284,6 +289,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &370375311 stripped
+LineRenderer:
+  m_PrefabParentObject: {fileID: 120827344970177270, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1834731940}
 --- !u!1001 &943760599
 Prefab:
   m_ObjectHideFlags: 0
@@ -539,6 +549,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114272269268600046, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: HookFireDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114596187521871214, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: RopeLineRenderer
+      value: 
+      objectReference: {fileID: 370375311}
+    - target: {fileID: 120654509948481612, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 120827344970177270, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
   m_IsPrefabParent: 0
@@ -607,6 +637,11 @@ Prefab:
       propertyPath: m_TagString
       value: Floor & Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 61972783870502272, guid: ca37e0b2abe3b7a4484b7c84ec8f0889,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 835a265ac1f66ed4eb9c627baadaf1cc, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
   m_IsPrefabParent: 0
@@ -786,7 +821,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 2066614416}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 835a265ac1f66ed4eb9c627baadaf1cc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
