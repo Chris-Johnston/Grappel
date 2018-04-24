@@ -18,7 +18,7 @@ public class KillTrigger : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.tag == "Player") {
 			Debug.Log ("Player had died");
-			// Destroy (other.gameObject);
+		    Destroy (other.gameObject);
 		}
 	}
 
