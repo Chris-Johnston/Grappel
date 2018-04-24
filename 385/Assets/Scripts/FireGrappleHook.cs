@@ -17,7 +17,7 @@ public class FireGrappleHook : MonoBehaviour {
 
 	/* Flag to indicate if currently "casting" the hook.
 	 * True on click, reset to false after collision/miss */
-	private bool casting;
+	public bool casting;
 
 	// Represents the world location of a click/cast
 	private Vector2 endPoint;
@@ -42,6 +42,10 @@ public class FireGrappleHook : MonoBehaviour {
 	 * draw the rope between the player and the hook. */
 	private Vector3[] lineRendererVectors;
 
+	// Reference to the maximum grappling hook fire distance, defined in PlayerController script.
+	// NOTE: Don't edit value from here. Use the slider on the PlayerController script component to modify.
+	private float fireDistance;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -62,6 +66,9 @@ public class FireGrappleHook : MonoBehaviour {
 
         // set up the util class for treating axis like buttons
         FireButton = new AxisButton(FireAxis);
+
+		// Get the max firing distance from the PlayerController script
+		fireDistance = GameObject.Find ("Player 1").GetComponent<PlayerController> ().HookFireDistance;
 	}
 	
 
@@ -90,31 +97,37 @@ public class FireGrappleHook : MonoBehaviour {
 
 		if (FireButton.IsButtonClicked() && !casting) 
 		{
-			Vector3 playerVector = new Vector3 (playerX, playerY, playerZ);
-			Vector3 mousePosVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			// REMOVEE Vector3 playerVector = new Vector3 (playerX, playerY, playerZ);
+			// REMOVEE Vector3 mousePosVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-			//Vector3 mouseClickVector =
+			// REMOVEE Vector3 mouseClickVector =
 			//	new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
 
-			float angleFromPlayerToMouseClick = Vector3.Angle (playerVector, mousePosVector);
-			//Debug.DrawLine (playerVector, mousePosVector, Color.black, 5.0f);
-
-			
-			Debug.Log ("ANGLE: " + angleFromPlayerToMouseClick);
-
 			casting = true;
-			endPoint = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			//Debug.Log (endPoint);
+
+			// Get the end point of the reticle
+			endPoint = GameObject.Find ("Player 1").GetComponent<PlayerController> ().reticle.transform.position;
 		}
 
 		// Check if the "casting" flag is true and if the object position has not reached endPoint
-		if (casting && !Mathf.Approximately (gameObject.transform.position.magnitude, endPoint.magnitude)) {
+		if (casting && !Mathf.Approximately (gameObject.transform.position.magnitude, endPoint.magnitude)) 
+		{
 			
 			/* Move the object to the desired position. Vector2.Lerp moves the object from the source location
 			 * to the destination location. castDuration is multiplied by the distance to keep constant speed
 			 * independent of the distance travelled. */
 			gameObject.transform.position = Vector2.Lerp (gameObject.transform.position, endPoint, 
 				1 / (castDuration * (Vector2.Distance (gameObject.transform.position, endPoint))));
+
+			// If the hook has traveled the maximum firing distance, cancel the cast
+			// CLAYTON: CLEAN THIS UP
+			Vector3 a = new Vector3(playerX, playerY, 0);
+			Vector3 b = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, 0);
+			float distance = Vector3.Distance(a, b);
+			if (distance >= fireDistance)
+			{
+				casting = false;
+			}
 		} 
 		// Else, if the object arrived at endPoint...
 		else if (casting && Mathf.Approximately (gameObject.transform.position.magnitude, endPoint.magnitude)) 

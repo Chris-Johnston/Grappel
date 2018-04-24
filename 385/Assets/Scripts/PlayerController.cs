@@ -8,6 +8,16 @@ using Assets.Scripts;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+	/// <summary>
+	/// True if a player is using controller mode. Should be set by some option in the UI later on.
+	/// </summary>
+	public bool ControllerMode = false;
+
+	/// <summary>
+	/// Vector holding the joystick position. Unused if not in controller mode.
+	/// </summary>
+	private Vector3 joystickPosition;
+
     /// <summary>
     /// Which axis does the player use to strafe left and right on the ground, or adjust
     /// their velocity when swinging?
@@ -18,6 +28,16 @@ public class PlayerController : MonoBehaviour
     /// Which axis to check that indicates that the player wanted to jump
     /// </summary>
     public string JumpAxis = "Jump"; // use Jump_P2 for Player 2
+
+	/// <summary>
+	/// Horizontal axis name for the xbox controller
+	/// </summary>
+	public string AimHorizontalAxis = "Horizontal";
+
+	/// <summary>
+	/// Vertical axis name for the xbox controller
+	/// </summary>
+	public string AimVerticalAxis = "Vertical";
 
     // util wrapper for this class
     // that helps determine if the button is pressed or clicked
@@ -35,6 +55,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [Range(0, 500.0f)]
     public float SwingForce = 200f;
+
+	/// <summary>
+	/// The maximum length that the grappling hoook can travel
+	/// </summary>
+	[Range(0,4f)]
+	public float HookFireDistance = 1f;
 
     /// <summary>
     /// Toggle to show the debugging lines
@@ -56,6 +82,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [Range(0, 500)]
     public float StrafingForce = 150.0f;
+
     /// <summary>
     /// How much force to give to the player when they jump
     /// </summary>
@@ -65,6 +92,16 @@ public class PlayerController : MonoBehaviour
     // is the player colliding with the ground?
     private bool onGround;
 
+	/// <summary>
+	/// Holds value of transform.position for convenience
+	/// </summary>
+	private Vector3 playerPos;
+
+	/// <summary>
+	/// Reference to the Reticle game object (child of Player object)
+	/// </summary>
+	public GameObject reticle;
+
     // Use this for initialization
     void Start ()
     {
@@ -73,6 +110,12 @@ public class PlayerController : MonoBehaviour
 
         // set up the jump button axis
         JumpButton = new AxisButton(JumpAxis, 0.5f);
+
+		// Initialize the player position
+		playerPos = transform.position;
+
+		// Initialize the joystick position Vector3
+		joystickPosition = new Vector3(0, 0, 0);
     }
 
     //Ground check for player - can only jump while on ground
@@ -102,6 +145,15 @@ public class PlayerController : MonoBehaviour
     {
         // update the axisbutton utils first
         JumpButton.Update();
+
+		// Update the player position
+		playerPos = transform.position;
+
+		if (ControllerMode) 
+		{
+			joystickPosition.x = Input.GetAxis ("Horizontal");
+			joystickPosition.y = Input.GetAxis ("Vertical");
+		}
 
         // Check that the ref to RopeSystem is not null, and the rope system is connected
         // the == true is not redundant because of the ?. operator
@@ -160,6 +212,56 @@ public class PlayerController : MonoBehaviour
         // Player is not suspended by a rope
         else
         {
+			/* ~~ DISPLAY AIMING RETICLE ~~ */
+
+			//Debug.Log("joystickX " + joystickPosition.x + "  joystickY: " + joystickPosition.y);
+
+			float aimAngle;
+			Vector3 playerAimingLocation;
+
+			if (!ControllerMode) 
+			{
+				// Get the mouse position as world position relative to the Player object as the origin
+				playerAimingLocation = Camera.main.ScreenToWorldPoint (Input.mousePosition) - playerPos;
+
+				// Angle (radians) from the horizontal line going through the player to the mouse position
+				aimAngle = Mathf.Atan2 (playerAimingLocation.y, playerAimingLocation.x);
+			} 
+			else 
+			{
+				joystickPosition.x = Input.GetAxis ("Horizontal");
+				joystickPosition.y = Input.GetAxis ("Vertical");
+
+				if (joystickIsDead ()) 
+				{
+					// Don't show the aiming reticle
+					GameObject.Find ("Reticle").GetComponent<SpriteRenderer> ().enabled = false;
+					// For some reason, just disabling this component doesn't work, the line still appears.
+					GameObject.Find ("Reticle").GetComponent<LineRenderer> ().startWidth = 0;
+				} 
+				else 
+				{
+					// Ensure the reticle is turned on if the player is aiming
+					GameObject.Find ("Reticle").GetComponent<SpriteRenderer> ().enabled = true;
+					GameObject.Find ("Reticle").GetComponent<LineRenderer> ().startWidth = 0.12f;
+				}
+
+				// Calculate the angle based on joystick position. Invert y axis first
+				aimAngle = Mathf.Atan2 ((0 - joystickPosition.y), joystickPosition.x);
+			}
+
+			// Keep it positive (e.g., straight below the player is 3pi/2 rad, not -pi/2)
+			if (aimAngle < 0) 
+			{
+				aimAngle = (Mathf.PI * 2) + aimAngle;
+			}
+			Debug.Log ("aimAngle: " + aimAngle + " rad");
+			// Update the reticle endpoint and draw a line from the player to the endpoint
+			UpdateReticlePosition (aimAngle);
+
+			/* ~~ END DISPLAY AIMING RETICLE */
+
+
             //Left and Right strafing movement 
             float moveHorizontal = Input.GetAxis(StrafeAxis);
 
@@ -178,6 +280,28 @@ public class PlayerController : MonoBehaviour
                 onGround = false;
             }
         }
+	}
+
+
+	/// <summary>
+	/// Updates the reticle position.
+	/// </summary>
+	/// <param name="aimAngle">Aim angle.</param>
+	private void UpdateReticlePosition(float aimAngle)
+	{
+		float reticleEndX = transform.position.x + HookFireDistance * Mathf.Cos (aimAngle);
+		float reticleEndY = transform.position.y + HookFireDistance * Mathf.Sin (aimAngle);
+		reticle.transform.position = new Vector3 (reticleEndX, reticleEndY, 0);
+	}
+
+	/// <summary>
+	/// Checks if the joystick is in the deadzone. Currently used to know when to not display the reticle
+	/// </summary>
+	private bool joystickIsDead()
+	{
+		float joystickX = Mathf.Abs(Input.GetAxis ("Horizontal"));
+		float joystickY = Mathf.Abs(Input.GetAxis ("Vertical"));
+		return (joystickX <= 0.19 && joystickY <= 0.19);
 	}
 
     /// <summary>
