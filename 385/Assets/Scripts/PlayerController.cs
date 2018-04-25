@@ -39,9 +39,19 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	public string AimVerticalAxis = "Vertical";
 
+    /// <summary>
+    /// Which axis will fire the grapple hook
+    /// </summary>
+    public string FireAxis = "Fire"; // use Fire_P2 for Player2
+
     // util wrapper for this class
     // that helps determine if the button is pressed or clicked
     private AxisButton JumpButton;
+
+    /// <summary>
+    /// Util wrapper that allows for an axis to act as a button
+    /// </summary>
+    private AxisButton FireButton;
 
     /// <summary>
     /// The maximum velocity that a player can swing at
@@ -59,8 +69,14 @@ public class PlayerController : MonoBehaviour
 	/// <summary>
 	/// The maximum length that the grappling hoook can travel
 	/// </summary>
-	[Range(0,4f)]
+	[Range(0,8f)]
 	public float HookFireDistance = 1f;
+
+    /// <summary>
+    /// The speed that the hook moves per second
+    /// </summary>
+    [Range(0, 4f)]
+    public float HookFireSpeed = 1f;
 
     /// <summary>
     /// Toggle to show the debugging lines
@@ -106,10 +122,14 @@ public class PlayerController : MonoBehaviour
     void Start ()
     {
         PlayerRigidBody = GetComponent<Rigidbody2D>();
+
+        // default to being on the ground
         onGround = true;
 
         // set up the jump button axis
         JumpButton = new AxisButton(JumpAxis, 0.5f);
+        // and the fire button axis
+        FireButton = new AxisButton(FireAxis);
 
 		// Initialize the player position
 		playerPos = transform.position;
@@ -128,7 +148,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collide.gameObject.tag == Tags.TAG_GRAPPLE_HOOK)
         {
-            Debug.Log("Oh no this player was hit with a grapple hook!");
+            // Debug.Log("Oh no this player was hit with a grapple hook!");
         }
     }
 
@@ -144,7 +164,8 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         // update the axisbutton utils first
-        JumpButton.Update();
+        JumpButton?.Update();
+        FireButton?.Update();
 
 		// Update the player position
 		playerPos = transform.position;
@@ -217,15 +238,24 @@ public class PlayerController : MonoBehaviour
 			//Debug.Log("joystickX " + joystickPosition.x + "  joystickY: " + joystickPosition.y);
 
 			float aimAngle;
-			Vector3 playerAimingLocation;
 
 			if (!ControllerMode) 
 			{
-				// Get the mouse position as world position relative to the Player object as the origin
-				playerAimingLocation = Camera.main.ScreenToWorldPoint (Input.mousePosition) - playerPos;
+                // Get the mouse position, using a ray from the camera that hits a plane that the world is on ( Z = 0 )
+                // see here: https://answers.unity.com/questions/566519/camerascreentoworldpoint-in-perspective.
 
-				// Angle (radians) from the horizontal line going through the player to the mouse position
-				aimAngle = Mathf.Atan2 (playerAimingLocation.y, playerAimingLocation.x);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                // create a new plane at the origin that is facing forward
+                Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
+                float distance;
+                xy.Raycast(ray, out distance);
+                var rayPoint = ray.GetPoint(distance);
+                var playerAimingLocation = rayPoint - playerPos;
+
+                Debug.DrawLine(Vector3.zero, rayPoint);
+
+                // Angle (radians) from the horizontal line going through the player to the mouse position
+                aimAngle = Mathf.Atan2 (playerAimingLocation.y, playerAimingLocation.x);
 			} 
 			else 
 			{
