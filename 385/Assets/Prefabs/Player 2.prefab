@@ -73,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1674952792437296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.04, y: 1.08, z: -4.274504}
+  m_LocalPosition: {x: -2.04, y: 1.08, z: 0}
   m_LocalScale: {x: 3.3960047, y: 3.291829, z: 1}
   m_Children:
   - {fileID: 4436573466630322}
@@ -171,14 +171,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0852802976732dc4cad4cae31d7a4a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ControllerMode: 0
   StrafeAxis: Strafe_P2
   JumpAxis: Jump_P2
+  AimHorizontalAxis: Horizontal
+  AimVerticalAxis: Vertical
+  FireAxis: Fire
   MaxSwingingVelocity: 500
   SwingForce: 200
+  HookFireDistance: 1
+  HookFireSpeed: 1
   ShowDebugging: 0
   RopeSystem: {fileID: 114111225198324956}
   StrafingForce: 400
   JumpingForce: 10
+  reticle: {fileID: 0}
 --- !u!114 &114058050235707446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireAxis: Fire_P2
+  casting: 0
   castDuration: 6
 --- !u!114 &114111225198324956
 MonoBehaviour:
