@@ -694,6 +694,83 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1584003423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1584003426}
+  - component: {fileID: 1584003424}
+  - component: {fileID: 1584003425}
+  m_Layer: 0
+  m_Name: RopeSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1584003424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1584003423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1766c471bcfbe044d8e76f2e05242059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RopeAnchorPoint: {fileID: 0}
+  RopeDistanceJoint: {fileID: 1703258305}
+  RopeLineRenderer: {fileID: 370375311}
+  FireAxis: Fire
+  CurrentCastDistance: 0
+  IsCasting: 0
+  MinCastDistance: 0.5
+  MaxCastDistance: 10
+  CastingSpeed: 1
+  PlayerRopeDrawOffset: {x: 0.25, y: 0, z: 0}
+  CastingCollider: {fileID: 1584003425}
+--- !u!70 &1584003425
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1584003423}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.5, y: 1}
+  m_Direction: 0
+--- !u!4 &1584003426
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1584003423}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1703258309}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!232 &1703258305 stripped
+DistanceJoint2D:
+  m_PrefabParentObject: {fileID: 232240381057485000, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1834731940}
+--- !u!4 &1703258309 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1834731940}
 --- !u!1001 &1834731940
 Prefab:
   m_ObjectHideFlags: 0
@@ -753,7 +830,32 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 58111626688167180, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4094420871227196, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002739121778922, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114272269268600046, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: RopeSystem
+      value: 
+      objectReference: {fileID: 1584003424}
+    - target: {fileID: 114272269268600046, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: ShowDebugging
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114523634946994250, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - {fileID: 114596187521871214, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1874194218

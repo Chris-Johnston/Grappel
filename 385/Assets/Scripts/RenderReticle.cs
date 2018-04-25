@@ -39,27 +39,27 @@ public class RenderReticle : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// Don't draw the reticle when the player is casting or attached to a grapple point
-		if (GameObject.Find ("GrappleHook").GetComponent<FireGrappleHook> ().casting ||
-			GameObject.Find ("Player 1").GetComponent<RopeSystem>().IsRopeConnected()) 
-		{
-			reticleLineRenderer.enabled = false;
-			GetComponent<SpriteRenderer> ().enabled = false;
-		}
-		else
-		{
-			if (!reticleLineRenderer.enabled) 
-			{
-				reticleLineRenderer.enabled = true;
-				GetComponent<SpriteRenderer> ().enabled = true;
-			}
-			reticlePos = transform.position;
-			playerPos = GameObject.Find ("Player 1").GetComponent<Transform> ().position;
-			reticleRendererVectors [0] = playerPos;
-			reticleRendererVectors [1] = reticlePos;
-			reticleLineRenderer.SetPositions (reticleRendererVectors);
+		//if (GameObject.Find ("GrappleHook").GetComponent<FireGrappleHook> ().casting ||
+		//	GameObject.Find ("Player 1").GetComponent<RopeSystem>().IsRopeConnected()) 
+		//{
+		//	reticleLineRenderer.enabled = false;
+		//	GetComponent<SpriteRenderer> ().enabled = false;
+		//}
+		//else
+		//{
+		//	if (!reticleLineRenderer.enabled) 
+		//	{
+		//		reticleLineRenderer.enabled = true;
+		//		GetComponent<SpriteRenderer> ().enabled = true;
+		//	}
+		//	reticlePos = transform.position;
+		//	playerPos = GameObject.Find ("Player 1").GetComponent<Transform> ().position;
+		//	reticleRendererVectors [0] = playerPos;
+		//	reticleRendererVectors [1] = reticlePos;
+		//	reticleLineRenderer.SetPositions (reticleRendererVectors);
 
-			//Debug.Log ("player x,y: " + playerPos.x + ", " + playerPos.y);
-			//Debug.Log ("reticle x,y: " + reticlePos.x + ", " + reticlePos.y);
-		}
+		//	//Debug.Log ("player x,y: " + playerPos.x + ", " + playerPos.y);
+		//	//Debug.Log ("reticle x,y: " + reticlePos.x + ", " + reticlePos.y);
+		//}
 	}
 }

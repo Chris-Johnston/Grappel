@@ -45,11 +45,6 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	public string AimVerticalAxis = "Vertical";
 
-    /// <summary>
-    /// Which axis will fire the grapple hook
-    /// </summary>
-    public string FireAxis = "Fire"; // use Fire_P2 for Player2
-
     // util wrapper for this class
     // that helps determine if the button is pressed or clicked
     private AxisButton JumpButton;
@@ -71,18 +66,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [Range(0, 500.0f)]
     public float SwingForce = 200f;
-
-	/// <summary>
-	/// The maximum length that the grappling hoook can travel
-	/// </summary>
-	[Range(0,8f)]
-	public float HookFireDistance = 1f;
-
-    /// <summary>
-    /// The speed that the hook moves per second
-    /// </summary>
-    [Range(0, 4f)]
-    public float HookFireSpeed = 1f;
 
     /// <summary>
     /// Toggle to show the debugging lines
@@ -119,17 +102,6 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private Vector3 playerPos;
 
-	/// <summary>
-	/// Reference to the Reticle game object (child of Player object)
-	/// </summary>
-	public GameObject AimingReticle;
-
-    /// <summary>
-    /// Reference to the object that is responsible for being thrown and hooking on if it collides
-    /// with an anchor point
-    /// </summary>
-    public GameObject ThrowingHook;
-
     // Use this for initialization
     void Start ()
     {
@@ -141,7 +113,7 @@ public class PlayerController : MonoBehaviour
         // set up the jump button axis
         JumpButton = new AxisButton(JumpAxis, 0.5f);
         // and the fire button axis
-        FireButton = new AxisButton(FireAxis);
+        // FireButton = new AxisButton(FireAxis);
 
 		// Initialize the player position
 		playerPos = transform.position;
@@ -177,7 +149,6 @@ public class PlayerController : MonoBehaviour
     {
         // update the axisbutton utils first
         JumpButton.Update();
-        FireButton.Update();
 
 		// Update the player position
 		playerPos = transform.position;
@@ -275,7 +246,7 @@ public class PlayerController : MonoBehaviour
 				joystickPosition.y = Input.GetAxis (AimVerticalAxis);
     
                 // enable the reticle if the joystick is active
-                AimingReticle.SetActive(!joystickIsDead());
+                // AimingReticle.SetActive(!joystickIsDead());
 
 				// Calculate the angle based on joystick position. Invert y axis first
 				aimAngle = Mathf.Atan2 ((0 - joystickPosition.y), joystickPosition.x);
@@ -325,9 +296,11 @@ public class PlayerController : MonoBehaviour
 	/// <param name="aimAngle">Aim angle.</param>
 	private void UpdateReticlePosition(float aimAngle)
 	{
-		float reticleEndX = transform.position.x + HookFireDistance * Mathf.Cos (aimAngle);
-		float reticleEndY = transform.position.y + HookFireDistance * Mathf.Sin (aimAngle);
-		AimingReticle.transform.position = new Vector3 (reticleEndX, reticleEndY, 0);
+        //float reticleEndX = transform.position.x + HookFireDistance * Mathf.Cos (aimAngle);
+        //float reticleEndY = transform.position.y + HookFireDistance * Mathf.Sin (aimAngle);
+        //AimingReticle.transform.position = new Vector3 (reticleEndX, reticleEndY, 0);
+        RopeSystem.SetAngle(aimAngle);
+
 	}
 
 	/// <summary>

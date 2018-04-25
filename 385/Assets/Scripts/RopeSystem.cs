@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,6 @@ using UnityEngine;
 /// The ExecuteInEditModeAttribute allows the script update to run in the unity editor
 /// so that the previews are accurate.
 /// </summary>
-[ExecuteInEditMode]
 public class RopeSystem : MonoBehaviour
 {
     /// <summary>
@@ -27,6 +27,52 @@ public class RopeSystem : MonoBehaviour
     /// The LineRenderer that is used to draw the representation of the rope.
     /// </summary>
     public LineRenderer RopeLineRenderer;
+    
+    /// <summary>
+    /// Which axis to use to indicate that the player wants to fire
+    /// </summary>
+    public string FireAxis = "Fire"; // Fire_P2 for Player 2
+    private AxisButton FireButton;
+
+    /// <summary>
+    /// Angle of where the player is aiming
+    /// </summary>
+    public float AimAngle = 0f;
+
+    /// <summary>
+    /// The current distance that the rope is casting at
+    /// or the current distance of the rope
+    /// </summary>
+    public float CurrentCastDistance = 0f;
+
+    /// <summary>
+    /// Is the player casting a rope towards a point
+    /// </summary>
+    public bool IsCasting = false;
+
+    /// <summary>
+    /// How much to reel in on the original cast
+    /// </summary>
+    [Range(0, 1)]
+    public float CastInitialReelIn = 0.02f;
+
+    /// <summary>
+    /// Minimum casting distance
+    /// </summary>
+    [Range(0, 1)]
+    public float MinCastDistance = 0.5f;
+
+    /// <summary>
+    /// Maximum casting distance
+    /// </summary>
+    [Range(0, 20)]
+    public float MaxCastDistance = 10f;
+
+    /// <summary>
+    /// How far to cast per second
+    /// </summary>
+    [Range(0, 15)]
+    public float CastingSpeed = 1.0f;
 
     /// <summary>
     /// How much to offset where to draw the starting point of the player's
@@ -36,6 +82,20 @@ public class RopeSystem : MonoBehaviour
     /// The Z component should probably be 0
     /// </summary>
     public Vector3 PlayerRopeDrawOffset;
+
+    /// <summary>
+    /// Collider used to determine if hook grabs or not
+    /// </summary>
+    public CapsuleCollider2D CastingCollider;
+
+    private Transform RopeSystemTransform;
+
+    void Start()
+    {
+        FireButton = new AxisButton(FireAxis);
+
+        RopeSystemTransform = GetComponent<Transform>();
+    }
 
     /// <summary>
     /// Util method to determine if this rope system is connected to a Rigidbody2D
@@ -54,27 +114,97 @@ public class RopeSystem : MonoBehaviour
     {
         if (IsRopeConnected())
         {
-            // ensure that the line renderer is enabled when the rope is connected
-            // and the distance joint
-            RopeLineRenderer.enabled = true;
-            RopeDistanceJoint.enabled = true;
+            // if connected and release, then let go
+            if (!FireButton.IsButtonHeld())
+                Detach();
+            else
+            {
+                // ensure that the line renderer is enabled when the rope is connected
+                // and the distance joint
+                RopeLineRenderer.enabled = true;
+                RopeDistanceJoint.enabled = true;
 
-            RopeDistanceJoint.connectedAnchor = RopeAnchorPoint.transform.position;
+                RopeDistanceJoint.connectedAnchor = RopeAnchorPoint.transform.position;
 
-            // update the first point to be the same as the player origin w/ the offset
-            //TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
-            // could have the player rotate to match the swinging
-            RopeLineRenderer.SetPosition(0, transform.position + PlayerRopeDrawOffset);
+                if (!HasDoneInitialReelIn)
+                {
+                    RopeDistanceJoint.distance -= CastInitialReelIn;
+                    if (RopeDistanceJoint.distance < MinCastDistance)
+                        RopeDistanceJoint.distance = MinCastDistance;
 
-            // set the last point to be the same as the anchor point
-            RopeLineRenderer.SetPosition(1, RopeAnchorPoint.position);
+                    HasDoneInitialReelIn = true;
+                }
+
+
+                // update the first point to be the same as the player origin w/ the offset
+                //TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
+                // could have the player rotate to match the swinging
+                RopeLineRenderer.SetPosition(0, transform.position + PlayerRopeDrawOffset);
+
+                // set the last point to be the same as the anchor point
+                RopeLineRenderer.SetPosition(1, RopeAnchorPoint.position);
+            }
         }
         else
         {
-            // when the rope isn't connected, just disable the renderer
-            // and the distance joint
-            RopeLineRenderer.enabled = false;
-            RopeDistanceJoint.enabled = false;
+            // the rope is not connected
+
+            // not casting, if they hold down the button then cast
+            if (FireButton.IsButtonHeld())
+            {
+                CastingCollider.enabled = true;
+
+                // start throwing if not throwing already
+                if(!IsCasting)
+                {
+                    IsCasting = true;
+                    // reset the casting distance
+                    CurrentCastDistance = 0;
+                }
+                else
+                {
+                    // increment the casting distance
+                    CurrentCastDistance += CastingSpeed * Time.deltaTime;
+
+                    // ensure it fits in the upper bound
+                    if (CurrentCastDistance > MaxCastDistance)
+                        CurrentCastDistance = MaxCastDistance;
+                }
+
+                // update the position of the line renderer
+                // and the collider
+
+                RopeLineRenderer.enabled = true;
+
+                var directionVector = new Vector3(Mathf.Cos(AimAngle), Mathf.Sin(AimAngle), 0);
+
+                RopeLineRenderer.SetPosition(0, transform.position + PlayerRopeDrawOffset);
+                RopeLineRenderer.SetPosition(1, transform.position + PlayerRopeDrawOffset + directionVector * CurrentCastDistance);
+
+                // update the position of the collider
+                //CastingCollider.size.Set(0.1f, CurrentCastDistance);
+
+                // this isn't working correctly, todo
+
+                var midPoint = (directionVector * CurrentCastDistance) / 2;
+
+                var offset = new Vector2(midPoint.x, midPoint.y).magnitude;
+
+                //CastingCollider.transform.localPosition = new Vector2(midPoint.x, midPoint.y);
+                CastingCollider.offset = new Vector2(0, -offset / 2);
+                CastingCollider.size = new Vector2(0.2f, CurrentCastDistance / 4);
+
+                // rotate the object that contains the casting collider
+                RopeSystemTransform.rotation = Quaternion.Euler(0, 0, 90 + Mathf.Rad2Deg * AimAngle);
+            }
+            // reset when let go
+            else
+            {
+                CurrentCastDistance = 0;
+                IsCasting = false;
+                CastingCollider.enabled = false;
+                RopeLineRenderer.enabled = false;   
+            }
         }        
     }
 
@@ -112,8 +242,57 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        FireButton.Update();
         // update the rope renderable positions
         UpdateRopeRenderablePositions();
+    }
+
+    /// <summary>
+    /// Detaches from the anchor point
+    /// </summary>
+    public void Detach()
+    {
+        // Debug.Log("Detach");
+        RopeAnchorPoint = null;
+        RopeLineRenderer.enabled = false;
+        RopeDistanceJoint.enabled = false;
+        CastingCollider.enabled = false;
+        IsCasting = false;
+        CurrentCastDistance = 0;
+    }
+
+    private bool HasDoneInitialReelIn = false;
+
+    /// <summary>
+    /// attaches to the given anchor point
+    /// </summary>
+    /// <param name="point"></param>
+    public void Attach(Rigidbody2D point)
+    {
+        RopeAnchorPoint = point;
+        
+        // use the min cast distance, or the current - the reel in
+        HasDoneInitialReelIn = false;
+        CastingCollider.enabled = false;
+    }
+
+    /// <summary>
+    /// OnTriggerEnter for the capsule collider that is used to determine the rope collision
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // if is casting and collided with a grapple point
+        if (IsCasting && collision.CompareTag(Tags.TAG_GRAPPLE_POINT))
+        {
+            IsCasting = false;
+            Attach(collision.GetComponent<Rigidbody2D>());
+        }
+    }
+
+    public void SetAngle(float angle)
+    {
+        AimAngle = angle;
     }
 
 }
