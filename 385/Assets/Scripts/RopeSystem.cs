@@ -176,17 +176,17 @@ public class RopeSystem : MonoBehaviour
 
                 RopeLineRenderer.enabled = true;
 
-                var directionVector = new Vector3(Mathf.Cos(AimAngle), Mathf.Sin(AimAngle), 0);
+                var directionVector = new Vector3(CurrentCastDistance * Mathf.Cos(AimAngle), CurrentCastDistance * Mathf.Sin(AimAngle), 0);
 
                 RopeLineRenderer.SetPosition(0, transform.position + PlayerRopeDrawOffset);
-                RopeLineRenderer.SetPosition(1, transform.position + PlayerRopeDrawOffset + directionVector * CurrentCastDistance);
+                RopeLineRenderer.SetPosition(1, transform.position + PlayerRopeDrawOffset + directionVector);
 
                 // update the position of the collider
                 //CastingCollider.size.Set(0.1f, CurrentCastDistance);
 
                 // this isn't working correctly, todo
 
-                var midPoint = (directionVector * CurrentCastDistance) / 2;
+                var midPoint = (directionVector) / 2;
 
                 var offset = new Vector2(midPoint.x, midPoint.y).magnitude;
 

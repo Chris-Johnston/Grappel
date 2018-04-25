@@ -726,11 +726,13 @@ MonoBehaviour:
   RopeDistanceJoint: {fileID: 1703258305}
   RopeLineRenderer: {fileID: 370375311}
   FireAxis: Fire
-  CurrentCastDistance: 0
+  AimAngle: 0
+  CurrentCastDistance: 3
   IsCasting: 0
+  CastInitialReelIn: 1
   MinCastDistance: 0.5
   MaxCastDistance: 10
-  CastingSpeed: 1
+  CastingSpeed: 0.3
   PlayerRopeDrawOffset: {x: 0.25, y: 0, z: 0}
   CastingCollider: {fileID: 1584003425}
 --- !u!70 &1584003425
@@ -745,8 +747,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 0.1, y: 0.3}
   m_Direction: 0
 --- !u!4 &1584003426
 Transform:
