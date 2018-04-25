@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0852802976732dc4cad4cae31d7a4a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JoystickDeadzone: 0.19
   ControllerMode: 0
   StrafeAxis: Strafe
   JumpAxis: Jump
@@ -217,7 +218,8 @@ MonoBehaviour:
   RopeSystem: {fileID: 114596187521871214}
   StrafingForce: 300
   JumpingForce: 5.5
-  reticle: {fileID: 1975334827913886}
+  AimingReticle: {fileID: 1975334827913886}
+  ThrowingHook: {fileID: 1952971635941096}
 --- !u!114 &114523634946994250
 MonoBehaviour:
   m_ObjectHideFlags: 1

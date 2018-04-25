@@ -107,7 +107,7 @@ public class FireGrappleHook : MonoBehaviour {
 			casting = true;
 
 			// Get the end point of the reticle
-			endPoint = GameObject.Find ("Player 1").GetComponent<PlayerController> ().reticle.transform.position;
+			endPoint = GameObject.Find ("Player 1").GetComponent<PlayerController> ().AimingReticle.transform.position;
 		}
 
 		// Check if the "casting" flag is true and if the object position has not reached endPoint
@@ -133,7 +133,7 @@ public class FireGrappleHook : MonoBehaviour {
 		// Else, if the object arrived at endPoint...
 		else if (casting && Mathf.Approximately (gameObject.transform.position.magnitude, endPoint.magnitude)) 
 		{
-			casting = false;
+			// casting = false;
 		}
 
 		// If not casting, the hook should be with the player

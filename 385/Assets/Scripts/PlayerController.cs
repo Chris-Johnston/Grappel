@@ -8,6 +8,12 @@ using Assets.Scripts;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    /// How much deadzone in the joystick before it should be considered pointing in some direction
+    /// </summary>
+    [Range(0, 1f)]
+    public float JoystickDeadzone = 0.19f;
+
 	/// <summary>
 	/// True if a player is using controller mode. Should be set by some option in the UI later on.
 	/// </summary>
@@ -116,7 +122,13 @@ public class PlayerController : MonoBehaviour
 	/// <summary>
 	/// Reference to the Reticle game object (child of Player object)
 	/// </summary>
-	public GameObject reticle;
+	public GameObject AimingReticle;
+
+    /// <summary>
+    /// Reference to the object that is responsible for being thrown and hooking on if it collides
+    /// with an anchor point
+    /// </summary>
+    public GameObject ThrowingHook;
 
     // Use this for initialization
     void Start ()
@@ -164,16 +176,16 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         // update the axisbutton utils first
-        JumpButton?.Update();
-        FireButton?.Update();
+        JumpButton.Update();
+        FireButton.Update();
 
 		// Update the player position
 		playerPos = transform.position;
 
 		if (ControllerMode) 
 		{
-			joystickPosition.x = Input.GetAxis ("Horizontal");
-			joystickPosition.y = Input.GetAxis ("Vertical");
+			joystickPosition.x = Input.GetAxis (AimHorizontalAxis);
+			joystickPosition.y = Input.GetAxis (AimVerticalAxis);
 		}
 
         // Check that the ref to RopeSystem is not null, and the rope system is connected
@@ -259,22 +271,11 @@ public class PlayerController : MonoBehaviour
 			} 
 			else 
 			{
-				joystickPosition.x = Input.GetAxis ("Horizontal");
-				joystickPosition.y = Input.GetAxis ("Vertical");
-
-				if (joystickIsDead ()) 
-				{
-					// Don't show the aiming reticle
-					GameObject.Find ("Reticle").GetComponent<SpriteRenderer> ().enabled = false;
-					// For some reason, just disabling this component doesn't work, the line still appears.
-					GameObject.Find ("Reticle").GetComponent<LineRenderer> ().startWidth = 0;
-				} 
-				else 
-				{
-					// Ensure the reticle is turned on if the player is aiming
-					GameObject.Find ("Reticle").GetComponent<SpriteRenderer> ().enabled = true;
-					GameObject.Find ("Reticle").GetComponent<LineRenderer> ().startWidth = 0.12f;
-				}
+				joystickPosition.x = Input.GetAxis (AimHorizontalAxis);
+				joystickPosition.y = Input.GetAxis (AimVerticalAxis);
+    
+                // enable the reticle if the joystick is active
+                AimingReticle.SetActive(!joystickIsDead());
 
 				// Calculate the angle based on joystick position. Invert y axis first
 				aimAngle = Mathf.Atan2 ((0 - joystickPosition.y), joystickPosition.x);
@@ -285,9 +286,14 @@ public class PlayerController : MonoBehaviour
 			{
 				aimAngle = (Mathf.PI * 2) + aimAngle;
 			}
-			Debug.Log ("aimAngle: " + aimAngle + " rad");
-			// Update the reticle endpoint and draw a line from the player to the endpoint
-			UpdateReticlePosition (aimAngle);
+
+            if (ShowDebugging)
+            {
+                Debug.Log ("aimAngle: " + aimAngle + " rad");
+            }
+
+            // Update the reticle endpoint and draw a line from the player to the endpoint
+            UpdateReticlePosition (aimAngle);
 
 			/* ~~ END DISPLAY AIMING RETICLE */
 
@@ -321,7 +327,7 @@ public class PlayerController : MonoBehaviour
 	{
 		float reticleEndX = transform.position.x + HookFireDistance * Mathf.Cos (aimAngle);
 		float reticleEndY = transform.position.y + HookFireDistance * Mathf.Sin (aimAngle);
-		reticle.transform.position = new Vector3 (reticleEndX, reticleEndY, 0);
+		AimingReticle.transform.position = new Vector3 (reticleEndX, reticleEndY, 0);
 	}
 
 	/// <summary>
@@ -329,9 +335,9 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private bool joystickIsDead()
 	{
-		float joystickX = Mathf.Abs(Input.GetAxis ("Horizontal"));
-		float joystickY = Mathf.Abs(Input.GetAxis ("Vertical"));
-		return (joystickX <= 0.19 && joystickY <= 0.19);
+		float joystickX = Mathf.Abs(Input.GetAxis (AimHorizontalAxis));
+		float joystickY = Mathf.Abs(Input.GetAxis (AimVerticalAxis));
+		return (joystickX <= JoystickDeadzone && joystickY <= JoystickDeadzone);
 	}
 
     /// <summary>
