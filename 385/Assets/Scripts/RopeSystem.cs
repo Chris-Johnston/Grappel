@@ -232,7 +232,7 @@ public class RopeSystem : MonoBehaviour
             // reset when let go
             else
             {
-                HookSpriteObject.SetActive(true);
+                HookSpriteObject.SetActive(false);
                 CurrentCastDistance = 0;
                 IsCasting = false;
                 //CastingCollider.enabled = false;
