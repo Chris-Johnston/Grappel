@@ -97,6 +97,12 @@ public class PlayerController : MonoBehaviour
     // is the player colliding with the ground?
     private bool onGround;
 
+    /// <summary>
+    /// Is the player on the ground (read only)
+    /// </summary>
+    public bool IsOnGround
+        => onGround;
+
 	/// <summary>
 	/// Holds value of transform.position for convenience
 	/// </summary>

@@ -84,11 +84,20 @@ public class RopeSystem : MonoBehaviour
     public Vector3 PlayerRopeDrawOffset;
 
     /// <summary>
-    /// Collider used to determine if hook grabs or not
+    /// Collider for the end of the grapple hook
     /// </summary>
-    public CapsuleCollider2D CastingCollider;
+    //public CircleCollider2D HookCollider;
+
+    /// <summary>
+    /// A very thin collider for the rope itself
+    /// </summary>
+    //public PolygonCollider2D RopeCollider;
+
+    public CapsuleCollider2D RopeAndHookCollider;
 
     private Transform RopeSystemTransform;
+
+    public PlayerController PlayerControllerScript;
 
     void Start()
     {
@@ -152,7 +161,8 @@ public class RopeSystem : MonoBehaviour
             // not casting, if they hold down the button then cast
             if (FireButton.IsButtonHeld())
             {
-                CastingCollider.enabled = true;
+                //HookCollider.enabled = true;
+                RopeAndHookCollider.enabled = true;
 
                 // start throwing if not throwing already
                 if(!IsCasting)
@@ -176,13 +186,13 @@ public class RopeSystem : MonoBehaviour
 
                 RopeLineRenderer.enabled = true;
 
-                var directionVector = new Vector2(Mathf.Cos(AimAngle), Mathf.Sin(AimAngle));
+                var directionVector = new Vector3(Mathf.Cos(AimAngle), Mathf.Sin(AimAngle), 0);
 
                 var displayOrigin = transform.position + PlayerRopeDrawOffset;
                 var displayOffset = new Vector3(CurrentCastDistance * directionVector.x, CurrentCastDistance * directionVector.y, 0);
 
                 RopeLineRenderer.SetPosition(0, displayOrigin);
-                RopeLineRenderer.SetPosition(1, displayOrigin + displayOffset);
+                RopeLineRenderer.SetPosition(1, transform.position + displayOffset);
 
                 Debug.Log("" + CurrentCastDistance + " " + displayOffset.magnitude);
 
@@ -197,18 +207,24 @@ public class RopeSystem : MonoBehaviour
                 var offset = new Vector2(midPoint.x, midPoint.y).magnitude;
 
                 //CastingCollider.transform.localPosition = new Vector2(midPoint.x, midPoint.y);
-                CastingCollider.offset = new Vector2(0, -midPoint.magnitude + midPoint.magnitude / 2);
-                CastingCollider.size = new Vector2(0.2f, midPoint.magnitude / 2);
+                //CastingCollider.offset = new Vector2(0, -midPoint.magnitude + midPoint.magnitude / 2 + 0.3f);
+                //CastingCollider.size = new Vector2(0.2f, midPoint.magnitude / 2 + 0.6f);
+                //HookCollider.offset = CurrentCastDistance * directionVector;
+                //RopeAndHookCollider.offset = (CurrentCastDistance / 2) * directionVector;
+                RopeAndHookCollider.offset = new Vector2(0, CurrentCastDistance / 2);
+                RopeAndHookCollider.size = new Vector2(0.2f, CurrentCastDistance);
 
                 // rotate the object that contains the casting collider
-                RopeSystemTransform.rotation = Quaternion.Euler(0, 0, 90 + Mathf.Rad2Deg * AimAngle);
+                RopeSystemTransform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
             }
             // reset when let go
             else
             {
                 CurrentCastDistance = 0;
                 IsCasting = false;
-                CastingCollider.enabled = false;
+                //CastingCollider.enabled = false;
+                //HookCollider.enabled = false;
+                RopeAndHookCollider.enabled = false;
                 RopeLineRenderer.enabled = false;   
             }
         }        
@@ -262,7 +278,9 @@ public class RopeSystem : MonoBehaviour
         RopeAnchorPoint = null;
         RopeLineRenderer.enabled = false;
         RopeDistanceJoint.enabled = false;
-        CastingCollider.enabled = false;
+        //CastingCollider.enabled = false;
+        //HookCollider.enabled = false;
+        RopeAndHookCollider.enabled = false;
         IsCasting = false;
         CurrentCastDistance = 0;
     }
@@ -276,10 +294,21 @@ public class RopeSystem : MonoBehaviour
     public void Attach(Rigidbody2D point)
     {
         RopeAnchorPoint = point;
+       
         
+
         // use the min cast distance, or the current - the reel in
-        HasDoneInitialReelIn = false;
-        CastingCollider.enabled = false;
+        // only if the player is on the ground
+
+        if(PlayerControllerScript.IsOnGround)
+        {
+            HasDoneInitialReelIn = false;
+        }
+        
+        
+        //CastingCollider.enabled = false;
+        //HookCollider.enabled = false;
+        RopeAndHookCollider.enabled = false;
     }
 
     /// <summary>
