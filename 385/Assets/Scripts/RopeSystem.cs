@@ -99,6 +99,11 @@ public class RopeSystem : MonoBehaviour
 
     public PlayerController PlayerControllerScript;
 
+    /// <summary>
+    /// Reference to the grapple hook object
+    /// </summary>
+    public GameObject HookSpriteObject;
+
     void Start()
     {
         FireButton = new AxisButton(FireAxis);
@@ -123,6 +128,8 @@ public class RopeSystem : MonoBehaviour
     {
         if (IsRopeConnected())
         {
+            HookSpriteObject.SetActive(false);
+
             // if connected and release, then let go
             if (!FireButton.IsButtonHeld())
                 Detach();
@@ -163,6 +170,7 @@ public class RopeSystem : MonoBehaviour
             {
                 //HookCollider.enabled = true;
                 RopeAndHookCollider.enabled = true;
+                HookSpriteObject.SetActive(true);
 
                 // start throwing if not throwing already
                 if(!IsCasting)
@@ -214,12 +222,17 @@ public class RopeSystem : MonoBehaviour
                 RopeAndHookCollider.offset = new Vector2(0, CurrentCastDistance / 2);
                 RopeAndHookCollider.size = new Vector2(0.2f, CurrentCastDistance);
 
+                //HookSpriteObject.transform.SetPositionAndRotation(CurrentCastDistance * directionVector, Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle));
+                HookSpriteObject.transform.localPosition = CurrentCastDistance * directionVector;
+                HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+
                 // rotate the object that contains the casting collider
                 RopeSystemTransform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
             }
             // reset when let go
             else
             {
+                HookSpriteObject.SetActive(true);
                 CurrentCastDistance = 0;
                 IsCasting = false;
                 //CastingCollider.enabled = false;
