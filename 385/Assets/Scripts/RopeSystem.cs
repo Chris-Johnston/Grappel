@@ -176,23 +176,29 @@ public class RopeSystem : MonoBehaviour
 
                 RopeLineRenderer.enabled = true;
 
-                var directionVector = new Vector3(CurrentCastDistance * Mathf.Cos(AimAngle), CurrentCastDistance * Mathf.Sin(AimAngle), 0);
+                var directionVector = new Vector2(Mathf.Cos(AimAngle), Mathf.Sin(AimAngle));
 
-                RopeLineRenderer.SetPosition(0, transform.position + PlayerRopeDrawOffset);
-                RopeLineRenderer.SetPosition(1, transform.position + PlayerRopeDrawOffset + directionVector);
+                var displayOrigin = transform.position + PlayerRopeDrawOffset;
+                var displayOffset = new Vector3(CurrentCastDistance * directionVector.x, CurrentCastDistance * directionVector.y, 0);
+
+                RopeLineRenderer.SetPosition(0, displayOrigin);
+                RopeLineRenderer.SetPosition(1, displayOrigin + displayOffset);
+
+                Debug.Log("" + CurrentCastDistance + " " + displayOffset.magnitude);
 
                 // update the position of the collider
                 //CastingCollider.size.Set(0.1f, CurrentCastDistance);
 
                 // this isn't working correctly, todo
-
-                var midPoint = (directionVector) / 2;
+                
+                // get the midpoint
+                var midPoint = Vector3.Lerp(Vector3.zero, displayOffset, 0.5f);
 
                 var offset = new Vector2(midPoint.x, midPoint.y).magnitude;
 
                 //CastingCollider.transform.localPosition = new Vector2(midPoint.x, midPoint.y);
-                CastingCollider.offset = new Vector2(0, -offset / 2);
-                CastingCollider.size = new Vector2(0.2f, CurrentCastDistance / 4);
+                CastingCollider.offset = new Vector2(0, -midPoint.magnitude + midPoint.magnitude / 2);
+                CastingCollider.size = new Vector2(0.2f, midPoint.magnitude / 2);
 
                 // rotate the object that contains the casting collider
                 RopeSystemTransform.rotation = Quaternion.Euler(0, 0, 90 + Mathf.Rad2Deg * AimAngle);
