@@ -62,10 +62,13 @@ namespace Assets.Scripts
 
             CurrentState = axisValue >= ActivationThreshold;
 
+            // ignore this warning
+#pragma warning disable CS0162 // Unreachable code detected
             if (DEBUG)
             {
                 Debug.Log($"Axis: {AxisName} Value: {axisValue} State: {CurrentState}");
             }
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         /// <summary>
