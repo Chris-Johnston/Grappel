@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   JoystickDeadzone: 0.19
-  ControllerMode: 0
+  ControllerMode: 1
   StrafeAxis: Strafe_P2
   JumpAxis: Jump_P2
   AimHorizontalAxis: Horizontal_P2
