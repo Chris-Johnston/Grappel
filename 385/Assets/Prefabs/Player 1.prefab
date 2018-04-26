@@ -240,6 +240,8 @@ MonoBehaviour:
   RopeDistanceJoint: {fileID: 232103480614276934}
   RopeLineRenderer: {fileID: 120264560965020486}
   FireAxis: Fire
+  ClimbDescendAxis: ClimbDescend
+  ClimbDescendSpeed: 4
   AimAngle: 0
   CurrentCastDistance: 3
   IsCasting: 0
