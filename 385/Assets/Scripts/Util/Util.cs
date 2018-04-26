@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -26,6 +27,7 @@ namespace Assets.Scripts
             // use some arbitrary threshold to determine that an axis is held down or not
             return axisValue >= 0.5f;
         }
-
+        public static Vector3 ToVector3(Vector2 v)
+            => new Vector3(v.x, v.y, 0);
     }
 }

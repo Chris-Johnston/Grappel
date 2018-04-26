@@ -84,19 +84,14 @@ public class RopeSystem : MonoBehaviour
     public Vector3 PlayerRopeDrawOffset;
 
     /// <summary>
-    /// Collider for the end of the grapple hook
+    /// Collider that represents the end of the grapple hook and the grapple line
+    /// Gets longer, translatesa and rotates around
     /// </summary>
-    //public CircleCollider2D HookCollider;
-
-    /// <summary>
-    /// A very thin collider for the rope itself
-    /// </summary>
-    //public PolygonCollider2D RopeCollider;
-
     public CapsuleCollider2D RopeAndHookCollider;
 
-    private Transform RopeSystemTransform;
-
+    /// <summary>
+    /// Shared reference to the player controller script
+    /// </summary>
     public PlayerController PlayerControllerScript;
 
     /// <summary>
@@ -106,9 +101,8 @@ public class RopeSystem : MonoBehaviour
 
     void Start()
     {
+        // set up the fire button axis
         FireButton = new AxisButton(FireAxis);
-
-        RopeSystemTransform = GetComponent<Transform>();
     }
 
     /// <summary>
@@ -195,39 +189,28 @@ public class RopeSystem : MonoBehaviour
                 RopeLineRenderer.enabled = true;
 
                 var directionVector = new Vector3(Mathf.Cos(AimAngle), Mathf.Sin(AimAngle), 0);
-
                 var displayOrigin = transform.position + PlayerRopeDrawOffset;
                 var displayOffset = new Vector3(CurrentCastDistance * directionVector.x, CurrentCastDistance * directionVector.y, 0);
 
                 RopeLineRenderer.SetPosition(0, displayOrigin);
                 RopeLineRenderer.SetPosition(1, transform.position + displayOffset);
 
-                Debug.Log("" + CurrentCastDistance + " " + displayOffset.magnitude);
-
-                // update the position of the collider
-                //CastingCollider.size.Set(0.1f, CurrentCastDistance);
-
-                // this isn't working correctly, todo
-                
                 // get the midpoint
                 var midPoint = Vector3.Lerp(Vector3.zero, displayOffset, 0.5f);
 
                 var offset = new Vector2(midPoint.x, midPoint.y).magnitude;
 
-                //CastingCollider.transform.localPosition = new Vector2(midPoint.x, midPoint.y);
-                //CastingCollider.offset = new Vector2(0, -midPoint.magnitude + midPoint.magnitude / 2 + 0.3f);
-                //CastingCollider.size = new Vector2(0.2f, midPoint.magnitude / 2 + 0.6f);
-                //HookCollider.offset = CurrentCastDistance * directionVector;
-                //RopeAndHookCollider.offset = (CurrentCastDistance / 2) * directionVector;
+                // set the center of the collider to the midpoint between the end of the cast
                 RopeAndHookCollider.offset = new Vector2(0, CurrentCastDistance / 2);
+                // size the collider to fit the cast
                 RopeAndHookCollider.size = new Vector2(0.2f, CurrentCastDistance);
-
-                //HookSpriteObject.transform.SetPositionAndRotation(CurrentCastDistance * directionVector, Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle));
+                // set the end of the sprite to the end of the grapple
                 HookSpriteObject.transform.localPosition = CurrentCastDistance * directionVector;
+                // rotate the sprite so that it looks correct
                 HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
 
                 // rotate the object that contains the casting collider
-                RopeSystemTransform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+                transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
             }
             // reset when let go
             else
@@ -235,8 +218,6 @@ public class RopeSystem : MonoBehaviour
                 HookSpriteObject.SetActive(false);
                 CurrentCastDistance = 0;
                 IsCasting = false;
-                //CastingCollider.enabled = false;
-                //HookCollider.enabled = false;
                 RopeAndHookCollider.enabled = false;
                 RopeLineRenderer.enabled = false;   
             }
@@ -287,12 +268,9 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public void Detach()
     {
-        // Debug.Log("Detach");
         RopeAnchorPoint = null;
         RopeLineRenderer.enabled = false;
         RopeDistanceJoint.enabled = false;
-        //CastingCollider.enabled = false;
-        //HookCollider.enabled = false;
         RopeAndHookCollider.enabled = false;
         IsCasting = false;
         CurrentCastDistance = 0;
@@ -307,8 +285,6 @@ public class RopeSystem : MonoBehaviour
     public void Attach(Rigidbody2D point)
     {
         RopeAnchorPoint = point;
-       
-        
 
         // use the min cast distance, or the current - the reel in
         // only if the player is on the ground
@@ -317,10 +293,7 @@ public class RopeSystem : MonoBehaviour
         {
             HasDoneInitialReelIn = false;
         }
-        
-        
-        //CastingCollider.enabled = false;
-        //HookCollider.enabled = false;
+
         RopeAndHookCollider.enabled = false;
     }
 
@@ -338,6 +311,11 @@ public class RopeSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the angle that the grapple is pointing at or aiming at
+    /// Unused when the grapple is connected
+    /// </summary>
+    /// <param name="angle"></param>
     public void SetAngle(float angle)
     {
         AimAngle = angle;

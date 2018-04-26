@@ -50,9 +50,16 @@ public class PlayerController : MonoBehaviour
     private AxisButton JumpButton;
 
     /// <summary>
-    /// Util wrapper that allows for an axis to act as a button
+    /// how far away to aim. 
+    /// TODO: should base the aiming distance on the controller or mouse input
     /// </summary>
-    private AxisButton FireButton;
+    public float AimingDistance = 5f;
+
+    /// <summary>
+    /// Shared reference to the sprite that shows the aiming reticle
+    /// Translates it around, enables and disables it
+    /// </summary>
+    public GameObject AimingReticleObject;
 
     /// <summary>
     /// The maximum velocity that a player can swing at
@@ -170,6 +177,7 @@ public class PlayerController : MonoBehaviour
         // if this were expanded for multiple ropes, would just need to check that any are connected
         if (RopeSystem?.IsRopeConnected() == true)
         {
+            AimingReticleObject.SetActive(false);
             // check the strafe axis
             var strafeAmount = Input.GetAxis(StrafeAxis);
 
@@ -182,7 +190,7 @@ public class PlayerController : MonoBehaviour
             // show some debug lines if debugging enabled
             if (ShowDebugging)
             {
-                //Debug.DrawRay(transform.position, directionForceAxis, Color.red);
+                Debug.DrawRay(transform.position, directionForceAxis, Color.red);
             }
 
             // get the velocity of the player in this perpendicular axis (and in the direction they want to go)
@@ -193,7 +201,7 @@ public class PlayerController : MonoBehaviour
             // show some debug lines if debugging enabled
             if (ShowDebugging)
             {
-                //Debug.DrawRay(transform.position, velocityInDirection, Color.blue);
+                Debug.DrawRay(transform.position, velocityInDirection, Color.blue);
             }
 
             // check the velocity in the direction of motion to see if it is 
@@ -251,9 +259,6 @@ public class PlayerController : MonoBehaviour
 				joystickPosition.x = Input.GetAxis (AimHorizontalAxis);
 				joystickPosition.y = Input.GetAxis (AimVerticalAxis);
     
-                // enable the reticle if the joystick is active
-                // AimingReticle.SetActive(!joystickIsDead());
-
 				// Calculate the angle based on joystick position. Invert y axis first
 				aimAngle = Mathf.Atan2 ((0 - joystickPosition.y), joystickPosition.x);
 			}
@@ -302,11 +307,24 @@ public class PlayerController : MonoBehaviour
 	/// <param name="aimAngle">Aim angle.</param>
 	private void UpdateReticlePosition(float aimAngle)
 	{
-        //float reticleEndX = transform.position.x + HookFireDistance * Mathf.Cos (aimAngle);
-        //float reticleEndY = transform.position.y + HookFireDistance * Mathf.Sin (aimAngle);
-        //AimingReticle.transform.position = new Vector3 (reticleEndX, reticleEndY, 0);
+        // sets the angle for the rope system
         RopeSystem.SetAngle(aimAngle);
 
+        // if not connected and not in deadzone
+        // show the cursor
+        if (RopeSystem?.IsRopeConnected() == false && ( !joystickIsDead() || !ControllerMode))
+        {
+            // set the position of the aiming reticle
+            AimingReticleObject.SetActive(true);
+            var position = new Vector3(Mathf.Cos(aimAngle) * AimingDistance, Mathf.Sin(aimAngle) * AimingDistance, 0);
+            //set the position based on the distance
+            AimingReticleObject.transform.localPosition = position;
+        }
+        else
+        {
+            // hide reticle
+            AimingReticleObject.SetActive(false);
+        }
 	}
 
 	/// <summary>
@@ -329,9 +347,6 @@ public class PlayerController : MonoBehaviour
     {
         // convert both of these vector2s to vector3s
         // then project them using Vector3 project
-        return Vector3.Project(ToVector3(vec), ToVector3(normal));
-    }
-
-    private Vector3 ToVector3(Vector2 v)
-        => new Vector3(v.x, v.y, 0);
+        return Vector3.Project(Util.ToVector3(vec), Util.ToVector3(normal));
+    }    
 }
