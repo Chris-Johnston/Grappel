@@ -265,6 +265,8 @@ MonoBehaviour:
   RopeDistanceJoint: {fileID: 232595834845809438}
   RopeLineRenderer: {fileID: 120403638582217352}
   FireAxis: Fire_P2
+  ClimbDescendAxis: ClimbDescend_P2
+  ClimbDescendSpeed: 4
   AimAngle: 0
   CurrentCastDistance: 3
   IsCasting: 0
