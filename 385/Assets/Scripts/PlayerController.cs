@@ -8,6 +8,12 @@ using Assets.Scripts;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    /// How much deadzone in the joystick before it should be considered pointing in some direction
+    /// </summary>
+    [Range(0, 1f)]
+    public float JoystickDeadzone = 0.19f;
+
 	/// <summary>
 	/// True if a player is using controller mode. Should be set by some option in the UI later on.
 	/// </summary>
@@ -44,6 +50,18 @@ public class PlayerController : MonoBehaviour
     private AxisButton JumpButton;
 
     /// <summary>
+    /// how far away to aim. 
+    /// TODO: should base the aiming distance on the controller or mouse input
+    /// </summary>
+    public float AimingDistance = 5f;
+
+    /// <summary>
+    /// Shared reference to the sprite that shows the aiming reticle
+    /// Translates it around, enables and disables it
+    /// </summary>
+    public GameObject AimingReticleObject;
+
+    /// <summary>
     /// The maximum velocity that a player can swing at
     /// </summary>
     [Range(0, 1000.0f)]
@@ -55,12 +73,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [Range(0, 500.0f)]
     public float SwingForce = 200f;
-
-	/// <summary>
-	/// The maximum length that the grappling hoook can travel
-	/// </summary>
-	[Range(0,4f)]
-	public float HookFireDistance = 1f;
 
     /// <summary>
     /// Toggle to show the debugging lines
@@ -92,24 +104,29 @@ public class PlayerController : MonoBehaviour
     // is the player colliding with the ground?
     private bool onGround;
 
+    /// <summary>
+    /// Is the player on the ground (read only)
+    /// </summary>
+    public bool IsOnGround
+        => onGround;
+
 	/// <summary>
 	/// Holds value of transform.position for convenience
 	/// </summary>
 	private Vector3 playerPos;
 
-	/// <summary>
-	/// Reference to the Reticle game object (child of Player object)
-	/// </summary>
-	public GameObject reticle;
-
     // Use this for initialization
     void Start ()
     {
         PlayerRigidBody = GetComponent<Rigidbody2D>();
+
+        // default to being on the ground
         onGround = true;
 
         // set up the jump button axis
         JumpButton = new AxisButton(JumpAxis, 0.5f);
+        // and the fire button axis
+        // FireButton = new AxisButton(FireAxis);
 
 		// Initialize the player position
 		playerPos = transform.position;
@@ -128,7 +145,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collide.gameObject.tag == Tags.TAG_GRAPPLE_HOOK)
         {
-            Debug.Log("Oh no this player was hit with a grapple hook!");
+            // Debug.Log("Oh no this player was hit with a grapple hook!");
         }
     }
 
@@ -151,8 +168,8 @@ public class PlayerController : MonoBehaviour
 
 		if (ControllerMode) 
 		{
-			joystickPosition.x = Input.GetAxis ("Horizontal");
-			joystickPosition.y = Input.GetAxis ("Vertical");
+			joystickPosition.x = Input.GetAxis (AimHorizontalAxis);
+			joystickPosition.y = Input.GetAxis (AimVerticalAxis);
 		}
 
         // Check that the ref to RopeSystem is not null, and the rope system is connected
@@ -160,6 +177,7 @@ public class PlayerController : MonoBehaviour
         // if this were expanded for multiple ropes, would just need to check that any are connected
         if (RopeSystem?.IsRopeConnected() == true)
         {
+            AimingReticleObject.SetActive(false);
             // check the strafe axis
             var strafeAmount = Input.GetAxis(StrafeAxis);
 
@@ -172,7 +190,7 @@ public class PlayerController : MonoBehaviour
             // show some debug lines if debugging enabled
             if (ShowDebugging)
             {
-                //Debug.DrawRay(transform.position, directionForceAxis, Color.red);
+                Debug.DrawRay(transform.position, directionForceAxis, Color.red);
             }
 
             // get the velocity of the player in this perpendicular axis (and in the direction they want to go)
@@ -183,7 +201,7 @@ public class PlayerController : MonoBehaviour
             // show some debug lines if debugging enabled
             if (ShowDebugging)
             {
-                //Debug.DrawRay(transform.position, velocityInDirection, Color.blue);
+                Debug.DrawRay(transform.position, velocityInDirection, Color.blue);
             }
 
             // check the velocity in the direction of motion to see if it is 
@@ -217,35 +235,30 @@ public class PlayerController : MonoBehaviour
 			//Debug.Log("joystickX " + joystickPosition.x + "  joystickY: " + joystickPosition.y);
 
 			float aimAngle;
-			Vector3 playerAimingLocation;
 
 			if (!ControllerMode) 
 			{
-				// Get the mouse position as world position relative to the Player object as the origin
-				playerAimingLocation = Camera.main.ScreenToWorldPoint (Input.mousePosition) - playerPos;
+                // Get the mouse position, using a ray from the camera that hits a plane that the world is on ( Z = 0 )
+                // see here: https://answers.unity.com/questions/566519/camerascreentoworldpoint-in-perspective.
 
-				// Angle (radians) from the horizontal line going through the player to the mouse position
-				aimAngle = Mathf.Atan2 (playerAimingLocation.y, playerAimingLocation.x);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                // create a new plane at the origin that is facing forward
+                Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
+                float distance;
+                xy.Raycast(ray, out distance);
+                var rayPoint = ray.GetPoint(distance);
+                var playerAimingLocation = rayPoint - playerPos;
+
+                Debug.DrawLine(Vector3.zero, rayPoint);
+
+                // Angle (radians) from the horizontal line going through the player to the mouse position
+                aimAngle = Mathf.Atan2 (playerAimingLocation.y, playerAimingLocation.x);
 			} 
 			else 
 			{
-				joystickPosition.x = Input.GetAxis ("Horizontal");
-				joystickPosition.y = Input.GetAxis ("Vertical");
-
-				if (joystickIsDead ()) 
-				{
-					// Don't show the aiming reticle
-					GameObject.Find ("Reticle").GetComponent<SpriteRenderer> ().enabled = false;
-					// For some reason, just disabling this component doesn't work, the line still appears.
-					GameObject.Find ("Reticle").GetComponent<LineRenderer> ().startWidth = 0;
-				} 
-				else 
-				{
-					// Ensure the reticle is turned on if the player is aiming
-					GameObject.Find ("Reticle").GetComponent<SpriteRenderer> ().enabled = true;
-					GameObject.Find ("Reticle").GetComponent<LineRenderer> ().startWidth = 0.12f;
-				}
-
+				joystickPosition.x = Input.GetAxis (AimHorizontalAxis);
+				joystickPosition.y = Input.GetAxis (AimVerticalAxis);
+    
 				// Calculate the angle based on joystick position. Invert y axis first
 				aimAngle = Mathf.Atan2 ((0 - joystickPosition.y), joystickPosition.x);
 			}
@@ -255,9 +268,14 @@ public class PlayerController : MonoBehaviour
 			{
 				aimAngle = (Mathf.PI * 2) + aimAngle;
 			}
-			Debug.Log ("aimAngle: " + aimAngle + " rad");
-			// Update the reticle endpoint and draw a line from the player to the endpoint
-			UpdateReticlePosition (aimAngle);
+
+            if (ShowDebugging)
+            {
+                Debug.Log ("aimAngle: " + aimAngle + " rad");
+            }
+
+            // Update the reticle endpoint and draw a line from the player to the endpoint
+            UpdateReticlePosition (aimAngle);
 
 			/* ~~ END DISPLAY AIMING RETICLE */
 
@@ -289,9 +307,24 @@ public class PlayerController : MonoBehaviour
 	/// <param name="aimAngle">Aim angle.</param>
 	private void UpdateReticlePosition(float aimAngle)
 	{
-		float reticleEndX = transform.position.x + HookFireDistance * Mathf.Cos (aimAngle);
-		float reticleEndY = transform.position.y + HookFireDistance * Mathf.Sin (aimAngle);
-		reticle.transform.position = new Vector3 (reticleEndX, reticleEndY, 0);
+        // sets the angle for the rope system
+        RopeSystem.SetAngle(aimAngle);
+
+        // if not connected and not in deadzone
+        // show the cursor
+        if (RopeSystem?.IsRopeConnected() == false && ( !joystickIsDead() || !ControllerMode))
+        {
+            // set the position of the aiming reticle
+            AimingReticleObject.SetActive(true);
+            var position = new Vector3(Mathf.Cos(aimAngle) * AimingDistance, Mathf.Sin(aimAngle) * AimingDistance, 0);
+            //set the position based on the distance
+            AimingReticleObject.transform.localPosition = position;
+        }
+        else
+        {
+            // hide reticle
+            AimingReticleObject.SetActive(false);
+        }
 	}
 
 	/// <summary>
@@ -299,9 +332,9 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private bool joystickIsDead()
 	{
-		float joystickX = Mathf.Abs(Input.GetAxis ("Horizontal"));
-		float joystickY = Mathf.Abs(Input.GetAxis ("Vertical"));
-		return (joystickX <= 0.19 && joystickY <= 0.19);
+		float joystickX = Mathf.Abs(Input.GetAxis (AimHorizontalAxis));
+		float joystickY = Mathf.Abs(Input.GetAxis (AimVerticalAxis));
+		return (joystickX <= JoystickDeadzone && joystickY <= JoystickDeadzone);
 	}
 
     /// <summary>
@@ -314,9 +347,6 @@ public class PlayerController : MonoBehaviour
     {
         // convert both of these vector2s to vector3s
         // then project them using Vector3 project
-        return Vector3.Project(ToVector3(vec), ToVector3(normal));
-    }
-
-    private Vector3 ToVector3(Vector2 v)
-        => new Vector3(v.x, v.y, 0);
+        return Vector3.Project(Util.ToVector3(vec), Util.ToVector3(normal));
+    }    
 }

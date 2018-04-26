@@ -365,6 +365,11 @@ Prefab:
       propertyPath: m_AutoConfigureConnectedAnchor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114402239207182064, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: RopeAnchorPoint
+      value: 
+      objectReference: {fileID: 1312803618}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
   m_IsPrefabParent: 0
@@ -556,7 +561,7 @@ Transform:
   - {fileID: 1419207317}
   - {fileID: 1312803616}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1759992498
 GameObject:
@@ -734,7 +739,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1826684406
 GameObject:

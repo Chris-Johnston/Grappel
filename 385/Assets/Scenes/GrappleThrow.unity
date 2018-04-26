@@ -335,11 +335,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
   m_IsPrefabParent: 0
---- !u!120 &370375311 stripped
-LineRenderer:
-  m_PrefabParentObject: {fileID: 120827344970177270, guid: 982b977e0e8b71f4fb49001bc2fa0086,
-    type: 2}
-  m_PrefabInternal: {fileID: 1834731940}
 --- !u!1001 &370696514
 Prefab:
   m_ObjectHideFlags: 0
@@ -694,64 +689,44 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1834731940
+--- !u!1001 &1640558484
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalPosition.x
       value: -1.8115573
       objectReference: {fileID: 0}
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalPosition.y
       value: 1.4774836
       objectReference: {fileID: 0}
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalPosition.z
       value: -4.274504
       objectReference: {fileID: 0}
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4459964196082706, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
+    - target: {fileID: 4286566351652530, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
       propertyPath: m_RootOrder
       value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114272269268600046, guid: 982b977e0e8b71f4fb49001bc2fa0086,
-        type: 2}
-      propertyPath: HookFireDistance
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114596187521871214, guid: 982b977e0e8b71f4fb49001bc2fa0086,
-        type: 2}
-      propertyPath: RopeLineRenderer
-      value: 
-      objectReference: {fileID: 370375311}
-    - target: {fileID: 120654509948481612, guid: 982b977e0e8b71f4fb49001bc2fa0086,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120827344970177270, guid: 982b977e0e8b71f4fb49001bc2fa0086,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
