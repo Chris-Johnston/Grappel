@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   JoystickDeadzone: 0.19
-  ControllerMode: 0
+  ControllerMode: 1
   StrafeAxis: Strafe_P2
   JumpAxis: Jump_P2
   AimHorizontalAxis: Horizontal_P2
@@ -265,6 +265,8 @@ MonoBehaviour:
   RopeDistanceJoint: {fileID: 232595834845809438}
   RopeLineRenderer: {fileID: 120403638582217352}
   FireAxis: Fire_P2
+  ClimbDescendAxis: ClimbDescend_P2
+  ClimbDescendSpeed: 4
   AimAngle: 0
   CurrentCastDistance: 3
   IsCasting: 0

@@ -35,6 +35,17 @@ public class RopeSystem : MonoBehaviour
     private AxisButton FireButton;
 
     /// <summary>
+    /// Which axis is used to indicate that the player wants to climb or descend
+    /// </summary>
+    public string ClimbDescendAxis = "ClimbDescend"; // ClimbDescend_P2 for Player 2
+
+    /// <summary>
+    /// How many units per second the player climbs or descends at
+    /// </summary>
+    [Range(0, 10f)]
+    public float ClimbDescendSpeed = 4f;
+
+    /// <summary>
     /// Angle of where the player is aiming
     /// </summary>
     public float AimAngle = 0f;
@@ -145,6 +156,19 @@ public class RopeSystem : MonoBehaviour
                     HasDoneInitialReelIn = true;
                 }
 
+                // reel in the player
+                var ropeDistance = RopeDistanceJoint.distance;
+                // adjust the target distance based on the ClimbDescend Axis
+                ropeDistance += Input.GetAxis(ClimbDescendAxis) * ClimbDescendSpeed * Time.deltaTime;
+
+                // ensure ropeDistance is in bounds
+                if (ropeDistance > MaxCastDistance)
+                    ropeDistance = MaxCastDistance;
+                else if (ropeDistance < MinCastDistance)
+                    ropeDistance = MinCastDistance;
+
+                // set the new rope distance
+                RopeDistanceJoint.distance = ropeDistance;
 
                 // update the first point to be the same as the player origin w/ the offset
                 //TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
