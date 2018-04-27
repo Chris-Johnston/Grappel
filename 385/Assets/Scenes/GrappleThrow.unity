@@ -427,6 +427,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &640968160 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114402239207182064, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1640558484}
+  m_Script: {fileID: 11500000, guid: 1766c471bcfbe044d8e76f2e05242059, type: 3}
 --- !u!1001 &943760599
 Prefab:
   m_ObjectHideFlags: 0
@@ -516,6 +522,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1123856776 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1437658580342910, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1640558484}
 --- !u!1001 &1503021903
 Prefab:
   m_ObjectHideFlags: 0
@@ -573,6 +584,7 @@ GameObject:
   - component: {fileID: 1512586798}
   - component: {fileID: 1512586797}
   - component: {fileID: 1512586796}
+  - component: {fileID: 1512586800}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -613,7 +625,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5.31
   m_Depth: -1
   m_CullingMask:
@@ -637,12 +649,31 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1512586795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 4.56, z: -5.76}
+  m_LocalPosition: {x: 0.25, y: 3, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1512586800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1512586795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c61a34295614b4495a1727e318b8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1123856776}
+  playerCam: {fileID: 1512586798}
+  CameraAxis: Camera1
+  trackPlayer: 0
+  moveSpeed: 3
+  distance: 0
+  X: 0
+  RopeSystem: {fileID: 640968160}
 --- !u!1001 &1557722031
 Prefab:
   m_ObjectHideFlags: 0
