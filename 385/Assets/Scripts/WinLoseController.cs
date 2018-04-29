@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinLoseController : MonoBehaviour
 {
@@ -37,5 +38,11 @@ public class WinLoseController : MonoBehaviour
     {
         WinObject?.SetActive(false);
         LoseObject?.SetActive(true);
+
     }
+
+	public void ChangeToScene (string sceneToChangeTo) {
+		SceneManager.LoadScene (sceneToChangeTo);
+	}
+
 }
