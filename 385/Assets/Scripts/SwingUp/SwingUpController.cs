@@ -175,7 +175,7 @@ public class SwingUpController : MonoBehaviour
             // if the camera grab pos is unset, or the new anchor point is greater than the current point
             if (CameraGrabPos.y < position.y)
             {
-                //Debug.Log("New Y position");
+                Debug.Log("New Y position");
 
                 // then update the y position of the grab point
                 CameraGrabPos = new Vector3(0, position.y, -10);
@@ -202,7 +202,7 @@ public class SwingUpController : MonoBehaviour
             // check that the player isn't going out of bounds of the camera
             if (CameraGrabPos.y < PlayerReference.transform.position.y - 3)
             {
-                // Debug.Log("Player went high");
+                Debug.Log("Player went high");
 
                 CameraGrabPos += new Vector3(0, 4, 0);
 
@@ -216,7 +216,6 @@ public class SwingUpController : MonoBehaviour
         // update the position of the camera
         if (CameraGrabPos != null)
         {
-
             ActiveMainCamera.transform.position = Vector3.MoveTowards(ActiveMainCamera.transform.position, CameraGrabPos, 0.3f);
             //ActiveMainCamera.transform.position = CameraGrabPos;
         }
