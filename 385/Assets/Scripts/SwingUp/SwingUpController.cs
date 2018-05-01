@@ -188,7 +188,7 @@ public class SwingUpController : MonoBehaviour
                 //Debug.Log($"Difference was {CameraGrabPos.y - WaterReference.transform.position.y}");
 
                 // if the water is behind, then let it catch up
-                if (CameraGrabPos.y - WaterReference.transform.position.y > WATER_CATCHUP_DISTANCE)
+                if (CameraGrabPos.y - WaterTargetPosition.y > WATER_CATCHUP_DISTANCE)
                 {
                     //Debug.Log("Update");
                     var newPos = (CameraGrabPos - new Vector3(0, WATER_CATCHUP_DISTANCE, 0));
