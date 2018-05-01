@@ -648,6 +648,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &642713421 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1437658580342910, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+    type: 2}
+  m_PrefabInternal: {fileID: 642713420}
 --- !u!1 &690664485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,7 +1111,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1260950798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb0c5fe29f0763489bce1dd6aa26c5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2943d09d1431d3f4eaabc3073239ac6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!61 &1260950801
@@ -1264,9 +1269,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1455942644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a99b1ef6befc6046aba97a005802720, type: 3}
+  m_Script: {fileID: 11500000, guid: c487af90613df514c9507b76e0189a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LoseState: 0
+  HeightText: {fileID: 147632013}
+  LoseObjects: {fileID: 607722436}
+  FinalHeightText: {fileID: 1702954711}
+  MaxHeight: 0
+  ActiveMainCamera: {fileID: 1527219723}
+  CameraMoveRatePerSecond: {x: 0, y: 0, z: 0}
+  PlayerReference: {fileID: 642713421}
+  SpawnPositionBottomLeftBound: {x: -7, y: 3, z: 0}
+  SpawnPositionUpperRightBound: {x: 7, y: 6, z: 0}
+  GrapplePointPrefab: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841,
+    type: 2}
+  PointInstances: []
+  WaterReference: {fileID: 149742343}
+  WaterMoveRatePerSecond: {x: 0, y: 0.2, z: 0}
 --- !u!4 &1455942646
 Transform:
   m_ObjectHideFlags: 0
