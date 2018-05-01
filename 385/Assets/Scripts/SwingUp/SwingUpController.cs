@@ -214,11 +214,7 @@ public class SwingUpController : MonoBehaviour
         }
 
         // update the position of the camera
-        if (CameraGrabPos != null)
-        {
-            ActiveMainCamera.transform.position = Vector3.MoveTowards(ActiveMainCamera.transform.position, CameraGrabPos, 0.3f);
-            //ActiveMainCamera.transform.position = CameraGrabPos;
-        }
+        ActiveMainCamera.transform.position = Vector3.MoveTowards(ActiveMainCamera.transform.position, CameraGrabPos, 0.3f);
 
         // update the positioon of the water
         WaterTargetPosition += (1f + MaxHeight / 70.0f) * WaterMoveRatePerSecond * Time.deltaTime;
