@@ -247,7 +247,7 @@ MonoBehaviour:
   IsCasting: 0
   CastInitialReelIn: 1
   MinCastDistance: 0.5
-  MaxCastDistance: 4
+  MaxCastDistance: 5
   CastingSpeed: 12.3
   PlayerRopeDrawOffset: {x: 0.25, y: 0, z: 0}
   RopeAndHookCollider: {fileID: 70442492259862722}
