@@ -1168,7 +1168,7 @@ Prefab:
     - target: {fileID: 114833691015240784, guid: c3e607a36abff364884286a1c9f2ecb9,
         type: 2}
       propertyPath: events.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1234,6 +1234,36 @@ Prefab:
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalScale.y
       value: 1.1706922
+      objectReference: {fileID: 0}
+    - target: {fileID: 114833691015240784, guid: c3e607a36abff364884286a1c9f2ecb9,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114833691015240784, guid: c3e607a36abff364884286a1c9f2ecb9,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114833691015240784, guid: c3e607a36abff364884286a1c9f2ecb9,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 718361743}
+    - target: {fileID: 114833691015240784, guid: c3e607a36abff364884286a1c9f2ecb9,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ChangeToScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 114833691015240784, guid: c3e607a36abff364884286a1c9f2ecb9,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114833691015240784, guid: c3e607a36abff364884286a1c9f2ecb9,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Tutorial
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
