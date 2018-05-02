@@ -118,6 +118,18 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+		// Set based on player's control selection on the menu screen
+		ControllerMode = ChangeScene.SelectedControllerMode;
+
+		// Set all the axis strings to use _P2 versions, enabling controller use
+		if (ControllerMode) 
+		{
+			AimHorizontalAxis = "Horizontal_P2";
+			AimVerticalAxis = "Vertical_P2";
+			StrafeAxis = "Strafe_P2";
+			JumpAxis = "Jump_P2";
+		}
+
         PlayerRigidBody = GetComponent<Rigidbody2D>();
 
         // default to being on the ground

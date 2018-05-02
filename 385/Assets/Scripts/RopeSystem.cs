@@ -112,6 +112,13 @@ public class RopeSystem : MonoBehaviour
 
     void Start()
     {
+		// Set axis strings based on the user's controller selection from the menu screen
+		if (ChangeScene.SelectedControllerMode) 
+		{
+			FireAxis = "Fire_P2";
+			ClimbDescendAxis = "ClimbDescend_P2";
+		}
+
         // set up the fire button axis
         FireButton = new AxisButton(FireAxis);
     }
