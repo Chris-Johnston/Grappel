@@ -189,7 +189,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalScale.x
-      value: 22.490562
+      value: 26.988691
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalScale.y
@@ -286,7 +286,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 197797931}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.94, y: 4.16, z: -5.01}
+  m_LocalPosition: {x: 6.77, y: 4.66, z: -5.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -441,7 +441,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -10.07
+      value: -12.89
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1975,7 +1975,7 @@ GameObject:
   - component: {fileID: 1227526319}
   m_Layer: 0
   m_Name: Wall (3)
-  m_TagString: Floor & Wall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1987,8 +1987,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1227526317}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.94, y: 5.24, z: 0.093980655}
-  m_LocalScale: {x: 0.33495998, y: 1.0040898, z: 1}
+  m_LocalPosition: {x: 9.94, y: 7.87, z: 0.093980655}
+  m_LocalScale: {x: 0.33495998, y: 6.6565013, z: 1}
   m_Children: []
   m_Father: {fileID: 1818584820}
   m_RootOrder: 5
