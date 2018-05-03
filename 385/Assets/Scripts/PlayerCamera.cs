@@ -23,21 +23,24 @@ public class PlayerCamera : MonoBehaviour {
     // used to check is camera button is pushed
     private AxisButton CameraButton;
 
+    // tracks whether camera is focused on the player
     public bool trackPlayer = false;
 
-    public float moveSpeed = 1;
+    // adjusts movement speed of camera
+    public float camMoveSpeed = 1;
 
-    public float distance = 2, X; // controls distance of camera and 
-                                  // its X axis adjustment
-
+    // distance and X and Y vector offset of camera
+    public float offsetDistance = 2, camXoffset, camYoffset;
+                                  
+    // tracks whether camera is suppose to be moving
     private bool camMoving = false;
 
     public RopeSystem RopeSystem;
 
     // gets offset for camera and starts camera in static view
     void Start () {
-        float Y = distance / 2; // Y axis adjustment for changing the camera distance
-        Vector3 temp = new Vector3(-X, Y, distance);  // stores adjustments
+        camYoffset = offsetDistance / 2; // Y axis adjustment for changing the camera distance
+        Vector3 temp = new Vector3(-camXoffset, camYoffset, offsetDistance);  // stores adjustments
         offset = transform.position - player.transform.position + temp;
 
         initPos = transform.position;  // stores static camera position
@@ -59,15 +62,14 @@ public class PlayerCamera : MonoBehaviour {
         if(camMoving)  // if camera is still adjusting
         {
             // adjust move speed
-            float step = moveSpeed * Time.deltaTime;
+            float step = camMoveSpeed * Time.deltaTime;
 
-            
-            if (trackPlayer){ // moving towards player
+            if (trackPlayer){ // camera tracking player
 
                 if (RopeSystem.IsRopeConnected())
                 {   // moving towards swing point
                     Vector3 camTemp = new Vector3(0, 0, -12);
-                    Rigidbody2D ropeConnect = RopeSystem.getAnchor();
+                    Rigidbody2D ropeConnect = RopeSystem.RopeAnchorPoint;
                     if (playerCam.transform.position !=
                         ropeConnect.transform.position + camTemp)
                     {
@@ -78,7 +80,6 @@ public class PlayerCamera : MonoBehaviour {
                     {
                         camMoving = false;
                     }
-
                 }
                 else  // moving towards player position
                 {
@@ -94,8 +95,6 @@ public class PlayerCamera : MonoBehaviour {
                         camMoving = false;
                     }
                 }
-                
-                    
              }
             else{   // moves towards init static position
                   if(playerCam.transform.position != initPos){
@@ -105,17 +104,12 @@ public class PlayerCamera : MonoBehaviour {
                 else  // reached position
                 {
                     camMoving = false;
-                }
-                    
+                }        
             }
-            
         }
 
         if (trackPlayer && !camMoving)
         {
-            // adjust move speed
-            float step = moveSpeed * Time.deltaTime;
-
             if (RopeSystem.IsRopeConnected())
             {
                 camMoving = true;
@@ -124,9 +118,6 @@ public class PlayerCamera : MonoBehaviour {
             {
                 transform.position = player.transform.position + offset;
             }
-
         }
-
     }
-
 }

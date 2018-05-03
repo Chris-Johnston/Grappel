@@ -114,15 +114,6 @@ public class RopeSystem : MonoBehaviour
 		return (RopeAnchorPoint != null);
     }
 
-    // gets anchor point rope is attached to
-    public Rigidbody2D getAnchor()
-    {
-        if (IsRopeConnected()) {
-            return RopeAnchorPoint;
-        }
-        else return null;
-    }
-
     /// <summary>
     /// Updates all of the positions of the rope LineRenderable
     /// so that it is drawn accurately

@@ -670,9 +670,10 @@ MonoBehaviour:
   playerCam: {fileID: 1512586798}
   CameraAxis: Camera1
   trackPlayer: 0
-  moveSpeed: 3
-  distance: 0
-  X: 0
+  camMoveSpeed: 4
+  distance: 2
+  camXoffset: 0
+  camYoffset: 0
   RopeSystem: {fileID: 640968160}
 --- !u!1001 &1557722031
 Prefab:
