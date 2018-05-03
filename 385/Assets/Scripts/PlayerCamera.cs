@@ -38,6 +38,9 @@ public class PlayerCamera : MonoBehaviour {
 
     public RopeSystem RopeSystem;
 
+    // vector3 value used to adjust camera offset when camera adjust to swing point
+    public Vector3 ropeLockPos = new Vector3(0, 0, -12);
+
     // gets offset for camera and starts camera in static view
     void Start () {
         camYoffset = 1;
@@ -53,8 +56,8 @@ public class PlayerCamera : MonoBehaviour {
 	
     // updates camera button and camera position
 	void LateUpdate () {
-        Vector3 camtemp = new Vector3(-camXoffset, camYoffset, offsetDistance);  // stores adjustments
-        offset = initPos - playerInit + camtemp;
+        //Vector3 camtemp = new Vector3(-camXoffset, camYoffset, offsetDistance);  // stores adjustments
+        // offset = initPos - playerInit + camtemp;
 
         CameraButton.Update();
 
@@ -73,13 +76,13 @@ public class PlayerCamera : MonoBehaviour {
 
                 if (RopeSystem.IsRopeConnected())
                 {   // moving towards swing point
-                    Vector3 camTemp = new Vector3(0, 0, -12);
+                    
                     Rigidbody2D ropeConnect = RopeSystem.RopeAnchorPoint;
                     if (playerCam.transform.position !=
-                        ropeConnect.transform.position + camTemp)
+                        ropeConnect.transform.position + ropeLockPos)
                     {
                         transform.position = Vector3.MoveTowards(transform.position,
-                            ropeConnect.transform.position + camTemp, step);
+                            ropeConnect.transform.position + ropeLockPos, step);
                     }
                     else  // reached position
                     {
