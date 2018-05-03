@@ -9,10 +9,11 @@ public class PlayerCamera : MonoBehaviour {
     public GameObject player;
 
     // offset of camera from player
-    private Vector3 offset;
+    public Vector3 offset;
 
     // Static position of camera
     private Vector3 initPos;
+    private Vector3 playerInit;
 
     // camera that follows player
     public Camera playerCam;
@@ -39,11 +40,12 @@ public class PlayerCamera : MonoBehaviour {
 
     // gets offset for camera and starts camera in static view
     void Start () {
-        camYoffset = offsetDistance / 2; // Y axis adjustment for changing the camera distance
+        camYoffset = 1;
         Vector3 temp = new Vector3(-camXoffset, camYoffset, offsetDistance);  // stores adjustments
         offset = transform.position - player.transform.position + temp;
 
         initPos = transform.position;  // stores static camera position
+        playerInit = player.transform.position;
 
         // camera axis button created
         CameraButton = new AxisButton(CameraAxis, 0.5f);
@@ -51,6 +53,9 @@ public class PlayerCamera : MonoBehaviour {
 	
     // updates camera button and camera position
 	void LateUpdate () {
+        Vector3 camtemp = new Vector3(-camXoffset, camYoffset, offsetDistance);  // stores adjustments
+        offset = initPos - playerInit + camtemp;
+
         CameraButton.Update();
 
         // checks if camera button has been pressed
