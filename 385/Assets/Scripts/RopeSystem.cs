@@ -29,15 +29,24 @@ public class RopeSystem : MonoBehaviour
     public LineRenderer RopeLineRenderer;
     
     /// <summary>
-    /// Which axis to use to indicate that the player wants to fire
+    /// Which axis to use to indicate that the player wants to fire.
+	/// Set to either *_Controller or *_Mouse public string based on user control setting.
     /// </summary>
-    public string FireAxis = "Fire"; // Fire_P2 for Player 2
+    private string FireAxis; // Fire_P2 for Player 2
+
+	public string FireAxis_Mouse = "Fire";
+	public string FireAxis_Controller = "Fire_P2";
+
     private AxisButton FireButton;
 
     /// <summary>
-    /// Which axis is used to indicate that the player wants to climb or descend
+    /// Which axis is used to indicate that the player wants to climb or descend.
+	/// Set to either *_Controller or *_Mouse public string based on user control setting.
     /// </summary>
-    public string ClimbDescendAxis = "ClimbDescend"; // ClimbDescend_P2 for Player 2
+	private string ClimbDescendAxis; // ClimbDescend_P2 for Player 2
+
+	public string ClimbDescendAxis_Mouse = "ClimbDescend";
+	public string ClimbDescendAxis_Controller = "ClimbDescend_P2";
 
     /// <summary>
     /// How many units per second the player climbs or descends at
@@ -115,8 +124,13 @@ public class RopeSystem : MonoBehaviour
 		// Set axis strings based on the user's controller selection from the menu screen
 		if (ChangeScene.SelectedControllerMode) 
 		{
-			FireAxis = "Fire_P2";
-			ClimbDescendAxis = "ClimbDescend_P2";
+			FireAxis = FireAxis_Controller;
+			ClimbDescendAxis = ClimbDescendAxis_Controller;
+		} 
+		else 
+		{
+			FireAxis = FireAxis_Mouse;
+			ClimbDescendAxis = ClimbDescendAxis_Mouse;
 		}
 
         // set up the fire button axis
