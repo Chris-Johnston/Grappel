@@ -28,9 +28,10 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public LineRenderer RopeLineRenderer;
     
+
     /// <summary>
-    /// Which axis to use to indicate that the player wants to fire.
-	/// Set to either *_Controller or *_Mouse public string based on user control setting.
+    /// Axis used for shooting the grapple hook. Set to either *_Mouse or *_Controller
+    /// string in Start() based on user control preference (stored in GameControl object).
     /// </summary>
     private string FireAxis; // Fire_P2 for Player 2
 
@@ -41,9 +42,10 @@ public class RopeSystem : MonoBehaviour
 
     /// <summary>
     /// Which axis is used to indicate that the player wants to climb or descend.
-	/// Set to either *_Controller or *_Mouse public string based on user control setting.
+    /// Set to either *_Controller or *_Mouse public string based on user control setting
+    /// (stored in GameControl object).
     /// </summary>
-	private string ClimbDescendAxis; // ClimbDescend_P2 for Player 2
+    private string ClimbDescendAxis; // ClimbDescend_P2 for Player 2
 
 	public string ClimbDescendAxis_Mouse = "ClimbDescend";
 	public string ClimbDescendAxis_Controller = "ClimbDescend_P2";
@@ -122,7 +124,7 @@ public class RopeSystem : MonoBehaviour
     void Start()
     {
 		// Set axis strings based on the user's controller selection from the menu screen
-		if (ChangeScene.SelectedControllerMode) 
+		if (GameControl.ControllerMode) 
 		{
 			FireAxis = FireAxis_Controller;
 			ClimbDescendAxis = ClimbDescendAxis_Controller;

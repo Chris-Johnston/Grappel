@@ -187,6 +187,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 140659090}
+--- !u!1001 &145199811
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 269.07443
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 237.75587
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -7.6494217
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844871202027310, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: afde746caa8977b4b9356372c7e4a417, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &196164548
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +616,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 612800805}
+      - m_Target: {fileID: 114430681257830170, guid: afde746caa8977b4b9356372c7e4a417,
+          type: 2}
         m_MethodName: ToggleControllerMode
         m_Mode: 6
         m_Arguments:
@@ -696,7 +739,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 612800805}
+      - m_Target: {fileID: 114430681257830170, guid: afde746caa8977b4b9356372c7e4a417,
+          type: 2}
         m_MethodName: ToggleControllerMode
         m_Mode: 6
         m_Arguments:
