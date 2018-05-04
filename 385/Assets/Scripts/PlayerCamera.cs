@@ -56,9 +56,6 @@ public class PlayerCamera : MonoBehaviour {
 	
     // updates camera button and camera position
 	void LateUpdate () {
-        //Vector3 camtemp = new Vector3(-camXoffset, camYoffset, offsetDistance);  // stores adjustments
-        // offset = initPos - playerInit + camtemp;
-
         CameraButton.Update();
 
         // checks if camera button has been pressed
