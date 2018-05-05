@@ -28,11 +28,8 @@ public class PlayerCamera : MonoBehaviour {
     public bool trackPlayer = false;
 
     // adjusts movement speed of camera
-    public float camMoveSpeed = 1;
-
-    // distance and X and Y vector offset of camera
-    public float offsetDistance = 2, camXoffset, camYoffset;
-                                  
+    public float camMoveSpeed = 4;
+                             
     // tracks whether camera is suppose to be moving
     private bool camMoving = false;
 
@@ -43,10 +40,6 @@ public class PlayerCamera : MonoBehaviour {
 
     // gets offset for camera and starts camera in static view
     void Start () {
-        camYoffset = 1;
-        Vector3 temp = new Vector3(-camXoffset, camYoffset, offsetDistance);  // stores adjustments
-        offset = transform.position - player.transform.position + temp;
-
         initPos = transform.position;  // stores static camera position
         playerInit = player.transform.position;
 
@@ -88,12 +81,13 @@ public class PlayerCamera : MonoBehaviour {
                 }
                 else  // moving towards player position
                 {
+                    float fastStep = camMoveSpeed * 2 * Time.deltaTime;
                     // uses moveTowards to move camera
                     Vector3 temp = player.transform.position + offset;
                     if (playerCam.transform.position != temp)
                     {
                         transform.position = Vector3.MoveTowards(
-                        transform.position, temp, step);
+                        transform.position, temp, fastStep);
                     }
                     else  // reached position
                     {
