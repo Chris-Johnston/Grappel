@@ -35,7 +35,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 0
+    axis: 3
     joyNum: 0
   - serializedVersion: 3
     m_Name: Vertical
@@ -67,7 +67,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 1
+    axis: 4
     joyNum: 0
   - serializedVersion: 3
     m_Name: Strafe
@@ -202,7 +202,7 @@ InputManager:
     descriptiveName: Jump button for player 2
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 1
+    positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -210,7 +210,7 @@ InputManager:
     sensitivity: 1000
     snap: 0
     invert: 0
-    type: 2
+    type: 0
     axis: 0
     joyNum: 0
   - serializedVersion: 3

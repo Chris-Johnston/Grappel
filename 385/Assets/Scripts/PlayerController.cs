@@ -14,36 +14,53 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1f)]
     public float JoystickDeadzone = 0.19f;
 
-	/// <summary>
-	/// True if a player is using controller mode. Should be set by some option in the UI later on.
-	/// </summary>
+    /// <summary>
+    /// True if a player is using controller mode. Should be set by some option in the UI later on.
+    /// </summary>
 	public bool ControllerMode = false;
 
-	/// <summary>
-	/// Vector holding the joystick position. Unused if not in controller mode.
-	/// </summary>
-	private Vector3 joystickPosition;
+    /// <summary>
+    /// Vector holding the joystick position. Unused if not in controller mode.
+    /// </summary>
+    private Vector3 joystickPosition;
 
     /// <summary>
-    /// Which axis does the player use to strafe left and right on the ground, or adjust
-    /// their velocity when swinging?
+    /// Which axis does the player use to strafe left and right on the ground, or adjust 
+    /// their velocity when swinging? Set to either *_Mouse or *_Controller string in Start()
+    /// based on user control preference (stored in GameControl object).
     /// </summary>
-    public string StrafeAxis = "Strafe"; // use Strafe_P2 for Player 2
+    private string StrafeAxis; // use Strafe_P2 for Player 2
+
+    public string StrafeAxis_Mouse = "Strafe";
+    public string StrafeAxis_Controller = "Strafe_P2";
 
     /// <summary>
-    /// Which axis to check that indicates that the player wanted to jump
+    /// Which axis to check that indicates that the player wanted to jump. Set to either 
+    /// *_Mouse or *_Controller string in Start() based on user control preference (stored in
+    /// GameControl object).
     /// </summary>
-    public string JumpAxis = "Jump"; // use Jump_P2 for Player 2
+    private string JumpAxis; // use Jump_P2 for Player 2
 
-	/// <summary>
-	/// Horizontal axis name for the xbox controller
-	/// </summary>
-	public string AimHorizontalAxis = "Horizontal";
+    public string JumpAxis_Mouse = "Jump";
+    public string JumpAxis_Controller = "Jump_P2";
 
-	/// <summary>
-	/// Vertical axis name for the xbox controller
-	/// </summary>
-	public string AimVerticalAxis = "Vertical";
+    /// <summary>
+    /// Horizontal axis name.  Set to either *_Mouse or *_Controller string in Start() 
+    /// based on user control preference (stored in GameControl object).
+    /// </summary>
+    private string AimHorizontalAxis;
+
+    public string AimHorizontalAxis_Mouse = "Horizontal";
+    public string AimHorizontalAxis_Controller = "Horizontal_P2";
+
+    /// <summary>
+    /// Vertical axis name.  Set to either *_Mouse or *_Controller string in Start() 
+    /// based on user control preference (stored in GameControl object).
+    /// </summary>
+    private string AimVerticalAxis;
+
+    public string AimVerticalAxis_Mouse = "Vertical";
+    public string AimVerticalAxis_Controller = "Vertical_P2";
 
     // util wrapper for this class
     // that helps determine if the button is pressed or clicked
@@ -118,6 +135,24 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+		// Set based on player's control selection on the menu screen
+		ControllerMode = GameControl.ControllerMode;
+
+		// Set all the axis strings to use _P2 versions, enabling controller use
+		if (ControllerMode) {
+			AimHorizontalAxis = AimHorizontalAxis_Controller;
+			AimVerticalAxis = AimVerticalAxis_Controller;
+			StrafeAxis = StrafeAxis_Controller;
+			JumpAxis = JumpAxis_Controller;
+		} 
+		else 
+		{
+			AimHorizontalAxis = AimHorizontalAxis_Mouse;
+			AimVerticalAxis = AimVerticalAxis_Mouse;
+			StrafeAxis = StrafeAxis_Mouse;
+			JumpAxis = JumpAxis_Mouse;
+		}
+
         PlayerRigidBody = GetComponent<Rigidbody2D>();
 
         // default to being on the ground
