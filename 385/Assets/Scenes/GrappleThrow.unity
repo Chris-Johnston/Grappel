@@ -668,11 +668,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1123856776}
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: -10}
   playerCam: {fileID: 1512586798}
   CameraAxis: Camera1
   trackPlayer: 0
-  camMoveSpeed: 4
+  camMoveSpeed: 8
   RopeSystem: {fileID: 640968160}
   ropeLockPos: {x: 0, y: 0, z: -12}
 --- !u!1001 &1557722031
