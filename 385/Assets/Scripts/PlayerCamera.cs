@@ -13,7 +13,6 @@ public class PlayerCamera : MonoBehaviour {
 
     // Static position of camera
     private Vector3 initPos;
-    private Vector3 playerInit;
 
     // camera that follows player
     public Camera playerCam;
@@ -41,7 +40,6 @@ public class PlayerCamera : MonoBehaviour {
     // gets offset for camera and starts camera in static view
     void Start () {
         initPos = transform.position;  // stores static camera position
-        playerInit = player.transform.position;
 
         // camera axis button created
         CameraButton = new AxisButton(CameraAxis, 0.5f);
@@ -81,7 +79,7 @@ public class PlayerCamera : MonoBehaviour {
                 }
                 else  // moving towards player position
                 {
-                    float fastStep = camMoveSpeed * 2 * Time.deltaTime;
+                    float fastStep = camMoveSpeed * Time.deltaTime;
                     // uses moveTowards to move camera
                     Vector3 temp = player.transform.position + offset;
                     if (playerCam.transform.position != temp)
