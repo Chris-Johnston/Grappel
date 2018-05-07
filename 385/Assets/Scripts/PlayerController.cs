@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
 
         // set up the jump button axis
         JumpButton = new AxisButton(JumpAxis, 0.5f);
+
         // and the fire button axis
         // FireButton = new AxisButton(FireAxis);
 
@@ -133,6 +134,7 @@ public class PlayerController : MonoBehaviour
 
 		// Initialize the joystick position Vector3
 		joystickPosition = new Vector3(0, 0, 0);
+
     }
 
     //Ground check for player - can only jump while on ground

@@ -217,6 +217,7 @@ CapsuleCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1564408479341296}
   m_Enabled: 1
+
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -226,6 +227,7 @@ CapsuleCollider2D:
   m_Size: {x: 0.1, y: 0.3}
   m_Direction: 0
 --- !u!114 &114402239207182064
+
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
