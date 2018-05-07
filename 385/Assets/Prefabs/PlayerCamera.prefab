@@ -98,8 +98,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  offset: {x: 0, y: 0, z: -10}
   playerCam: {fileID: 20840281611868002}
   CameraAxis: Camera1
+  trackPlayer: 0
+  camMoveSpeed: 8
+  RopeSystem: {fileID: 0}
+  ropeLockPos: {x: 0, y: 0, z: -12}
 --- !u!124 &124914576755350598
 Behaviour:
   m_ObjectHideFlags: 1
