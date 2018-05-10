@@ -459,7 +459,7 @@ MonoBehaviour:
   playerCam: {fileID: 364593583}
   CameraAxis: Camera1
   trackPlayer: 1
-  camMoveSpeed: 4
+  camMoveSpeed: 5
   RopeSystem: {fileID: 395909374}
   ropeLockPos: {x: 0, y: -1.86, z: -6}
 --- !u!1 &378029666
@@ -1727,7 +1727,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.62
+      value: 10.33
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1780,7 +1780,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalScale.x
-      value: 22.51496
+      value: 39.921715
       objectReference: {fileID: 0}
     - target: {fileID: 4604936621994388, guid: c3e607a36abff364884286a1c9f2ecb9, type: 2}
       propertyPath: m_LocalScale.y
