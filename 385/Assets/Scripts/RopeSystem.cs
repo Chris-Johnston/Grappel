@@ -35,6 +35,11 @@ public class RopeSystem : MonoBehaviour
     private AxisButton FireButton;
 
     /// <summary>
+    /// Plays sound when the rope is fired
+    /// </summary>
+    public AudioSource fireSound;
+
+    /// <summary>
     /// Which axis is used to indicate that the player wants to climb or descend
     /// </summary>
     public string ClimbDescendAxis = "ClimbDescend"; // ClimbDescend_P2 for Player 2
