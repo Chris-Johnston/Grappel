@@ -183,8 +183,11 @@ public class SwingUpController : MonoBehaviour
             // if the camera grab pos is unset, or the new anchor point is greater than the current point
             if (CameraGrabPos.y < position.y)
             {
-                Debug.Log("New Y position");
-
+                if (ShowDebugMessages)
+                {
+                    Debug.Log("New Y position");
+                }
+                
                 // then update the y position of the grab point
                 CameraGrabPos = new Vector3(0, position.y, -10);
 
