@@ -7,6 +7,11 @@ using UnityEngine.UI;
 public class SwingUpController : MonoBehaviour
 {
     /// <summary>
+    /// Should the console print out debug messages
+    /// </summary>
+    public bool ShowDebugMessages = false;
+
+    /// <summary>
     /// At what point should the water cheat to catch up to the player
     /// </summary>
     public const float WATER_CATCHUP_DISTANCE = 11.5f;
@@ -110,8 +115,11 @@ public class SwingUpController : MonoBehaviour
     /// </summary>
     public void PlayerDie()
     {
-        Debug.Log("Ded");
-
+        if (ShowDebugMessages)
+        {
+            Debug.Log("Ded");
+        }
+        
         FinalHeightText.text = $"Final Height: {MaxHeight}";
         LoseObjects.SetActive(true);
 
@@ -202,7 +210,10 @@ public class SwingUpController : MonoBehaviour
             // check that the player isn't going out of bounds of the camera
             if (CameraGrabPos.y < PlayerReference.transform.position.y - 3)
             {
-                Debug.Log("Player went high");
+                if (ShowDebugMessages)
+                {
+                    Debug.Log("Player went high");
+                }
 
                 CameraGrabPos += new Vector3(0, 4, 0);
 
@@ -219,7 +230,10 @@ public class SwingUpController : MonoBehaviour
         // update the positioon of the water
         WaterTargetPosition += (1f + MaxHeight / 70.0f) * WaterMoveRatePerSecond * Time.deltaTime;
 
-        Debug.Log($"Current rate : {(1f + MaxHeight / 30.0f) * WaterMoveRatePerSecond}");
+        if (ShowDebugMessages)
+        {
+            Debug.Log($"Current rate : {(1f + MaxHeight / 30.0f) * WaterMoveRatePerSecond}");
+        }
 
         if (WaterTargetPosition != null && !LoseState)
         {
