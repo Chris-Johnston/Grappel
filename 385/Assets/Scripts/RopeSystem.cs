@@ -254,10 +254,10 @@ public class RopeSystem : MonoBehaviour
                 // set the end of the sprite to the end of the grapple
                 HookSpriteObject.transform.localPosition = CurrentCastDistance * directionVector;
                 // rotate the sprite so that it looks correct
-                HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+                HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + (Mathf.Rad2Deg * AimAngle));
 
                 // rotate the object that contains the casting collider
-                transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+                transform.rotation = Quaternion.Euler(0, 0, -90 + (Mathf.Rad2Deg * AimAngle));
             }
             // reset when let go
             else
