@@ -169,7 +169,6 @@ public class PlayerController : MonoBehaviour
 
 		// Initialize the joystick position Vector3
 		joystickPosition = new Vector3(0, 0, 0);
-
     }
 
     //Ground check for player - can only jump while on ground
@@ -262,8 +261,8 @@ public class PlayerController : MonoBehaviour
             {
                 // Debug.Log("low " + velocityInDirection.magnitude);
             }
-
         }
+
         // Player is not suspended by a rope
         else
         {
@@ -316,7 +315,6 @@ public class PlayerController : MonoBehaviour
 
 			/* ~~ END DISPLAY AIMING RETICLE */
 
-
             //Left and Right strafing movement 
             float moveHorizontal = Input.GetAxis(StrafeAxis);
 
@@ -336,7 +334,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 	}
-
 
 	/// <summary>
 	/// Updates the reticle position.
