@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - GrapplePoint
   - GrappleHook
+  - GroundDis
   layers:
   - Default
   - TransparentFX
