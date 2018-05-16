@@ -132,8 +132,6 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private Vector3 playerPos;
 
-    private 
-
     // Use this for initialization
     void Start ()
     {
