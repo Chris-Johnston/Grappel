@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
+using UnityEngine.Events;
 
 /// <summary>
 /// Controller script for the player
@@ -132,6 +133,16 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private Vector3 playerPos;
 
+    /// <summary>
+    /// Set of methods to call when the player jumps
+    /// </summary>
+    public UnityEvent OnPlayerJump;
+
+    /// <summary>
+    /// Set of methods to call when the player lands a jump
+    /// </summary>
+    public UnityEvent OnPlayerLand;
+
     // Use this for initialization
     void Start ()
     {
@@ -177,7 +188,20 @@ public class PlayerController : MonoBehaviour
         //any game objects tagged as Ground will allow the player to jump
         if (collide.gameObject.tag == Tags.TAG_GROUND)
         {
-            onGround = true;
+            // if the player wasn't previously on the ground
+            // then they likely just landed a jump
+            if (!onGround)
+            {
+                onGround = true;
+                // always invoke UnityEvents because I don't know if they can block or not
+                // unsure if this may happen when transitioning from platforms
+                OnPlayerLand.Invoke();
+            }
+            // the player started colliding but they were already on the ground
+            else
+            {
+                onGround = true;
+            }
         }
         else if (collide.gameObject.tag == Tags.TAG_GRAPPLE_HOOK)
         {
@@ -190,11 +214,13 @@ public class PlayerController : MonoBehaviour
         if (collide.gameObject.tag == Tags.TAG_GROUND)
         {
             onGround = false;
+            // we don't invoke OnPlayerJump here because it cannot be certain if a player fell, or if
+            // they actually jumped. In addition, this can happen when transitioning from platforms.
         }
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         // update the axisbutton utils first
         JumpButton.Update();
@@ -233,6 +259,14 @@ public class PlayerController : MonoBehaviour
         }
 	}
 
+    /// <summary>
+    /// Updates the force applied to the player in the direction that they want to move (indicated by the 
+    /// StrafeAxis) along the rope that they are swinging on
+    /// 
+    /// TODO: When the player is at the top of a swing, should invert the swinging so that holding a direction
+    /// doesn't do a full 360, but instead only goes in one direction.
+    /// Still need to nail down exactly how this logic would work
+    /// </summary>
     private void UpdatePlayerSwingingForce()
     {
         // check the strafe axis
@@ -337,6 +371,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, JumpingForce);
         onGround = false;
+        OnPlayerJump.Invoke();
     }
 
     /// <summary>
