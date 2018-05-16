@@ -367,7 +367,7 @@ public class PlayerController : MonoBehaviour
 
         // if not connected and not in deadzone
         // show the cursor
-        if (RopeSystem?.IsRopeConnected() == false && ( !joystickIsDead() || !ControllerMode))
+        if (RopeSystem?.IsRopeConnected() == false && ( !IsJoystickInDeadzone() || !ControllerMode))
         {
             // set the position of the aiming reticle
             AimingReticleObject.SetActive(true);
@@ -385,7 +385,7 @@ public class PlayerController : MonoBehaviour
 	/// <summary>
 	/// Checks if the joystick is in the deadzone. Currently used to know when to not display the reticle
 	/// </summary>
-	private bool joystickIsDead()
+	private bool IsJoystickInDeadzone()
 	{
 		float joystickX = Mathf.Abs(Input.GetAxis (AimHorizontalAxis));
 		float joystickY = Mathf.Abs(Input.GetAxis (AimVerticalAxis));
