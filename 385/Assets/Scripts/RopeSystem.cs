@@ -28,21 +28,28 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public LineRenderer RopeLineRenderer;
     
+
     /// <summary>
-    /// Which axis to use to indicate that the player wants to fire
+    /// Axis used for shooting the grapple hook. Set to either *_Mouse or *_Controller
+    /// string in Start() based on user control preference (stored in GameControl object).
     /// </summary>
-    public string FireAxis = "Fire"; // Fire_P2 for Player 2
+    private string FireAxis; // Fire_P2 for Player 2
+
+	public string FireAxis_Mouse = "Fire";
+	public string FireAxis_Controller = "Fire_P2";
+
     private AxisButton FireButton;
 
     /// <summary>
-    /// Plays sound when the rope is fired
-    /// </summary>
-    public AudioSource fireSound;
 
-    /// <summary>
-    /// Which axis is used to indicate that the player wants to climb or descend
+    /// Which axis is used to indicate that the player wants to climb or descend.
+    /// Set to either *_Controller or *_Mouse public string based on user control setting
+    /// (stored in GameControl object).
     /// </summary>
-    public string ClimbDescendAxis = "ClimbDescend"; // ClimbDescend_P2 for Player 2
+    private string ClimbDescendAxis; // ClimbDescend_P2 for Player 2
+
+	public string ClimbDescendAxis_Mouse = "ClimbDescend";
+	public string ClimbDescendAxis_Controller = "ClimbDescend_P2";
 
     /// <summary>
     /// How many units per second the player climbs or descends at
@@ -117,6 +124,18 @@ public class RopeSystem : MonoBehaviour
 
     void Start()
     {
+		// Set axis strings based on the user's controller selection from the menu screen
+		if (GameControl.ControllerMode) 
+		{
+			FireAxis = FireAxis_Controller;
+			ClimbDescendAxis = ClimbDescendAxis_Controller;
+		} 
+		else 
+		{
+			FireAxis = FireAxis_Mouse;
+			ClimbDescendAxis = ClimbDescendAxis_Mouse;
+		}
+
         // set up the fire button axis
         FireButton = new AxisButton(FireAxis);
     }
@@ -237,10 +256,10 @@ public class RopeSystem : MonoBehaviour
                 // set the end of the sprite to the end of the grapple
                 HookSpriteObject.transform.localPosition = CurrentCastDistance * directionVector;
                 // rotate the sprite so that it looks correct
-                HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+                HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + (Mathf.Rad2Deg * AimAngle));
 
                 // rotate the object that contains the casting collider
-                transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+                transform.rotation = Quaternion.Euler(0, 0, -90 + (Mathf.Rad2Deg * AimAngle));
             }
             // reset when let go
             else

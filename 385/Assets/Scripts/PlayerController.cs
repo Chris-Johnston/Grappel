@@ -14,36 +14,53 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1f)]
     public float JoystickDeadzone = 0.19f;
 
-	/// <summary>
-	/// True if a player is using controller mode. Should be set by some option in the UI later on.
-	/// </summary>
+    /// <summary>
+    /// True if a player is using controller mode. Should be set by some option in the UI later on.
+    /// </summary>
 	public bool ControllerMode = false;
 
-	/// <summary>
-	/// Vector holding the joystick position. Unused if not in controller mode.
-	/// </summary>
-	private Vector3 joystickPosition;
+    /// <summary>
+    /// Vector holding the joystick position. Unused if not in controller mode.
+    /// </summary>
+    private Vector3 joystickPosition;
 
     /// <summary>
-    /// Which axis does the player use to strafe left and right on the ground, or adjust
-    /// their velocity when swinging?
+    /// Which axis does the player use to strafe left and right on the ground, or adjust 
+    /// their velocity when swinging? Set to either *_Mouse or *_Controller string in Start()
+    /// based on user control preference (stored in GameControl object).
     /// </summary>
-    public string StrafeAxis = "Strafe"; // use Strafe_P2 for Player 2
+    private string StrafeAxis; // use Strafe_P2 for Player 2
+
+    public string StrafeAxis_Mouse = "Strafe";
+    public string StrafeAxis_Controller = "Strafe_P2";
 
     /// <summary>
-    /// Which axis to check that indicates that the player wanted to jump
+    /// Which axis to check that indicates that the player wanted to jump. Set to either 
+    /// *_Mouse or *_Controller string in Start() based on user control preference (stored in
+    /// GameControl object).
     /// </summary>
-    public string JumpAxis = "Jump"; // use Jump_P2 for Player 2
+    private string JumpAxis; // use Jump_P2 for Player 2
 
-	/// <summary>
-	/// Horizontal axis name for the xbox controller
-	/// </summary>
-	public string AimHorizontalAxis = "Horizontal";
+    public string JumpAxis_Mouse = "Jump";
+    public string JumpAxis_Controller = "Jump_P2";
 
-	/// <summary>
-	/// Vertical axis name for the xbox controller
-	/// </summary>
-	public string AimVerticalAxis = "Vertical";
+    /// <summary>
+    /// Horizontal axis name.  Set to either *_Mouse or *_Controller string in Start() 
+    /// based on user control preference (stored in GameControl object).
+    /// </summary>
+    private string AimHorizontalAxis;
+
+    public string AimHorizontalAxis_Mouse = "Horizontal";
+    public string AimHorizontalAxis_Controller = "Horizontal_P2";
+
+    /// <summary>
+    /// Vertical axis name.  Set to either *_Mouse or *_Controller string in Start() 
+    /// based on user control preference (stored in GameControl object).
+    /// </summary>
+    private string AimVerticalAxis;
+
+    public string AimVerticalAxis_Mouse = "Vertical";
+    public string AimVerticalAxis_Controller = "Vertical_P2";
 
     // util wrapper for this class
     // that helps determine if the button is pressed or clicked
@@ -118,6 +135,24 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+		// Set based on player's control selection on the menu screen
+		ControllerMode = GameControl.ControllerMode;
+
+		// Set all the axis strings to use _P2 versions, enabling controller use
+		if (ControllerMode) {
+			AimHorizontalAxis = AimHorizontalAxis_Controller;
+			AimVerticalAxis = AimVerticalAxis_Controller;
+			StrafeAxis = StrafeAxis_Controller;
+			JumpAxis = JumpAxis_Controller;
+		} 
+		else 
+		{
+			AimHorizontalAxis = AimHorizontalAxis_Mouse;
+			AimVerticalAxis = AimVerticalAxis_Mouse;
+			StrafeAxis = StrafeAxis_Mouse;
+			JumpAxis = JumpAxis_Mouse;
+		}
+
         PlayerRigidBody = GetComponent<Rigidbody2D>();
 
         // default to being on the ground
@@ -125,6 +160,7 @@ public class PlayerController : MonoBehaviour
 
         // set up the jump button axis
         JumpButton = new AxisButton(JumpAxis, 0.5f);
+
         // and the fire button axis
         // FireButton = new AxisButton(FireAxis);
 
@@ -178,128 +214,147 @@ public class PlayerController : MonoBehaviour
         if (RopeSystem?.IsRopeConnected() == true)
         {
             AimingReticleObject.SetActive(false);
-            // check the strafe axis
-            var strafeAmount = Input.GetAxis(StrafeAxis);
-
-            // get the perpendicular axis to the rope from the player
-            var perpendicularAxis = RopeSystem.GetRopePerpendicularAxis().Value;
-
-            // the direction of the perpendicular axis and where the player wants to go
-            var directionForceAxis = strafeAmount * perpendicularAxis;
-
-            // show some debug lines if debugging enabled
-            if (ShowDebugging)
-            {
-                Debug.DrawRay(transform.position, directionForceAxis, Color.red);
-            }
-
-            // get the velocity of the player in this perpendicular axis (and in the direction they want to go)
-            // if the player already has a large amount of velocity in this axis
-            // then don't let them get more velocity in this axis
-            var velocityInDirection = Vector2Project(PlayerRigidBody.velocity, directionForceAxis);
-
-            // show some debug lines if debugging enabled
-            if (ShowDebugging)
-            {
-                Debug.DrawRay(transform.position, velocityInDirection, Color.blue);
-            }
-
-            // check the velocity in the direction of motion to see if it is 
-            // not too large to apply some force to it
-            // compare by magnitude
-            if (velocityInDirection.magnitude < (MaxSwingingVelocity * directionForceAxis).magnitude)
-            {
-                // if the velocity was less than the max, then we can add some velocity in that direction
-                // on this frame
-                var toAdd = directionForceAxis * SwingForce * Time.deltaTime;
-
-                PlayerRigidBody.AddForce(toAdd);
-
-                if (ShowDebugging)
-                {
-                    // Debug.Log(velocityInDirection.magnitude);
-                    Debug.DrawRay(transform.position, toAdd, Color.green);
-                }
-            }
-            else
-            {
-                // Debug.Log("low " + velocityInDirection.magnitude);
-            }
-
+            UpdatePlayerSwingingForce();
         }
+
         // Player is not suspended by a rope
         else
         {
-			/* ~~ DISPLAY AIMING RETICLE ~~ */
-
-			//Debug.Log("joystickX " + joystickPosition.x + "  joystickY: " + joystickPosition.y);
-
-			float aimAngle;
-
-			if (!ControllerMode) 
-			{
-                // Get the mouse position, using a ray from the camera that hits a plane that the world is on ( Z = 0 )
-                // see here: https://answers.unity.com/questions/566519/camerascreentoworldpoint-in-perspective.
-
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                // create a new plane at the origin that is facing forward
-                Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
-                float distance;
-                xy.Raycast(ray, out distance);
-                var rayPoint = ray.GetPoint(distance);
-                var playerAimingLocation = rayPoint - playerPos;
-
-                Debug.DrawLine(Vector3.zero, rayPoint);
-
-                // Angle (radians) from the horizontal line going through the player to the mouse position
-                aimAngle = Mathf.Atan2 (playerAimingLocation.y, playerAimingLocation.x);
-			} 
-			else 
-			{
-				joystickPosition.x = Input.GetAxis (AimHorizontalAxis);
-				joystickPosition.y = Input.GetAxis (AimVerticalAxis);
-    
-				// Calculate the angle based on joystick position. Invert y axis first
-				aimAngle = Mathf.Atan2 ((0 - joystickPosition.y), joystickPosition.x);
-			}
-
-			// Keep it positive (e.g., straight below the player is 3pi/2 rad, not -pi/2)
-			if (aimAngle < 0) 
-			{
-				aimAngle = (Mathf.PI * 2) + aimAngle;
-			}
-
-            if (ShowDebugging)
-            {
-                Debug.Log ("aimAngle: " + aimAngle + " rad");
-            }
-
             // Update the reticle endpoint and draw a line from the player to the endpoint
-            UpdateReticlePosition (aimAngle);
+            UpdateAimingReticle();
 
-			/* ~~ END DISPLAY AIMING RETICLE */
-
-
-            //Left and Right strafing movement 
-            float moveHorizontal = Input.GetAxis(StrafeAxis);
-
-            if (ShowDebugging)
-            {
-                Debug.Log($"Axis: {StrafeAxis} Value: {moveHorizontal}");
-            }
-
-            Vector2 movement = new Vector2(moveHorizontal, 0);
-            PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
+            UpdateGroundStrafingMovement();
 
             //Jump if the player is on the ground and they just clicked the button
             if (JumpButton.IsButtonClicked() && onGround)
             {
-                PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, JumpingForce);
-                onGround = false;
+                PlayerJump();
             }
         }
 	}
 
+    private void UpdatePlayerSwingingForce()
+    {
+        // check the strafe axis
+        var strafeAmount = Input.GetAxis(StrafeAxis);
+
+        // get the perpendicular axis to the rope from the player
+        var perpendicularAxis = RopeSystem.GetRopePerpendicularAxis().Value;
+
+        // the direction of the perpendicular axis and where the player wants to go
+        var directionForceAxis = strafeAmount * perpendicularAxis;
+
+        // show some debug lines if debugging enabled
+        if (ShowDebugging)
+        {
+            Debug.DrawRay(transform.position, directionForceAxis, Color.red);
+        }
+
+        // get the velocity of the player in this perpendicular axis (and in the direction they want to go)
+        // if the player already has a large amount of velocity in this axis
+        // then don't let them get more velocity in this axis
+        var velocityInDirection = Vector2Project(PlayerRigidBody.velocity, directionForceAxis);
+
+        // show some debug lines if debugging enabled
+        if (ShowDebugging)
+        {
+            Debug.DrawRay(transform.position, velocityInDirection, Color.blue);
+        }
+
+        // check the velocity in the direction of motion to see if it is 
+        // not too large to apply some force to it
+        // compare by magnitude
+        if (velocityInDirection.magnitude < (MaxSwingingVelocity * directionForceAxis).magnitude)
+        {
+            // if the velocity was less than the max, then we can add some velocity in that direction
+            // on this frame
+            var toAdd = directionForceAxis * SwingForce * Time.deltaTime;
+
+            PlayerRigidBody.AddForce(toAdd);
+
+            if (ShowDebugging)
+            {
+                // Debug.Log(velocityInDirection.magnitude);
+                Debug.DrawRay(transform.position, toAdd, Color.green);
+            }
+        }
+    }
+
+    /// <summary>
+    /// updates the aiming reticle position
+    /// </summary>
+    private void UpdateAimingReticle()
+    {
+        float aimAngle;
+
+        if (!ControllerMode)
+        {
+            // Get the mouse position, using a ray from the camera that hits a plane that the world is on ( Z = 0 )
+            // see here: https://answers.unity.com/questions/566519/camerascreentoworldpoint-in-perspective.
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            // create a new plane at the origin that is facing forward
+            Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
+            float distance;
+            xy.Raycast(ray, out distance);
+            var rayPoint = ray.GetPoint(distance);
+            var playerAimingLocation = rayPoint - playerPos;
+
+            Debug.DrawLine(Vector3.zero, rayPoint);
+
+            // Angle (radians) from the horizontal line going through the player to the mouse position
+            aimAngle = Mathf.Atan2(playerAimingLocation.y, playerAimingLocation.x);
+        }
+        else
+        {
+            joystickPosition.x = Input.GetAxis(AimHorizontalAxis);
+            joystickPosition.y = Input.GetAxis(AimVerticalAxis);
+
+            // Calculate the angle based on joystick position. Invert y axis first
+            aimAngle = Mathf.Atan2((0 - joystickPosition.y), joystickPosition.x);
+        }
+
+        // Keep it positive (e.g., straight below the player is 3pi/2 rad, not -pi/2)
+        if (aimAngle < 0)
+        {
+            aimAngle = (Mathf.PI * 2) + aimAngle;
+        }
+
+        if (ShowDebugging)
+        {
+            Debug.Log("aimAngle: " + aimAngle + " rad");
+        }
+
+        UpdateReticlePosition(aimAngle);
+    }
+
+    /// <summary>
+    /// Adds to the velocity of the player to make them jump
+    /// assumes that the jump button has been clicked, and that the
+    /// player started on the ground
+    /// </summary>
+    private void PlayerJump()
+    {
+        PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, JumpingForce);
+        onGround = false;
+    }
+
+    /// <summary>
+    /// Handles the ground strafing movement of the player
+    /// </summary>
+    private void UpdateGroundStrafingMovement()
+    {
+        //Left and Right strafing movement 
+        float moveHorizontal = Input.GetAxis(StrafeAxis);
+
+        if (ShowDebugging)
+        {
+            Debug.Log($"Axis: {StrafeAxis} Value: {moveHorizontal}");
+        }
+
+        Vector2 movement = new Vector2(moveHorizontal, 0);
+        PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
+    }
 
 	/// <summary>
 	/// Updates the reticle position.
