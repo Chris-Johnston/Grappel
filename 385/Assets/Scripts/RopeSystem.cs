@@ -224,8 +224,7 @@ public class RopeSystem : MonoBehaviour
 
             // not casting, if they hold down the button then cast
             if (FireButton.IsButtonHeld())
-            {
-                
+            {    
                 //HookCollider.enabled = true;
                 RopeAndHookCollider.enabled = true;
                 HookSpriteObject.SetActive(true);
