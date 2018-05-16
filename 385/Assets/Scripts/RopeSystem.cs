@@ -19,9 +19,9 @@ public class RopeSystem : MonoBehaviour
     public Rigidbody2D RopeAnchorPoint;
 
     /// <summary>
-    /// The DistanceJoint2D that is used to simulate the rope physics.
+    /// The SpringJoint2D that is used to simulate the rope physics.
     /// </summary>
-    public DistanceJoint2D RopeDistanceJoint;
+    public SpringJoint2D RopeSpringJoint;
 
     /// <summary>
     /// The LineRenderer that is used to draw the representation of the rope.
@@ -166,21 +166,21 @@ public class RopeSystem : MonoBehaviour
                 // ensure that the line renderer is enabled when the rope is connected
                 // and the distance joint
                 RopeLineRenderer.enabled = true;
-                RopeDistanceJoint.enabled = true;
+                RopeSpringJoint.enabled = true;
 
-                RopeDistanceJoint.connectedAnchor = RopeAnchorPoint.transform.position;
+                RopeSpringJoint.connectedAnchor = RopeAnchorPoint.transform.position;
 
                 if (!HasDoneInitialReelIn)
                 {
-                    RopeDistanceJoint.distance -= CastInitialReelIn;
-                    if (RopeDistanceJoint.distance < MinCastDistance)
-                        RopeDistanceJoint.distance = MinCastDistance;
+                    RopeSpringJoint.distance -= CastInitialReelIn;
+                    if (RopeSpringJoint.distance < MinCastDistance)
+                        RopeSpringJoint.distance = MinCastDistance;
 
                     HasDoneInitialReelIn = true;
                 }
 
                 // reel in the player
-                var ropeDistance = RopeDistanceJoint.distance;
+                var ropeDistance = RopeSpringJoint.distance;
                 // adjust the target distance based on the ClimbDescend Axis
                 ropeDistance += Input.GetAxis(ClimbDescendAxis) * ClimbDescendSpeed * Time.deltaTime;
 
@@ -191,7 +191,7 @@ public class RopeSystem : MonoBehaviour
                     ropeDistance = MinCastDistance;
 
                 // set the new rope distance
-                RopeDistanceJoint.distance = ropeDistance;
+                RopeSpringJoint.distance = ropeDistance;
 
                 // update the first point to be the same as the player origin w/ the offset
                 //TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
@@ -317,7 +317,7 @@ public class RopeSystem : MonoBehaviour
     {
         RopeAnchorPoint = null;
         RopeLineRenderer.enabled = false;
-        RopeDistanceJoint.enabled = false;
+        RopeSpringJoint.enabled = false;
         RopeAndHookCollider.enabled = false;
         IsCasting = false;
         CurrentCastDistance = 0;

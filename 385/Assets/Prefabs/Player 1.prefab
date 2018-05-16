@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4286566351652530}
   - component: {fileID: 50694297959579264}
-  - component: {fileID: 232103480614276934}
   - component: {fileID: 114892520084136018}
+  - component: {fileID: 231951559478675942}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -217,7 +217,6 @@ CapsuleCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1564408479341296}
   m_Enabled: 1
-
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -227,7 +226,6 @@ CapsuleCollider2D:
   m_Size: {x: 0.1, y: 0.3}
   m_Direction: 0
 --- !u!114 &114402239207182064
-
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -239,10 +237,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RopeAnchorPoint: {fileID: 0}
-  RopeDistanceJoint: {fileID: 232103480614276934}
+  RopeSpringJoint: {fileID: 231951559478675942}
   RopeLineRenderer: {fileID: 120264560965020486}
-  FireAxis: Fire
-  ClimbDescendAxis: ClimbDescend
+  FireAxis_Mouse: Fire
+  FireAxis_Controller: Fire_P2
+  ClimbDescendAxis_Mouse: ClimbDescend
+  ClimbDescendAxis_Controller: ClimbDescend_P2
   ClimbDescendSpeed: 4
   AimAngle: 0
   CurrentCastDistance: 3
@@ -268,10 +268,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JoystickDeadzone: 0.19
   ControllerMode: 0
-  StrafeAxis: Strafe
-  JumpAxis: Jump
-  AimHorizontalAxis: Horizontal
-  AimVerticalAxis: Vertical
+  StrafeAxis_Mouse: Strafe
+  StrafeAxis_Controller: Strafe_P2
+  JumpAxis_Mouse: Jump
+  JumpAxis_Controller: Jump_P2
+  AimHorizontalAxis_Mouse: Horizontal
+  AimHorizontalAxis_Controller: Horizontal_P2
+  AimVerticalAxis_Mouse: Vertical
+  AimVerticalAxis_Controller: Vertical_P2
   AimingDistance: 5
   AimingReticleObject: {fileID: 1982181617683992}
   MaxSwingingVelocity: 500
@@ -293,6 +297,7 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 439318bc16e014ac2aed4163c3588756, type: 2}
   m_StaticBatchInfo:
@@ -323,12 +328,15 @@ LineRenderer:
     widthCurve:
       serializedVersion: 2
       m_Curve:
-      - serializedVersion: 2
+      - serializedVersion: 3
         time: 0
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -381,6 +389,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -425,6 +434,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -469,6 +479,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -500,13 +511,13 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!232 &232103480614276934
-DistanceJoint2D:
+--- !u!231 &231951559478675942
+SpringJoint2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1437658580342910}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 0}
@@ -516,5 +527,6 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 5.3948493
-  m_MaxDistanceOnly: 0
+  m_Distance: 0.005
+  m_DampingRatio: 0.8
+  m_Frequency: 1000000
