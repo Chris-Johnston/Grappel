@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Script for controlling the behavior of a rope, which is connected to the player
@@ -121,6 +122,21 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public GameObject HookSpriteObject;
 
+    /// <summary>
+    /// Invoked when the player fires thie Grappling hook
+    /// </summary>
+    public UnityEvent OnPlayerGrappleFire;
+
+    /// <summary>
+    /// Invoked when the players grappling hook hits an object
+    /// </summary>
+    public UnityEvent OnPlayerGrappleHit;
+
+    /// <summary>
+    /// Invoked when the player releases the grappling hook, even if it is connected or not
+    /// </summary>
+    public UnityEvent OnPlayerGrappleRelease;
+
     void Start()
     {
 		// Set axis strings based on the user's controller selection from the menu screen
@@ -209,6 +225,7 @@ public class RopeSystem : MonoBehaviour
             // not casting, if they hold down the button then cast
             if (FireButton.IsButtonHeld())
             {
+                
                 //HookCollider.enabled = true;
                 RopeAndHookCollider.enabled = true;
                 HookSpriteObject.SetActive(true);
@@ -258,6 +275,13 @@ public class RopeSystem : MonoBehaviour
 
                 // rotate the object that contains the casting collider
                 transform.rotation = Quaternion.Euler(0, 0, -90 + (Mathf.Rad2Deg * AimAngle));
+
+                // if they just clicked the fire button
+                if (FireButton.IsButtonClicked())
+                {
+                    // then invoke the on fire handler
+                    OnPlayerGrappleFire.Invoke();
+                }
             }
             // reset when let go
             else
@@ -321,6 +345,8 @@ public class RopeSystem : MonoBehaviour
         RopeAndHookCollider.enabled = false;
         IsCasting = false;
         CurrentCastDistance = 0;
+        // invoke the handler for the grapple point being released, unsure if it will block or not, so do this last
+        OnPlayerGrappleRelease.Invoke();
     }
 
     private bool HasDoneInitialReelIn = false;
@@ -355,6 +381,8 @@ public class RopeSystem : MonoBehaviour
         {
             IsCasting = false;
             Attach(collision.GetComponent<Rigidbody2D>());
+            // invoke the grapple hit
+            OnPlayerGrappleHit.Invoke();
         }
     }
 

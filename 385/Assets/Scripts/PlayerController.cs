@@ -265,7 +265,7 @@ public class PlayerController : MonoBehaviour
     /// 
     /// TODO: When the player is at the top of a swing, should invert the swinging so that holding a direction
     /// doesn't do a full 360, but instead only goes in one direction.
-    /// Still need to nail down exactly how this logic would work
+    /// Still need to nail down exactly how this logic would work   
     /// </summary>
     private void UpdatePlayerSwingingForce()
     {
