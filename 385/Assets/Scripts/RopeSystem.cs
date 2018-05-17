@@ -217,7 +217,7 @@ public class RopeSystem : MonoBehaviour
                 // start throwing if not throwing already
                 if(!IsCasting)
                 {
-                    fireSound.Play();
+                    // fireSound.Play();
                     IsCasting = true;
                     // reset the casting distance
                     CurrentCastDistance = 0;

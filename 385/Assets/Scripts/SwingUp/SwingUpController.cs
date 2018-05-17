@@ -238,7 +238,7 @@ public class SwingUpController : MonoBehaviour
             Debug.Log($"Current rate : {(1f + MaxHeight / 30.0f) * WaterMoveRatePerSecond}");
         }
 
-        if (WaterTargetPosition != null && !LoseState)
+        if (!LoseState)
         {
             WaterReference.transform.position = Vector3.MoveTowards(WaterReference.transform.position, WaterTargetPosition, 0.2f);
         }            
