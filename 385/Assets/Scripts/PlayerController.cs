@@ -174,8 +174,8 @@ public class PlayerController : MonoBehaviour
     //Ground check for player - can only jump while on ground
     void OnCollisionEnter2D(Collision2D collide)
     {
-        //any game objects tagged as Ground will allow the player to jump
-        if (collide.gameObject.tag == Tags.TAG_GROUND)
+        //any game objects tagged as Ground or GroundDis will allow the player to jump
+        if (collide.gameObject.tag == Tags.TAG_GROUND || collide.gameObject.tag == Tags.TAG_GROUND_DIS)
         {
             onGround = true;
         }
@@ -190,6 +190,11 @@ public class PlayerController : MonoBehaviour
         if (collide.gameObject.tag == Tags.TAG_GROUND)
         {
             onGround = false;
+        }
+        else if (collide.gameObject.tag == Tags.TAG_GROUND_DIS) // if on dissapearing ground
+        {
+            onGround = false;
+            Destroy(collide.gameObject); // destroy the ground
         }
     }
 
