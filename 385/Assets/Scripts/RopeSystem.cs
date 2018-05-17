@@ -20,6 +20,13 @@ public class RopeSystem : MonoBehaviour
     public Rigidbody2D RopeAnchorPoint;
 
     /// <summary>
+    /// A reference to the last grapple point controller that a grapple was connected to
+    /// when the grapple is released, the release events will be invoked
+    /// null if unset
+    /// </summary>
+    private GrapplePointController LastAnchorPointController;
+
+    /// <summary>
     /// The DistanceJoint2D that is used to simulate the rope physics.
     /// </summary>
     public DistanceJoint2D RopeDistanceJoint;
@@ -29,7 +36,6 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public LineRenderer RopeLineRenderer;
     
-
     /// <summary>
     /// Axis used for shooting the grapple hook. Set to either *_Mouse or *_Controller
     /// string in Start() based on user control preference (stored in GameControl object).
@@ -339,6 +345,10 @@ public class RopeSystem : MonoBehaviour
     public void Detach()
     {
         RopeAnchorPoint = null;
+        // invoke the OnGrappleDisconnect events if the reference was not null
+        LastAnchorPointController?.OnGrappleDisconnect.Invoke();
+        // then null out the reference to the controller
+        LastAnchorPointController = null;
         RopeLineRenderer.enabled = false;
         RopeDistanceJoint.enabled = false;
         RopeAndHookCollider.enabled = false;
@@ -353,10 +363,14 @@ public class RopeSystem : MonoBehaviour
     /// <summary>
     /// attaches to the given anchor point
     /// </summary>
-    /// <param name="point"></param>
-    public void Attach(Rigidbody2D point)
+    /// <param name="point">the rigid body of the point that is being attached to</param>
+    /// <param name="pointController">The GrapplePointController whose methods will be invoked</param>
+    public void Attach(Rigidbody2D point, GrapplePointController pointController)
     {
         RopeAnchorPoint = point;
+        LastAnchorPointController = pointController;
+        // invoke the OnGrappleConnect events if a connection is made
+        LastAnchorPointController?.OnGrappleConnect.Invoke();
 
         // use the min cast distance, or the current - the reel in
         // only if the player is on the ground
@@ -379,7 +393,7 @@ public class RopeSystem : MonoBehaviour
         if (IsCasting && collision.CompareTag(Tags.TAG_GRAPPLE_POINT))
         {
             IsCasting = false;
-            Attach(collision.GetComponent<Rigidbody2D>());
+            Attach(collision.GetComponent<Rigidbody2D>(), collision.GetComponent<GrapplePointController>());
             // invoke the grapple hit
             OnPlayerGrappleHit.Invoke();
         }
