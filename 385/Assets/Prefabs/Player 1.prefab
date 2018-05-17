@@ -71,8 +71,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4764413717148850}
-  - component: {fileID: 212154969108833242}
   - component: {fileID: 61071508250488552}
+  - component: {fileID: 23964814485212424}
+  - component: {fileID: 33290624967686884}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Player
@@ -160,11 +161,53 @@ Transform:
   m_GameObject: {fileID: 1762261998921560}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4286566351652530}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23964814485212424
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1762261998921560}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 384563e419f33db41bce8c0951edf25f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33290624967686884
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1762261998921560}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!50 &50694297959579264
 Rigidbody2D:
   serializedVersion: 4
@@ -208,7 +251,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.13, y: 0.13}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!70 &70442492259862722
 CapsuleCollider2D:
@@ -217,7 +260,6 @@ CapsuleCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1564408479341296}
   m_Enabled: 1
-
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -227,7 +269,6 @@ CapsuleCollider2D:
   m_Size: {x: 0.1, y: 0.3}
   m_Direction: 0
 --- !u!114 &114402239207182064
-
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -241,8 +282,10 @@ MonoBehaviour:
   RopeAnchorPoint: {fileID: 0}
   RopeDistanceJoint: {fileID: 232103480614276934}
   RopeLineRenderer: {fileID: 120264560965020486}
-  FireAxis: Fire
-  ClimbDescendAxis: ClimbDescend
+  FireAxis_Mouse: Fire
+  FireAxis_Controller: Fire_P2
+  ClimbDescendAxis_Mouse: ClimbDescend
+  ClimbDescendAxis_Controller: ClimbDescend_P2
   ClimbDescendSpeed: 4
   AimAngle: 0
   CurrentCastDistance: 3
@@ -268,10 +311,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JoystickDeadzone: 0.19
   ControllerMode: 0
-  StrafeAxis: Strafe
-  JumpAxis: Jump
-  AimHorizontalAxis: Horizontal
-  AimVerticalAxis: Vertical
+  StrafeAxis_Mouse: Strafe
+  StrafeAxis_Controller: Strafe_P2
+  JumpAxis_Mouse: Jump
+  JumpAxis_Controller: Jump_P2
+  AimHorizontalAxis_Mouse: Horizontal
+  AimHorizontalAxis_Controller: Horizontal_P2
+  AimVerticalAxis_Mouse: Vertical
+  AimVerticalAxis_Controller: Vertical_P2
   AimingDistance: 5
   AimingReticleObject: {fileID: 1982181617683992}
   MaxSwingingVelocity: 500
@@ -293,6 +340,7 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 439318bc16e014ac2aed4163c3588756, type: 2}
   m_StaticBatchInfo:
@@ -323,12 +371,15 @@ LineRenderer:
     widthCurve:
       serializedVersion: 2
       m_Curve:
-      - serializedVersion: 2
+      - serializedVersion: 3
         time: 0
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -368,50 +419,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 1
---- !u!212 &212154969108833242
-SpriteRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1762261998921560}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 819359671
-  m_SortingLayer: 2
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.2827587, g: 0, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
 --- !u!212 &212372150518090584
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -425,6 +432,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -469,6 +477,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
