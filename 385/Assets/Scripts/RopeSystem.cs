@@ -41,6 +41,7 @@ public class RopeSystem : MonoBehaviour
     private AxisButton FireButton;
 
     /// <summary>
+
     /// Which axis is used to indicate that the player wants to climb or descend.
     /// Set to either *_Controller or *_Mouse public string based on user control setting
     /// (stored in GameControl object).
@@ -194,7 +195,7 @@ public class RopeSystem : MonoBehaviour
                 RopeDistanceJoint.distance = ropeDistance;
 
                 // update the first point to be the same as the player origin w/ the offset
-                //TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
+                // TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
                 // could have the player rotate to match the swinging
                 RopeLineRenderer.SetPosition(0, transform.position + PlayerRopeDrawOffset);
 
@@ -216,6 +217,7 @@ public class RopeSystem : MonoBehaviour
                 // start throwing if not throwing already
                 if(!IsCasting)
                 {
+                    fireSound.Play();
                     IsCasting = true;
                     // reset the casting distance
                     CurrentCastDistance = 0;
