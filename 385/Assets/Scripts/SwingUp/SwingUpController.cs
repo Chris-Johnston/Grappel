@@ -76,7 +76,7 @@ public class SwingUpController : MonoBehaviour
     /// <summary>
     /// The target position of the water level
     /// </summary>
-    private Vector3 WaterTargetPosition;
+    private Vector3 WaterTargetPosition = new Vector3(0, 0, 0);
 
     /// <summary>
     /// The position of the lower left bound to spawn objects
