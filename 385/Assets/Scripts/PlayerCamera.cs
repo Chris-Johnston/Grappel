@@ -57,52 +57,7 @@ public class PlayerCamera : MonoBehaviour {
 
         if(camMoving)  // if camera is still adjusting
         {
-            // adjust move speed
-            float step = camMoveSpeed * Time.deltaTime;
-
-            if (trackPlayer){ // camera tracking player
-
-                if (RopeSystem.IsRopeConnected())
-                {   // moving towards swing point
-                    
-                    Rigidbody2D ropeConnect = RopeSystem.RopeAnchorPoint;
-                    if (playerCam.transform.position !=
-                        ropeConnect.transform.position + ropeLockPos)
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position,
-                            ropeConnect.transform.position + ropeLockPos, step);
-                    }
-                    else  // reached position
-                    {
-                        camMoving = false;
-                    }
-                }
-                else  // moving towards player position
-                {
-                    float fastStep = camMoveSpeed * Time.deltaTime;
-                    // uses moveTowards to move camera
-                    Vector3 temp = player.transform.position + offset;
-                    if (playerCam.transform.position != temp)
-                    {
-                        transform.position = Vector3.MoveTowards(
-                        transform.position, temp, fastStep);
-                    }
-                    else  // reached position
-                    {
-                        camMoving = false;
-                    }
-                }
-             }
-            else{   // moves towards init static position
-                  if(playerCam.transform.position != initPos){
-                    transform.position = Vector3.MoveTowards(
-                        transform.position, initPos, step);
-                   }
-                else  // reached position
-                {
-                    camMoving = false;
-                }        
-            }
+            IncrementMovingCamera();   
         }
 
         if (trackPlayer && !camMoving)
@@ -114,6 +69,59 @@ public class PlayerCamera : MonoBehaviour {
             else
             {
                 transform.position = player.transform.position + offset;
+            }
+        }
+    }
+
+    private void IncrementMovingCamera()
+    {
+        // adjust move speed
+        float step = camMoveSpeed * Time.deltaTime;
+
+        if (trackPlayer)
+        { // camera tracking player
+
+            if (RopeSystem.IsRopeConnected())
+            {   // moving towards swing point
+
+                Rigidbody2D ropeConnect = RopeSystem.RopeAnchorPoint;
+                if (playerCam.transform.position !=
+                    ropeConnect.transform.position + ropeLockPos)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position,
+                        ropeConnect.transform.position + ropeLockPos, step);
+                }
+                else  // reached position
+                {
+                    camMoving = false;
+                }
+            }
+            else  // moving towards player position
+            {
+                float fastStep = camMoveSpeed * Time.deltaTime;
+                // uses moveTowards to move camera
+                Vector3 temp = player.transform.position + offset;
+                if (playerCam.transform.position != temp)
+                {
+                    transform.position = Vector3.MoveTowards(
+                    transform.position, temp, fastStep);
+                }
+                else  // reached position
+                {
+                    camMoving = false;
+                }
+            }
+        }
+        else
+        {   // moves towards init static position
+            if (playerCam.transform.position != initPos)
+            {
+                transform.position = Vector3.MoveTowards(
+                    transform.position, initPos, step);
+            }
+            else  // reached position
+            {
+                camMoving = false;
             }
         }
     }
