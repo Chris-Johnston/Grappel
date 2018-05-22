@@ -221,21 +221,7 @@ public class RopeSystem : MonoBehaviour
                 else if (ropeDistance < MinCastDistance)
                     ropeDistance = MinCastDistance;
 
-                // this is the vector that points in the direction from the anchor point to the center of the player
-                // so it should be the same angle as the rope
-                // and with the magnitude of the ropeDistance
-
-                // see https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html
-                var direction = new Vector2(transform.position.x, transform.position.y) - RopeAnchorPoint.position;
-                // normalize it
-                direction.Normalize();
-
-                // ensure that the rope will not extend into another object and push the player into it
-                if (!Mathf.Approximately(0f, deltaDistance) && CheckForRopeExtensionIntoObject(transform.position, direction, deltaDistance))
-                {
-                    // set the new rope distance
-                    RopeDistanceJoint.distance = ropeDistance;
-                }
+                UpdateRopeDistance(deltaDistance);
 
                 // update the first point to be the same as the player origin w/ the offset
                 // TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
@@ -321,6 +307,28 @@ public class RopeSystem : MonoBehaviour
                 RopeLineRenderer.enabled = false;   
             }
         }        
+    }
+
+    /// <summary>
+    /// Updates the distance of the rope
+    /// </summary>
+    private void UpdateRopeDistance(float deltaDistance)
+    {
+        // this is the vector that points in the direction from the anchor point to the center of the player
+        // so it should be the same angle as the rope
+        // and with the magnitude of the ropeDistance
+
+        // see https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html
+        var direction = new Vector2(transform.position.x, transform.position.y) - RopeAnchorPoint.position;
+        // normalize it
+        direction.Normalize();
+
+        // ensure that the rope will not extend into another object and push the player into it
+        if (!Mathf.Approximately(0f, deltaDistance) && CheckForRopeExtensionIntoObject(transform.position, direction, deltaDistance))
+        {
+            // set the new rope distance
+            RopeDistanceJoint.distance = ropeDistance;
+        }
     }
 
     /// <summary>
