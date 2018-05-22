@@ -35,3 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SwingUp.unity
     guid: f2bfeb13eb8556342a0fe362bed2bdf9
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 37a23e720739a419299462d8de6b125a
+  m_configObjects: {}

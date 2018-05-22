@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Script for controlling the behavior of a rope, which is connected to the player
@@ -19,6 +20,13 @@ public class RopeSystem : MonoBehaviour
     public Rigidbody2D RopeAnchorPoint;
 
     /// <summary>
+    /// A reference to the last grapple point controller that a grapple was connected to
+    /// when the grapple is released, the release events will be invoked
+    /// null if unset
+    /// </summary>
+    private GrapplePointController LastAnchorPointController;
+
+    /// <summary>
     /// The DistanceJoint2D that is used to simulate the rope physics.
     /// </summary>
     public DistanceJoint2D RopeDistanceJoint;
@@ -28,7 +36,6 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public LineRenderer RopeLineRenderer;
     
-
     /// <summary>
     /// Axis used for shooting the grapple hook. Set to either *_Mouse or *_Controller
     /// string in Start() based on user control preference (stored in GameControl object).
@@ -121,6 +128,21 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public GameObject HookSpriteObject;
 
+    /// <summary>
+    /// Invoked when the player fires thie Grappling hook
+    /// </summary>
+    public UnityEvent OnPlayerGrappleFire;
+
+    /// <summary>
+    /// Invoked when the players grappling hook hits an object
+    /// </summary>
+    public UnityEvent OnPlayerGrappleHit;
+
+    /// <summary>
+    /// Invoked when the player releases the grappling hook, even if it is connected or not
+    /// </summary>
+    public UnityEvent OnPlayerGrappleRelease;
+
     void Start()
     {
 		// Set axis strings based on the user's controller selection from the menu screen
@@ -194,7 +216,7 @@ public class RopeSystem : MonoBehaviour
                 RopeDistanceJoint.distance = ropeDistance;
 
                 // update the first point to be the same as the player origin w/ the offset
-                //TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
+                // TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
                 // could have the player rotate to match the swinging
                 RopeLineRenderer.SetPosition(0, transform.position + PlayerRopeDrawOffset);
 
@@ -208,7 +230,7 @@ public class RopeSystem : MonoBehaviour
 
             // not casting, if they hold down the button then cast
             if (FireButton.IsButtonHeld())
-            {
+            {    
                 //HookCollider.enabled = true;
                 RopeAndHookCollider.enabled = true;
                 HookSpriteObject.SetActive(true);
@@ -216,6 +238,7 @@ public class RopeSystem : MonoBehaviour
                 // start throwing if not throwing already
                 if(!IsCasting)
                 {
+                    // fireSound.Play();
                     IsCasting = true;
                     // reset the casting distance
                     CurrentCastDistance = 0;
@@ -254,10 +277,17 @@ public class RopeSystem : MonoBehaviour
                 // set the end of the sprite to the end of the grapple
                 HookSpriteObject.transform.localPosition = CurrentCastDistance * directionVector;
                 // rotate the sprite so that it looks correct
-                HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+                HookSpriteObject.transform.rotation = Quaternion.Euler(0, 0, -90 + (Mathf.Rad2Deg * AimAngle));
 
                 // rotate the object that contains the casting collider
-                transform.rotation = Quaternion.Euler(0, 0, -90 + Mathf.Rad2Deg * AimAngle);
+                transform.rotation = Quaternion.Euler(0, 0, -90 + (Mathf.Rad2Deg * AimAngle));
+
+                // if they just clicked the fire button
+                if (FireButton.IsButtonClicked())
+                {
+                    // then invoke the on fire handler
+                    OnPlayerGrappleFire.Invoke();
+                }
             }
             // reset when let go
             else
@@ -316,11 +346,17 @@ public class RopeSystem : MonoBehaviour
     public void Detach()
     {
         RopeAnchorPoint = null;
+        // invoke the OnGrappleDisconnect events if the reference was not null
+        LastAnchorPointController?.OnGrappleDisconnect.Invoke();
+        // then null out the reference to the controller
+        LastAnchorPointController = null;
         RopeLineRenderer.enabled = false;
         RopeDistanceJoint.enabled = false;
         RopeAndHookCollider.enabled = false;
         IsCasting = false;
         CurrentCastDistance = 0;
+        // invoke the handler for the grapple point being released, unsure if it will block or not, so do this last
+        OnPlayerGrappleRelease.Invoke();
     }
 
     private bool HasDoneInitialReelIn = false;
@@ -328,10 +364,14 @@ public class RopeSystem : MonoBehaviour
     /// <summary>
     /// attaches to the given anchor point
     /// </summary>
-    /// <param name="point"></param>
-    public void Attach(Rigidbody2D point)
+    /// <param name="point">the rigid body of the point that is being attached to</param>
+    /// <param name="pointController">The GrapplePointController whose methods will be invoked</param>
+    public void Attach(Rigidbody2D point, GrapplePointController pointController)
     {
         RopeAnchorPoint = point;
+        LastAnchorPointController = pointController;
+        // invoke the OnGrappleConnect events if a connection is made
+        LastAnchorPointController?.OnGrappleConnect.Invoke();
 
         // use the min cast distance, or the current - the reel in
         // only if the player is on the ground
@@ -354,7 +394,9 @@ public class RopeSystem : MonoBehaviour
         if (IsCasting && collision.CompareTag(Tags.TAG_GRAPPLE_POINT))
         {
             IsCasting = false;
-            Attach(collision.GetComponent<Rigidbody2D>());
+            Attach(collision.GetComponent<Rigidbody2D>(), collision.GetComponent<GrapplePointController>());
+            // invoke the grapple hit
+            OnPlayerGrappleHit.Invoke();
         }
     }
 
@@ -367,5 +409,4 @@ public class RopeSystem : MonoBehaviour
     {
         AimAngle = angle;
     }
-
 }
