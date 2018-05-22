@@ -5,8 +5,8 @@ using UnityEngine;
 /// <summary>
 /// Singleton class to store settings or data that must persist across scenes.
 /// </summary>
-public class GameControl : MonoBehaviour {
-
+public class GameControl : MonoBehaviour
+{
     public static GameControl instance;
 
     /// <summary>
