@@ -3368,7 +3368,7 @@ Prefab:
     - target: {fileID: 114846463041460276, guid: f13ce3abdf63a6e459e7c5e2a62658cd,
         type: 2}
       propertyPath: events.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4391798674308006, guid: f13ce3abdf63a6e459e7c5e2a62658cd, type: 2}
       propertyPath: m_LocalPosition.x
@@ -3434,6 +3434,36 @@ Prefab:
     - target: {fileID: 4391798674308006, guid: f13ce3abdf63a6e459e7c5e2a62658cd, type: 2}
       propertyPath: m_LocalScale.y
       value: 0.8871118
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846463041460276, guid: f13ce3abdf63a6e459e7c5e2a62658cd,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846463041460276, guid: f13ce3abdf63a6e459e7c5e2a62658cd,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846463041460276, guid: f13ce3abdf63a6e459e7c5e2a62658cd,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1320416571}
+    - target: {fileID: 114846463041460276, guid: f13ce3abdf63a6e459e7c5e2a62658cd,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ChangeToScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846463041460276, guid: f13ce3abdf63a6e459e7c5e2a62658cd,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846463041460276, guid: f13ce3abdf63a6e459e7c5e2a62658cd,
+        type: 2}
+      propertyPath: events.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Level2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f13ce3abdf63a6e459e7c5e2a62658cd, type: 2}
