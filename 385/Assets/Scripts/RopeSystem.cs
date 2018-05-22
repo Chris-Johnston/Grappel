@@ -152,17 +152,17 @@ public class RopeSystem : MonoBehaviour
 
     void Start()
     {
-		// Set axis strings based on the user's controller selection from the menu screen
-		if (GameControl.ControllerMode) 
-		{
-			FireAxis = FireAxis_Controller;
-			ClimbDescendAxis = ClimbDescendAxis_Controller;
-		} 
-		else 
-		{
-			FireAxis = FireAxis_Mouse;
-			ClimbDescendAxis = ClimbDescendAxis_Mouse;
-		}
+        // Set axis strings based on the user's controller selection from the menu screen
+        if (GameControl.ControllerMode) 
+        {
+          FireAxis = FireAxis_Controller;
+          ClimbDescendAxis = ClimbDescendAxis_Controller;
+        } 
+        else 
+        {
+          FireAxis = FireAxis_Mouse;
+          ClimbDescendAxis = ClimbDescendAxis_Mouse;
+        }
 
         // set up the fire button axis
         FireButton = new AxisButton(FireAxis);
@@ -170,11 +170,17 @@ public class RopeSystem : MonoBehaviour
 
     /// <summary>
     /// Util method to determine if this rope system is connected to a Rigidbody2D
+    /// If the point is not null, then it means that a connection is made
+    /// if the point is not null but inactive, then it means a connection was made but it has been disabled
     /// </summary>
     /// <returns>True, if the anchor point of the rope is connected, or false if not.</returns>
     public bool IsRopeConnected()
     {
-		return (RopeAnchorPoint != null);
+        if (RopeAnchorPoint != null)
+        {
+            return RopeAnchorPoint?.gameObject?.activeSelf == true;
+        }
+        return false;
     }
 
     /// <summary>
@@ -220,13 +226,16 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     private void UpdateCastingRope()
     {
+        // disable the distance joint when we are casting, for when the point 
+        // disables itself
+        RopeDistanceJoint.enabled = false;
+
         //HookCollider.enabled = true;
         RopeAndHookCollider.enabled = true;
         HookSpriteObject.SetActive(true);
 
         // start throwing if not throwing already
-        // if they are allowed to fire
-        if (!IsCasting)
+        if(!IsCasting)
         {
             // fireSound.Play();
             IsCasting = true;
@@ -330,6 +339,7 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     private void ResetRopeAndHookOnRelease()
     {
+        RopeDistanceJoint.enabled = false;
         HookSpriteObject.SetActive(false);
         CurrentCastDistance = 0;
         IsCasting = false;
