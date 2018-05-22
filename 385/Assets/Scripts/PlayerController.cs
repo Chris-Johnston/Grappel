@@ -399,8 +399,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-	}
-
+	
         if (ShowDebugging)
         {
             Debug.Log("aimAngle: " + aimAngle + " rad");
