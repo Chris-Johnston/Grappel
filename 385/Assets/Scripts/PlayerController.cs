@@ -225,12 +225,11 @@ public class PlayerController : MonoBehaviour
         else if(collide.gameObject.tag == Tags.TAG_GROUND_TIMED)  // enters timed ground
         {
             onGround = true;
-            collisions[index].add(ref collide) ;  // add to array by reference
+            collisions[index].add(ref collide);  // add to array by reference
             collisions[index].active = true;     // current box being used
             if (index == 4) { index = 0; }     // increment index in circle
             else index++;
         }
-
     }
 
     void OnCollisionExit2D(Collision2D collide)
