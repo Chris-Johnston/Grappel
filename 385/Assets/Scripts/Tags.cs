@@ -12,8 +12,9 @@ public static class Tags {
 	public const string TAG_GAME_CONTROLLER = "GameController";
 	public const string TAG_FLOOR_WALL = "Floor & Wall";
 	public const string TAG_GROUND = "Ground";
-   public const string TAG_GROUND_DIS = "GroundDis";
-   public const string TAG_GRAPPLE_POINT = "GrapplePoint";
+    public const string TAG_GROUND_DIS = "GroundDis";
+    public const string TAG_GROUND_TIMED = "GroundTimed";
+    public const string TAG_GRAPPLE_POINT = "GrapplePoint";
 	public const string TAG_GRAPPLE_HOOK = "GrappleHook";
     
 }

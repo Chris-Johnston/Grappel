@@ -132,6 +132,14 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private Vector3 playerPos;
 
+    // array to store multiple collisions in case platforms are
+    // placed next to each other
+    private CollisionStorage[] collisions;
+
+    // index to look through in collision array
+    private int index = 0;
+    public int waitTime = 200; // time before platform dissapears
+
     // Use this for initialization
     void Start ()
     {
@@ -170,6 +178,10 @@ public class PlayerController : MonoBehaviour
 		// Initialize the joystick position Vector3
 		joystickPosition = new Vector3(0, 0, 0);
 
+        // initialize array for collisions
+        collisions = new CollisionStorage[5];
+        for (int i = 0; i < 5; i++) { collisions[i] = new CollisionStorage(); }
+
     }
 
     //Ground check for player - can only jump while on ground
@@ -184,11 +196,21 @@ public class PlayerController : MonoBehaviour
         {
             // Debug.Log("Oh no this player was hit with a grapple hook!");
         }
+        else if(collide.gameObject.tag == Tags.TAG_GROUND_TIMED)  // enters timed ground
+        {
+            onGround = true;
+            collisions[index].add(ref collide) ;  // add to array by reference
+            collisions[index].active = true;     // current box being used
+            if (index == 4) { index = 0; }     // increment index in circle
+            else index++;
+        }
+
     }
 
     void OnCollisionExit2D(Collision2D collide)
     {
-        if (collide.gameObject.tag == Tags.TAG_GROUND)
+        if (collide.gameObject.tag == Tags.TAG_GROUND || 
+            collide.gameObject.tag == Tags.TAG_GROUND_TIMED)
         {
             onGround = false;
         }
@@ -340,6 +362,18 @@ public class PlayerController : MonoBehaviour
                 onGround = false;
             }
         }
+
+        for (int i = 0; i < 5; i++) {  // checks each object in collision array for incrementation
+            if (collisions[i].active == true){
+                collisions[i].counter++;
+                if(collisions[i].counter == waitTime)
+                {
+                    Destroy(collisions[i].collide.gameObject);  // destories object when counter reaches wait time
+                    collisions[i].active = false;
+                    collisions[i].counter = 0;
+                }
+            }
+        }
 	}
 
 
@@ -390,5 +424,21 @@ public class PlayerController : MonoBehaviour
         // convert both of these vector2s to vector3s
         // then project them using Vector3 project
         return Vector3.Project(Util.ToVector3(vec), Util.ToVector3(normal));
-    }    
+    }
+
+    // class used to store collision objects for timed platforms
+    public class CollisionStorage {
+        public Collision2D collide;
+        public bool active;
+        public int counter;
+
+        public CollisionStorage() {
+            active = false;
+            counter = 0;
+        }
+
+        public void add(ref Collision2D newCollide) {
+            collide = newCollide;
+        }
+    }
 }
