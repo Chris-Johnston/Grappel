@@ -183,6 +183,10 @@ Prefab:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 835a265ac1f66ed4eb9c627baadaf1cc, type: 2}
+    - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
   m_IsPrefabParent: 0
@@ -1070,6 +1074,11 @@ Prefab:
       propertyPath: OnPlayerGrappleRelease.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Release
       objectReference: {fileID: 0}
+    - target: {fileID: 114402239207182064, guid: 982b977e0e8b71f4fb49001bc2fa0086,
+        type: 2}
+      propertyPath: PlayerAntiOverExtendRadius
+      value: 0.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982b977e0e8b71f4fb49001bc2fa0086, type: 2}
   m_IsPrefabParent: 0
@@ -1143,6 +1152,10 @@ Prefab:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 835a265ac1f66ed4eb9c627baadaf1cc, type: 2}
+    - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
   m_IsPrefabParent: 0
@@ -1480,6 +1493,10 @@ Prefab:
     - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1334599157527406, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}

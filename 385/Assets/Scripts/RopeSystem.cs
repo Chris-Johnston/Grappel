@@ -27,6 +27,13 @@ public class RopeSystem : MonoBehaviour
     public Rigidbody2D RopeAnchorPoint;
 
     /// <summary>
+    /// Which radius to give the player so that they don't over extend
+    /// this should be very close to the size of the player, if not the same
+    /// </summary>
+    [Range(0.1f, 2.0f)]
+    public float PlayerAntiOverExtendRadius = 0.6f;
+
+    /// <summary>
     /// A reference to the last grapple point controller that a grapple was connected to
     /// when the grapple is released, the release events will be invoked
     /// null if unset
@@ -199,7 +206,7 @@ public class RopeSystem : MonoBehaviour
             else
             {
                 // update the renderers, objects and colliders for when the rope is connected
-                UpdateConnectedRope();   
+                UpdateConnectedRope();
             }
         }
         else
@@ -219,6 +226,28 @@ public class RopeSystem : MonoBehaviour
                 ResetRopeAndHookOnRelease();
             }
         }        
+    }
+
+    /// <summary>
+    /// Updates the distance of the rope
+    /// </summary>
+    private void UpdateRopeDistance(float ropeDistance, float deltaDistance)
+    {
+        // this is the vector that points in the direction from the anchor point to the center of the player
+        // so it should be the same angle as the rope
+        // and with the magnitude of the ropeDistance
+
+        // see https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html
+        var direction = new Vector2(transform.position.x, transform.position.y) - RopeAnchorPoint.position;
+        // normalize it
+        direction.Normalize();
+
+        // ensure that the rope will not extend into another object and push the player into it
+        if (!Mathf.Approximately(0f, deltaDistance) && CheckForRopeExtensionIntoObject(transform.position, direction, deltaDistance))
+        {
+            // set the new rope distance
+            RopeDistanceJoint.distance = ropeDistance;
+        }
     }
 
     /// <summary>
@@ -290,6 +319,54 @@ public class RopeSystem : MonoBehaviour
     }
 
     /// <summary>
+    /// Draw a ray between the desired rope length and the current rope length to ensure that it doesn't overextend into an object and cause
+    /// unintended behavior, like it getting stuck inside an object or out of bounds
+    /// </summary>
+    /// <returns>False if an object was detected in the way of the ray that would get the way, or true if there is nothing in the way</returns>
+    private bool CheckForRopeExtensionIntoObject(Vector2 PlayerCenterPosition, Vector2 DirectionVector, float distance)
+    {
+        var offsetDistance = (distance < 0) ? distance - PlayerAntiOverExtendRadius : distance + PlayerAntiOverExtendRadius;
+
+        // debugging
+        // draws a ray in the direction that is being checked for over extensions
+        // only visible in the scene view, so fine to leave this in 
+        Debug.DrawRay(PlayerCenterPosition, DirectionVector * offsetDistance, Color.red);
+
+        // raycast from the player's origin to the direction that the rope will be extended in
+
+        // cap the amount of hits from the raycast to 2
+        // the first one will always be the player, because the raycast starts in the center of the player collider
+        var results = new RaycastHit2D[2];
+
+        // raycast from the center of the player in the direction of the rope to the intended length
+        // get the results from this raycast
+        var raycastHit = Physics2D.Raycast(PlayerCenterPosition, DirectionVector, new ContactFilter2D(), results, offsetDistance);
+
+        // if hit more than one object, then there is something in the way
+        if (raycastHit > 1f)
+        {
+            // check to see if this object is part of the world
+
+            // get the tags for this last hit
+            var lastHit = results[1];
+
+            // check that we collided with any of the world tags
+            if (lastHit.collider.CompareTag(Tags.TAG_FLOOR_WALL) ||
+                lastHit.collider.CompareTag(Tags.TAG_GROUND) ||
+                lastHit.collider.CompareTag(Tags.TAG_GROUND_DIS))
+            {
+                // if we did, then prevent extending into these
+                return false;
+            }
+
+            // if the tag was something else, then dont worry about it
+        }
+
+        // if didn't collide with anything else, then no problem, go ahead and update the rope length
+        return true;
+    }
+
+    /// <summary>
     /// Update renderers and joints when a rope is connected
     /// </summary>
     private void UpdateConnectedRope()
@@ -310,10 +387,12 @@ public class RopeSystem : MonoBehaviour
             HasDoneInitialReelIn = true;
         }
 
+        var deltaDistance = Input.GetAxis(ClimbDescendAxis) * ClimbDescendSpeed * Time.deltaTime;
+
         // reel in the player
         var ropeDistance = RopeDistanceJoint.distance;
         // adjust the target distance based on the ClimbDescend Axis
-        ropeDistance += Input.GetAxis(ClimbDescendAxis) * ClimbDescendSpeed * Time.deltaTime;
+        ropeDistance += deltaDistance;
 
         // ensure ropeDistance is in bounds
         if (ropeDistance > MaxCastDistance)
@@ -321,8 +400,7 @@ public class RopeSystem : MonoBehaviour
         else if (ropeDistance < MinCastDistance)
             ropeDistance = MinCastDistance;
 
-        // set the new rope distance
-        RopeDistanceJoint.distance = ropeDistance;
+        UpdateRopeDistance(ropeDistance, deltaDistance);
 
         // update the first point to be the same as the player origin w/ the offset
         // TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
