@@ -236,7 +236,11 @@ public class RopeSystem : MonoBehaviour
 
             // not casting, if they hold down the button then cast
             if (FireButton.IsButtonHeld())
-            {    
+            {
+                // disable the distance joint when we are casting, for when the point 
+                // disables itself
+                RopeDistanceJoint.enabled = false;
+
                 //HookCollider.enabled = true;
                 RopeAndHookCollider.enabled = true;
                 HookSpriteObject.SetActive(true);
@@ -301,6 +305,7 @@ public class RopeSystem : MonoBehaviour
                 HookSpriteObject.SetActive(false);
                 CurrentCastDistance = 0;
                 IsCasting = false;
+                RopeDistanceJoint.enabled = false;
                 RopeAndHookCollider.enabled = false;
                 RopeLineRenderer.enabled = false;   
             }
