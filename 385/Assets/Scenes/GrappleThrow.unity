@@ -113,6 +113,23 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &102221035 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841,
+    type: 2}
+  m_PrefabInternal: {fileID: 408304329}
+--- !u!114 &102221036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 102221035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c527b4411b03349b93cca386079d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeUntilDisappear: 3
 --- !u!1001 &227324319
 Prefab:
   m_ObjectHideFlags: 0
@@ -379,6 +396,10 @@ Prefab:
       propertyPath: m_Name
       value: GrapplePoint (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
   m_IsPrefabParent: 0
@@ -389,13 +410,18 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114373067657765630, guid: 354aebfb9f3934dfba7d06808a897841,
+        type: 2}
+      propertyPath: OnGrappleConnect.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.61
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 6.75
+      value: 1.01
       objectReference: {fileID: 0}
     - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
       propertyPath: m_LocalPosition.z
@@ -424,6 +450,35 @@ Prefab:
     - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
       propertyPath: m_Name
       value: GrapplePoint (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114373067657765630, guid: 354aebfb9f3934dfba7d06808a897841,
+        type: 2}
+      propertyPath: OnGrappleConnect.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114373067657765630, guid: 354aebfb9f3934dfba7d06808a897841,
+        type: 2}
+      propertyPath: OnGrappleConnect.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114373067657765630, guid: 354aebfb9f3934dfba7d06808a897841,
+        type: 2}
+      propertyPath: OnGrappleConnect.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 102221036}
+    - target: {fileID: 114373067657765630, guid: 354aebfb9f3934dfba7d06808a897841,
+        type: 2}
+      propertyPath: OnGrappleConnect.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Connect
+      objectReference: {fileID: 0}
+    - target: {fileID: 114373067657765630, guid: 354aebfb9f3934dfba7d06808a897841,
+        type: 2}
+      propertyPath: OnGrappleConnect.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
@@ -644,6 +699,10 @@ Prefab:
     - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
       propertyPath: m_Name
       value: GrapplePoint (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
