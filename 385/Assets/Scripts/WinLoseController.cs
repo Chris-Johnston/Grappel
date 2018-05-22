@@ -38,11 +38,10 @@ public class WinLoseController : MonoBehaviour
     {
         WinObject?.SetActive(false);
         LoseObject?.SetActive(true);
-
     }
 
-	public void ChangeToScene (string sceneToChangeTo) {
+	public void ChangeToScene (string sceneToChangeTo)
+    {
 		SceneManager.LoadScene (sceneToChangeTo);
 	}
-
 }
