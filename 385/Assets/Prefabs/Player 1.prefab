@@ -280,6 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RopeAnchorPoint: {fileID: 0}
+  PlayerAntiOverExtendRadius: 0.6
   RopeDistanceJoint: {fileID: 232103480614276934}
   RopeLineRenderer: {fileID: 120264560965020486}
   FireAxis_Mouse: Fire
@@ -298,6 +299,21 @@ MonoBehaviour:
   RopeAndHookCollider: {fileID: 70442492259862722}
   PlayerControllerScript: {fileID: 114892520084136018}
   HookSpriteObject: {fileID: 1486288088353262}
+  OnPlayerGrappleFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnPlayerGrappleHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnPlayerGrappleRelease:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114892520084136018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -327,6 +343,16 @@ MonoBehaviour:
   RopeSystem: {fileID: 114402239207182064}
   StrafingForce: 300
   JumpingForce: 5.5
+  OnPlayerJump:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnPlayerLand:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!120 &120264560965020486
 LineRenderer:
   m_ObjectHideFlags: 1
