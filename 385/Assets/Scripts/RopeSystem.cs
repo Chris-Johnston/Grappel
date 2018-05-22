@@ -163,11 +163,17 @@ public class RopeSystem : MonoBehaviour
 
     /// <summary>
     /// Util method to determine if this rope system is connected to a Rigidbody2D
+    /// If the point is not null, then it means that a connection is made
+    /// if the point is not null but inactive, then it means a connection was made but it has been disabled
     /// </summary>
     /// <returns>True, if the anchor point of the rope is connected, or false if not.</returns>
     public bool IsRopeConnected()
     {
-		return (RopeAnchorPoint != null);
+        if (RopeAnchorPoint != null)
+        {
+            return RopeAnchorPoint?.gameObject?.activeSelf == true;
+        }
+        return false;
     }
 
     /// <summary>
