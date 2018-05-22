@@ -190,6 +190,52 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca37e0b2abe3b7a4484b7c84ec8f0889, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &272537130
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1208455112583882, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+      propertyPath: m_Name
+      value: CrumblePoint (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &323371822
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +429,10 @@ Prefab:
       propertyPath: m_Name
       value: GrapplePoint (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
   m_IsPrefabParent: 0
@@ -393,44 +443,46 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.61
+      value: -0.31
       objectReference: {fileID: 0}
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 6.75
+      value: 1.01
       objectReference: {fileID: 0}
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.020427717
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+    - target: {fileID: 4814525671459390, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
-      propertyPath: m_Name
-      value: GrapplePoint (3)
-      objectReference: {fileID: 0}
+    - target: {fileID: 212027245198650780, guid: 6ff1657325ff21746a5fa27229eb3699,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 856d71781d8401748b7df97c32954a30,
+        type: 3}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 6ff1657325ff21746a5fa27229eb3699, type: 2}
   m_IsPrefabParent: 0
 --- !u!114 &640968160 stripped
 MonoBehaviour:
@@ -648,6 +700,10 @@ Prefab:
     - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
       propertyPath: m_Name
       value: GrapplePoint (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450384412150496, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 354aebfb9f3934dfba7d06808a897841, type: 2}
