@@ -221,7 +221,7 @@ public class RopeSystem : MonoBehaviour
                 else if (ropeDistance < MinCastDistance)
                     ropeDistance = MinCastDistance;
 
-                UpdateRopeDistance(deltaDistance);
+                UpdateRopeDistance(ropeDistance, deltaDistance);
 
                 // update the first point to be the same as the player origin w/ the offset
                 // TODO: should later expand on the player offset to compensate for any rotation of the player, if that is planned to be used
@@ -312,7 +312,7 @@ public class RopeSystem : MonoBehaviour
     /// <summary>
     /// Updates the distance of the rope
     /// </summary>
-    private void UpdateRopeDistance(float deltaDistance)
+    private void UpdateRopeDistance(float ropeDistance, float deltaDistance)
     {
         // this is the vector that points in the direction from the anchor point to the center of the player
         // so it should be the same angle as the rope
