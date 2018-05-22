@@ -48,7 +48,6 @@ public class RopeSystem : MonoBehaviour
     private AxisButton FireButton;
 
     /// <summary>
-
     /// Which axis is used to indicate that the player wants to climb or descend.
     /// Set to either *_Controller or *_Mouse public string based on user control setting
     /// (stored in GameControl object).
@@ -410,5 +409,4 @@ public class RopeSystem : MonoBehaviour
     {
         AimAngle = angle;
     }
-
 }
