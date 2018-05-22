@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Tags {
-
+public static class Tags
+{
 	public const string TAG_RESPAWN = "Respawn";
 	public const string TAG_FINISH = "Finish";
 	public const string TAG_EDITOR_ONLY = "EditorOnly";
@@ -15,4 +15,4 @@ public static class Tags {
    	public const string TAG_GROUND_DIS = "GroundDis";
    	public const string TAG_GRAPPLE_POINT = "GrapplePoint";
 	public const string TAG_GRAPPLE_HOOK = "GrappleHook";
-    }
+}
