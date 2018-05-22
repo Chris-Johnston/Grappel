@@ -409,6 +409,8 @@ public class PlayerController : MonoBehaviour
         // show the cursor
         if (RopeSystem?.IsRopeConnected() == false && ( !IsJoystickInDeadzone() || !ControllerMode))
         {
+            if (RopeSystem != null)
+                RopeSystem.CanFire = true;
             // set the position of the aiming reticle
             AimingReticleObject.SetActive(true);
             var position = new Vector3(Mathf.Cos(aimAngle) * AimingDistance, Mathf.Sin(aimAngle) * AimingDistance, 0);
@@ -417,6 +419,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (RopeSystem != null)
+                RopeSystem.CanFire = false;
             // hide reticle
             AimingReticleObject.SetActive(false);
         }

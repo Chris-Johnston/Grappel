@@ -14,6 +14,13 @@ using UnityEngine.Events;
 public class RopeSystem : MonoBehaviour
 {
     /// <summary>
+    /// Toggle that determines if the rope system can fire out
+    /// This is disabled if the controller is in the deadzone, if a controller is being used
+    /// or when the grapple point is connected. This is set in PlayerController
+    /// </summary>
+    public bool CanFire = true;
+
+    /// <summary>
     /// The anchor point that the player's rope should be connected to,
     /// null if unset.
     /// </summary>
@@ -237,7 +244,8 @@ public class RopeSystem : MonoBehaviour
                 HookSpriteObject.SetActive(true);
 
                 // start throwing if not throwing already
-                if(!IsCasting)
+                // if they are allowed to fire
+                if(!IsCasting && CanFire)
                 {
                     // fireSound.Play();
                     IsCasting = true;
