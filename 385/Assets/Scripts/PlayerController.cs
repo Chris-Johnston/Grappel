@@ -114,6 +114,12 @@ public class PlayerController : MonoBehaviour
     public float StrafingForce = 150.0f;
 
     /// <summary>
+    /// What is the limit for how much force the player can have in the direction that they are strafing in
+    /// </summary>
+    [Range(0, 700)]
+    public float MaxStrafingVelocity = 300.0f;
+
+    /// <summary>
     /// How much force to give to the player when they jump
     /// </summary>
     [Range(0, 50)]
@@ -395,7 +401,14 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector2 movement = new Vector2(moveHorizontal, 0);
-        PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
+
+        // get the current velocity in the x direction
+        // if this is less than the maximum then we can add more force to the player
+        // otherwise, dont
+        if (Mathf.Abs(PlayerRigidBody.velocity.x) < MaxStrafingVelocity)
+        {
+            PlayerRigidBody.AddForce(movement * StrafingForce * Time.deltaTime);
+        }
     }
 
 	/// <summary>
