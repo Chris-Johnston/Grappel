@@ -117,7 +117,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1437658580342910}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8115573, y: 1.4774836, z: 0}
+  m_LocalPosition: {x: -8.38, y: 10.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4764413717148850}
@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1766c471bcfbe044d8e76f2e05242059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanFire: 1
   RopeAnchorPoint: {fileID: 0}
   PlayerAntiOverExtendRadius: 0.6
   RopeDistanceJoint: {fileID: 232103480614276934}
@@ -341,7 +342,8 @@ MonoBehaviour:
   SwingForce: 200
   ShowDebugging: 0
   RopeSystem: {fileID: 114402239207182064}
-  StrafingForce: 300
+  StrafingForce: 681
+  MaxStrafingVelocity: 4.22
   JumpingForce: 5.5
   OnPlayerJump:
     m_PersistentCalls:
