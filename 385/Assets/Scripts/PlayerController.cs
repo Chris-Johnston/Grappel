@@ -110,14 +110,14 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// How much force to give to the player when they strafe, per second
     /// </summary>
-    [Range(0, 500)]
+    [Range(0, 1500)]
     public float StrafingForce = 150.0f;
 
     /// <summary>
     /// What is the limit for how much force the player can have in the direction that they are strafing in
     /// </summary>
-    [Range(0, 700)]
-    public float MaxStrafingVelocity = 300.0f;
+    [Range(0, 15)]
+    public float MaxStrafingVelocity = 7.0f;
 
     /// <summary>
     /// How much force to give to the player when they jump
