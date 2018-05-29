@@ -1284,7 +1284,7 @@ MonoBehaviour:
   MaxDeltaWaterMovementSpeed: 300
   IsPlayerDead: 0
   PlayerAheadDistance: 5
-  WaterBehindDistance: 5
+  WaterBehindDistance: 18
   MaxSectionCount: 10
 --- !u!4 &2049798100
 Transform:
