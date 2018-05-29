@@ -788,7 +788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraPositionOffset: {x: 0, y: 0, z: -10}
   TargetCameraPosition: {x: 0, y: 0, z: 0}
-  MaxDistanceDelta: 0.5
+  MaxDistanceDelta: 2.83
 --- !u!4 &1531147966 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4243135063600338, guid: 354aebfb9f3934dfba7d06808a897841,
@@ -869,6 +869,7 @@ MonoBehaviour:
   SectionParentTransform: {fileID: 1938058708}
   SceneCamera: {fileID: 1527219726}
   IsStarted: 0
+  InitialSpawnAmount: 3
 --- !u!4 &2049798100
 Transform:
   m_ObjectHideFlags: 0
