@@ -172,5 +172,4 @@ public class DynamicSwingUpSceneController : MonoBehaviour
         return EasySections[0];
     }
 
-
 }
