@@ -1,69 +1,56 @@
-﻿Shader "Custom/WavePlaneShader" {
-	Properties {
-		_Color ("Color", Color) = (1,1,1,1)
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
-		_Glossiness("Smoothness", Range(0,1)) = 0.5
-		_Metallic("Metallic", Range(0,1)) = 0.0
-	}
-		SubShader
+﻿Shader "Custom/WavePlaneShader"
+{
+	SubShader
+	{
+		Pass
 		{
-			Tags { "RenderType" = "Opaque" }
-			LOD 200
-
 			CGPROGRAM
 
-		// ComputeScreenPos
-		#include "UnityCG.cginc"
+			#include "UnityCG.cginc"
 
-		// Physically based Standard lighting model, and enable shadows on all light types
-		// #pragma surface surf Standard fullforwardshadows
-		#pragma vertext vert
-		#pragma fragment frag
+			#pragma vertex vert
+			#pragma fragment frag
 
-		// Use shader model 3.0 target, to get nicer looking lighting
-		#pragma target 3.0
+			sampler2D _CameraDepthTexture;
 
-		struct Input {
-			float2 uv_MainTex;
-		};
+			struct vertexInput
+			{
+				float4 vertex : POSITION;
+			};
 
-		// struct type for vertex shaders
-		struct v2f {
-			float4 pos : SV_POSITION;
-			float4 screenPos : TEXCOORD1;
-		};
+			struct vertexOutput
+			{
+				float4 pos : SV_POSITION;
+				float4 screenPos : TEXCOORD1;
+			};
 
-		// vertex shader
-		v2f vert(appdata_base v)
-		{
-			v2f output;
-			output.pos = UnityObjectToClipPos(v.vertex);
-			output.color = ComputeScreenPos(output.pos);
-			return output;
+			vertexOutput vert(vertexInput input)
+			{
+				vertexOutput output;
+
+				output.pos = UnityObjectToClipPos(input.vertex);
+				output.screenPos = ComputeScreenPos(output.pos);
+
+				return output;
+			}
+
+			float4 frag(vertexOutput input) : COLOR
+			{
+				input.pos.xy = floor(input.pos.xy * 0.15) * 0.5;
+				float checker = -frac(input.pos.r + input.pos.g);
+
+				clip(checker);
+
+				fixed4 c = float4(255.0, 0, 255.0, 1) * _CosTime.a;
+				return c;
+/*
+				float depthSample = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, input.screenPos);
+				float depth = LinearEyeDepth(depthSample).r;
+				float4 foamLine = float4(depth, depth, depth, 1);
+
+				return foamLine;*/
+			}
+			ENDCG
 		}
-
-		half _Glossiness;
-		half _Metallic;
-		fixed4 _Color;
-
-		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-		// #pragma instancing_options assumeuniformscaling
-		UNITY_INSTANCING_BUFFER_START(Props)
-			// put more per-instance properties here
-		UNITY_INSTANCING_BUFFER_END(Props)
-
-		void surf (Input IN, inout SurfaceOutputStandard o) 
-		{
-			// Albedo comes from a texture tinted by color
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb;
-			// Metallic and smoothness come from slider variables
-			o.Metallic = _Metallic;
-			o.Smoothness = _Glossiness;
-			o.Alpha = c.a;
-		}
-		ENDCG
 	}
-	FallBack "Diffuse"
 }
