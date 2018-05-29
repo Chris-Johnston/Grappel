@@ -20,6 +20,20 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     public List<GameObject> HardSections = new List<GameObject>();
 
     /// <summary>
+    /// At what point does the range of easy sections end
+    /// and the medium sections begin
+    /// </summary>
+    [Range(0, 150)]
+    public float EasyHeightEnd = 50f;
+
+    /// <summary>
+    /// At what point does the range of medium sections end
+    /// and the hard sections begin
+    /// </summary>
+    [Range(50, 350)]
+    public float MediumHeightEnd = 150f;
+
+    /// <summary>
     /// How far away should each of the origin sections be placed
     /// </summary>
     public Vector3 SectionSpacing = new Vector3(0, 30f, 0);
@@ -78,9 +92,44 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     public int InitialSpawnAmount = 3;
 
     /// <summary>
-    /// The current height that the player is at
+    /// the point height that the player is at
+    /// highest Y
     /// </summary>
-    private float Height = 0f;
+    private float PointHeight = 0f;
+
+    /// <summary>
+    /// Reference the water object
+    /// </summary>
+    public GameObject Water;
+
+    /// <summary>
+    /// How quick the water should move upwards
+    /// </summary>
+    [Range(0, 20)]
+    public float WaterMovementSpeed = 5.0f;
+
+    /// <summary>
+    /// the height at which the water movement speed will start increasing
+    /// </summary>
+    [Range(0, 150)]
+    public float WaterMovementMultiplierHeight = 80.0f;
+
+    /// <summary>
+    /// The target position for the water to move towards
+    /// </summary>
+    public Vector3 WaterTargetPosition = new Vector3();
+
+    /// <summary>
+    /// the max delta that water should move towards
+    /// this is so that it appears to move smoothly
+    /// </summary>
+    [Range(0, 10)]
+    public float MaxDeltaWaterMovementSpeed = 5.0f;
+
+    /// <summary>
+    /// If the player has collided with the water
+    /// </summary>
+    public bool IsPlayerDead = false;
 
     void Start()
     {
@@ -93,10 +142,104 @@ public class DynamicSwingUpSceneController : MonoBehaviour
         // set the camera controller component
         CameraController = SceneCamera.GetComponent<DynamicSwingUpCameraController>();
 
+        // add the area trigger handler for the water
+        var areaTrigger = Water.GetComponent<AreaTriggerController>();
+        areaTrigger.events.AddListener(new UnityEngine.Events.UnityAction(OnWaterCollide));
+
+        // spawn a few items as soon as the scene starts
         for (int i = 0; i < InitialSpawnAmount; i++)
+        {
+            //SpawnSection();
+        }
+    }
+
+    void Update()
+    {
+        CheckIfPlayerFarAhead();
+        // only update the water if the player has started the game already
+        // and they can do that by grabbing on to the first point
+        if (IsStarted)
+        {
+            UpdateWater();
+        }
+        CheckIfNewSpawnsNeeded();
+    }
+
+    /// <summary>
+    /// How many sections ahead should we spawn new sections so that the player doesn't risk 
+    /// seeing nothing
+    /// </summary>
+    private int SectionSpacingThreshold = 2;
+
+    /// <summary>
+    /// Checks to see if the player is getting too close to the center point of the last spawned section
+    /// and if so, should spawn a new section.
+    /// 
+    /// If the list of sections gets to be over the limit, then will start deleting the old ones
+    /// so that Unity doesn't explode
+    /// </summary>
+    private void CheckIfNewSpawnsNeeded()
+    {
+        var playerY = PlayerReference.transform.position.y;
+
+        // if the difference between the last spawned section and the players distance 
+        // is less than the spacing between two of the sections, then it is likely 
+        // that we should spawn a new one
+        if ((LastSpawnedCenterWorldCoordinates.y - playerY) < (SectionSpacing.y * SectionSpacingThreshold))
         {
             SpawnSection();
         }
+    }
+
+    /// <summary>
+    /// How far above the target camera position will we consider the player to be too far ahead and we need to push the camera forward?
+    /// </summary>
+    public float PlayerAheadDistance = 5f;
+
+    /// <summary>
+    /// When the water further than this distance away from the player, it will catch up to be this distance
+    /// away from the target camera position
+    /// </summary>
+    public float WaterBehindDistance = 15f;
+
+    /// <summary>
+    /// Checks if the player is moving further ahead than the camera was ready for
+    /// in that case, update the camera target position and give the water a boost
+    /// </summary>
+    private void CheckIfPlayerFarAhead()
+    {
+        var playerHeight = PlayerReference.transform.position.y;
+
+        // if the player is above the target position plus this distance
+        if (playerHeight > (CameraController.TargetCameraPosition.y + PlayerAheadDistance))
+        {
+            // the player is considered to be too far ahead
+            // update the y component of the target camera position
+            // to match that of the player
+            CameraController.TargetCameraPosition.y = playerHeight;
+        }
+    }
+
+    /// <summary>
+    /// Updates the position of the water
+    /// </summary>
+    private void UpdateWater()
+    {
+        // update the target position
+        WaterTargetPosition += Vector3.up * Time.deltaTime * (WaterMovementSpeed + PointHeight / WaterMovementMultiplierHeight);
+
+        // check if the player is really far ahead
+        var playerHeight = PlayerReference.transform.position.y;
+
+        if (playerHeight > (WaterTargetPosition.y + WaterBehindDistance))
+        {
+            // set the new position so that it can catch up
+            // base this off of the camera
+            WaterTargetPosition = new Vector3(0, CameraController.TargetCameraPosition.y - WaterBehindDistance, 0);
+        }
+
+        // move the water towards the position
+        Water.transform.position = Vector3.MoveTowards(Water.transform.position, WaterTargetPosition, WaterMovementSpeed * Time.deltaTime);
     }
 
     /// <summary>
@@ -106,6 +249,8 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     /// </summary>
     private void OnPlayerGrappleHit()
     {
+        Debug.Log("AA");
+
         // start the level if it isn't already
         if (!IsStarted)
         {
@@ -115,11 +260,11 @@ public class DynamicSwingUpSceneController : MonoBehaviour
         var connectedPoint = GetConnectedGrapplePoint();
 
         // if the connected point height is above the current height
-        if (connectedPoint.y >= Height)
-            Height = connectedPoint.y;
+        if (connectedPoint.y >= PointHeight)
+            PointHeight = connectedPoint.y;
 
         // set the camera position to focus on the point that was just grabbed
-        CameraController.TargetCameraPosition = new Vector3(0, Height, 0);
+        CameraController.TargetCameraPosition = new Vector3(0, PointHeight, 0);
     }
 
     /// <summary>
@@ -159,7 +304,24 @@ public class DynamicSwingUpSceneController : MonoBehaviour
         // add this to the collection of instances
         SectionPrefabInstances.Enqueue(copy);
         SpawnedCounter++;
+
+        // if too many items exist, delete some old ones
+        if (SectionPrefabInstances.Count > MaxSectionCount)
+        {
+            // remove one of the instances
+            // disable it
+            // and destroy it
+            var item = SectionPrefabInstances.Dequeue();
+            item.SetActive(false);
+            Destroy(item);
+        }
     }
+
+    /// <summary>
+    /// The max number of sections to have instantiated at once
+    /// </summary>
+    [Range(3, 30)]
+    public int MaxSectionCount = 10;
 
     /// <summary>
     /// Gets the next section of the world to spawn based on the current difficulty
@@ -167,8 +329,43 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     /// <returns></returns>
     private GameObject GetPrefabSectionToSpawnNext()
     {
-        // return the first easy section, since we are testing
-        //TODO determine a prefab section based on the current difficulty
-        return EasySections[0];
+        if (PointHeight < EasyHeightEnd)
+        {
+            return GetRandom(EasySections);
+        }
+        else if (PointHeight < MediumHeightEnd)
+        {
+            return GetRandom(MediumSections);
+        }
+        else
+        {
+            return GetRandom(HardSections);
+        }
+    }
+
+    /// <summary>
+    /// Gets a random element out of the list of game objects
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    private GameObject GetRandom(List<GameObject> list)
+    {
+        return list[Random.Range(0, list.Count)];
+    }
+
+    /// <summary>
+    /// When the player collides with the water
+    /// </summary>
+    public void OnWaterCollide()
+    {
+        PlayerDead();
+    }
+
+    public void PlayerDead()
+    {
+        if (!IsPlayerDead)
+            Debug.Log("Player died!");
+
+        IsPlayerDead = true;
     }
 }
