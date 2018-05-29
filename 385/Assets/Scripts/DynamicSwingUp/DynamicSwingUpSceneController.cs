@@ -171,5 +171,4 @@ public class DynamicSwingUpSceneController : MonoBehaviour
         //TODO determine a prefab section based on the current difficulty
         return EasySections[0];
     }
-
 }
