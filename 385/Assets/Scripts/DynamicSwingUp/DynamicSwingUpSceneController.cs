@@ -106,7 +106,7 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     /// How quick the water should move upwards
     /// </summary>
     [Range(0, 20)]
-    public float WaterMovementSpeed = 5.0f;
+    public float WaterMovementSpeed = 0.7f;
 
     /// <summary>
     /// the height at which the water movement speed will start increasing
@@ -123,8 +123,8 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     /// the max delta that water should move towards
     /// this is so that it appears to move smoothly
     /// </summary>
-    [Range(0, 10)]
-    public float MaxDeltaWaterMovementSpeed = 5.0f;
+    // [Range(0, 10)]
+    public float MaxDeltaWaterMovementSpeed = 500.0f;
 
     /// <summary>
     /// If the player has collided with the water
@@ -194,13 +194,15 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     /// <summary>
     /// How far above the target camera position will we consider the player to be too far ahead and we need to push the camera forward?
     /// </summary>
+    [Range(0, 10)]
     public float PlayerAheadDistance = 5f;
 
     /// <summary>
     /// When the water further than this distance away from the player, it will catch up to be this distance
     /// away from the target camera position
     /// </summary>
-    public float WaterBehindDistance = 15f;
+    [Range(0, 20)]
+    public float WaterBehindDistance = 5f;
 
     /// <summary>
     /// Checks if the player is moving further ahead than the camera was ready for
@@ -226,20 +228,23 @@ public class DynamicSwingUpSceneController : MonoBehaviour
     private void UpdateWater()
     {
         // update the target position
-        WaterTargetPosition += Vector3.up * Time.deltaTime * (WaterMovementSpeed + PointHeight / WaterMovementMultiplierHeight);
+        WaterTargetPosition += Vector3.up * Time.deltaTime * (WaterMovementSpeed + (PointHeight / WaterMovementMultiplierHeight));
 
         // check if the player is really far ahead
         var playerHeight = PlayerReference.transform.position.y;
+        
+        Debug.Log($"Player {playerHeight} > Water {(WaterTargetPosition.y + WaterBehindDistance)}");
 
         if (playerHeight > (WaterTargetPosition.y + WaterBehindDistance))
         {
+            Debug.Log("Water is catching up to the player");
             // set the new position so that it can catch up
             // base this off of the camera
             WaterTargetPosition = new Vector3(0, CameraController.TargetCameraPosition.y - WaterBehindDistance, 0);
         }
 
         // move the water towards the position
-        Water.transform.position = Vector3.MoveTowards(Water.transform.position, WaterTargetPosition, WaterMovementSpeed * Time.deltaTime);
+        Water.transform.position = Vector3.MoveTowards(Water.transform.position, WaterTargetPosition, MaxDeltaWaterMovementSpeed * Time.deltaTime);
     }
 
     /// <summary>
