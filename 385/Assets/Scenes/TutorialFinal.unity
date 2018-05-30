@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 155564461}
   m_Layer: 0
   m_Name: Platform (4)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3176,7 +3176,7 @@ GameObject:
   - component: {fileID: 1487514419}
   m_Layer: 0
   m_Name: Platform (3)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4347,7 +4347,7 @@ GameObject:
   - component: {fileID: 1998887986}
   m_Layer: 0
   m_Name: Platform (1)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -9,6 +9,9 @@ TagManager:
   - GrapplePoint
   - GrappleHook
   - GroundDis
+  - GroundTimed
+  - Lava
+  - BouncyWall
   layers:
   - Default
   - TransparentFX

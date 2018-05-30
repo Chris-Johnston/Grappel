@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114833691015240784}
   m_Layer: 0
   m_Name: LoseTriggerArea
-  m_TagString: Untagged
+  m_TagString: Lava
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,6 +56,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: a0c0771f93e2b4d45a9a5dafb2aad0c0, type: 2}
   m_StaticBatchInfo:

@@ -1315,7 +1315,7 @@ GameObject:
   - component: {fileID: 630823750}
   m_Layer: 0
   m_Name: Platform (6)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1724,7 +1724,7 @@ GameObject:
   - component: {fileID: 850886636}
   m_Layer: 0
   m_Name: Platform (8)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3078,7 +3078,7 @@ GameObject:
   - component: {fileID: 1495827251}
   m_Layer: 0
   m_Name: Platform (5)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3175,7 +3175,7 @@ GameObject:
   - component: {fileID: 1497630316}
   m_Layer: 0
   m_Name: Platform (1)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3538,7 +3538,7 @@ GameObject:
   - component: {fileID: 1931736056}
   m_Layer: 0
   m_Name: Platform (3)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3985,7 +3985,7 @@ GameObject:
   - component: {fileID: 2079762112}
   m_Layer: 0
   m_Name: Platform (4)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4082,7 +4082,7 @@ GameObject:
   - component: {fileID: 2098010215}
   m_Layer: 0
   m_Name: Platform (12)
-  m_TagString: Floor & Wall
+  m_TagString: BouncyWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
