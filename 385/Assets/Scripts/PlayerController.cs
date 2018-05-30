@@ -128,10 +128,10 @@ public class PlayerController : MonoBehaviour
     public bool IsOnGround
         => onGround;
 
-	/// <summary>
-	/// Holds value of transform.position for convenience
-	/// </summary>
-	private Vector3 playerPos;
+	  /// <summary>
+	  /// Holds value of transform.position for convenience
+	  /// </summary>
+	  private Vector3 playerPos;
 
     /// <summary>
     /// Set of methods to call when the player jumps
@@ -142,6 +142,7 @@ public class PlayerController : MonoBehaviour
     /// Set of methods to call when the player lands a jump
     /// </summary>
     public UnityEvent OnPlayerLand;
+
 
     // Use this for initialization
     void Start ()
@@ -186,7 +187,8 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collide)
     {
         //any game objects tagged as Ground or GroundDis will allow the player to jump
-        if (collide.gameObject.tag == Tags.TAG_GROUND || collide.gameObject.tag == Tags.TAG_GROUND_DIS)
+        if (collide.gameObject.tag == Tags.TAG_GROUND || collide.gameObject.tag == Tags.TAG_GROUND_DIS
+            || collide.gameObject.tag == Tags.TAG_GROUND_TIMED)
         {
             // if the player wasn't previously on the ground
             // then they likely just landed a jump
@@ -211,7 +213,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collide)
     {
-        if (collide.gameObject.tag == Tags.TAG_GROUND)
+        if (collide.gameObject.tag == Tags.TAG_GROUND || collide.gameObject.tag == Tags.TAG_GROUND_TIMED)
         {
             onGround = false;
             // we don't invoke OnPlayerJump here because it cannot be certain if a player fell, or if
@@ -358,7 +360,7 @@ public class PlayerController : MonoBehaviour
         {
             aimAngle = (Mathf.PI * 2) + aimAngle;
         }
-
+	
         if (ShowDebugging)
         {
             Debug.Log("aimAngle: " + aimAngle + " rad");
@@ -447,5 +449,5 @@ public class PlayerController : MonoBehaviour
         // convert both of these vector2s to vector3s
         // then project them using Vector3 project
         return Vector3.Project(Util.ToVector3(vec), Util.ToVector3(normal));
-    }    
+    }
 }
