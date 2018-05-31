@@ -42,6 +42,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TutorialFinal.unity
     guid: 111a8aacc7a8148c7911ee4fb6676c42
   - enabled: 1
+    path: Assets/Scenes/RealFinalTutorial.unity
+    guid: 03120cb1f835f4446a3fe1e4d815751f
+  - enabled: 1
     path: Assets/Scenes/Level0.unity
     guid: 64e3612f9cee94256aa02c7e3f5b4fde
   m_configObjects: {}
