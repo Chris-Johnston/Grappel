@@ -157,6 +157,16 @@ public class RopeSystem : MonoBehaviour
     /// </summary>
     public UnityEvent OnPlayerGrappleRelease;
 
+    /// <summary>
+    /// Invoked when the player interacts with a crumbly grapple point
+    /// </summary>
+    public UnityEvent OnPlayerCrumblyGrapplePointConnect;
+
+    /// <summary>
+    /// Invoked when the player interacts with a regular and non-crumbly grapple point
+    /// </summary>
+    public UnityEvent OnPlayerSturdyGrapplePointConnect;
+
     void Start()
     {
         // Set axis strings based on the user's controller selection from the menu screen
@@ -353,7 +363,9 @@ public class RopeSystem : MonoBehaviour
             // check that we collided with any of the world tags
             if (lastHit.collider.CompareTag(Tags.TAG_FLOOR_WALL) ||
                 lastHit.collider.CompareTag(Tags.TAG_GROUND) ||
-                lastHit.collider.CompareTag(Tags.TAG_GROUND_DIS))
+                lastHit.collider.CompareTag(Tags.TAG_GROUND_DIS) ||
+                lastHit.collider.CompareTag(Tags.TAG_BOUNCY_WALL) ||
+                lastHit.collider.CompareTag(Tags.TAG_LAVA))
             {
                 // if we did, then prevent extending into these
                 return false;
@@ -519,6 +531,17 @@ public class RopeSystem : MonoBehaviour
         {
             IsCasting = false;
             Attach(collision.GetComponent<Rigidbody2D>(), collision.GetComponent<GrapplePointController>());
+
+            // if the collided component has a Disappearing Controller
+            // then invoke the handler for when the player connects with the crumbling controller
+            if (collision.GetComponent<CrumblingGrapplePointController>() != null)
+            {
+                OnPlayerCrumblyGrapplePointConnect.Invoke();
+            }
+            // otherwise invoke the usual handler
+            else
+                OnPlayerSturdyGrapplePointConnect.Invoke();
+
             // invoke the grapple hit
             OnPlayerGrappleHit.Invoke();
         }

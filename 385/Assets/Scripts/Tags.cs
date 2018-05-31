@@ -15,5 +15,7 @@ public static class Tags
     public const string TAG_GROUND_DIS = "GroundDis";
     public const string TAG_GROUND_TIMED = "GroundTimed";
     public const string TAG_GRAPPLE_POINT = "GrapplePoint";
-	public const string TAG_GRAPPLE_HOOK = "GrappleHook";    
+	public const string TAG_GRAPPLE_HOOK = "GrappleHook";
+    public const string TAG_BOUNCY_WALL = "BouncyWall";
+    public const string TAG_LAVA = "Lava";
 }

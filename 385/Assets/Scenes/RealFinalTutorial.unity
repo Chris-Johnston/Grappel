@@ -163,7 +163,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1098079702230488, guid: 54034b0a4a13e084aa8b0b2d9e2791cd, type: 2}
       propertyPath: m_TagString
-      value: Ground
+      value: BouncyWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54034b0a4a13e084aa8b0b2d9e2791cd, type: 2}
@@ -1460,6 +1460,10 @@ Prefab:
         type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478081047187256, guid: 3102f46f6380f468897d9dc963dd0cfe, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3102f46f6380f468897d9dc963dd0cfe, type: 2}
@@ -2933,6 +2937,10 @@ Prefab:
     - target: {fileID: 4279929632844612, guid: 54034b0a4a13e084aa8b0b2d9e2791cd, type: 2}
       propertyPath: m_LocalScale.x
       value: 0.33655268
+      objectReference: {fileID: 0}
+    - target: {fileID: 1098079702230488, guid: 54034b0a4a13e084aa8b0b2d9e2791cd, type: 2}
+      propertyPath: m_TagString
+      value: BouncyWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54034b0a4a13e084aa8b0b2d9e2791cd, type: 2}

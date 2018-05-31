@@ -143,6 +143,26 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public UnityEvent OnPlayerLand;
 
+    /// <summary>
+    /// Set of methods to call when the player interacts with <see cref="Tags.TAG_LAVA"/>
+    /// </summary>
+    public UnityEvent OnPlayerLavaCollide;
+
+    /// <summary>
+    /// set of methods to call when the player interacts with <see cref="Tags.TAG_FLOOR_WALL"/>
+    /// </summary>
+    public UnityEvent OnPlayerWallCollide;
+
+    /// <summary>
+    /// set of methods to call when the player interacts with <see cref="Tags.TAG_BOUNCY_WALL"/>
+    /// </summary>
+    public UnityEvent OnPlayerBouncyWallCollide;
+
+    /// <summary>
+    /// set of methods to call when the player interacts with <see cref="Tags.TAG_GROUND_DIS"/> or <see cref="Tags.TAG_GROUND_TIMED"/>
+    /// </summary>
+    public UnityEvent OnPlayerDisappearingPlatformCollide;
+
 
     // Use this for initialization
     void Start ()
@@ -190,6 +210,12 @@ public class PlayerController : MonoBehaviour
         if (collide.gameObject.tag == Tags.TAG_GROUND || collide.gameObject.tag == Tags.TAG_GROUND_DIS
             || collide.gameObject.tag == Tags.TAG_GROUND_TIMED)
         {
+            // invoke the handler for a platform that will disappear
+            if (collide.gameObject.CompareTag(Tags.TAG_GROUND_TIMED) || collide.gameObject.CompareTag(Tags.TAG_GROUND_DIS))
+            {
+                OnPlayerDisappearingPlatformCollide.Invoke();
+            }
+
             // if the player wasn't previously on the ground
             // then they likely just landed a jump
             if (!onGround)
@@ -208,6 +234,21 @@ public class PlayerController : MonoBehaviour
         else if (collide.gameObject.tag == Tags.TAG_GRAPPLE_HOOK)
         {
             // Debug.Log("Oh no this player was hit with a grapple hook!");
+        }
+        // when the player collides with a bouncy wall, invoke the bouncy wall handler
+        else if (collide.gameObject.CompareTag(Tags.TAG_BOUNCY_WALL))
+        {
+            OnPlayerBouncyWallCollide.Invoke();
+        }
+        // when the player collides with lava, invoke the lava collide handler
+        else if (collide.gameObject.CompareTag(Tags.TAG_LAVA))
+        {
+            OnPlayerLavaCollide.Invoke();
+        }
+        // when the player collides with a regular ol' wall, invoke the wall collide handler
+        else if (collide.gameObject.CompareTag(Tags.TAG_FLOOR_WALL))
+        {
+            OnPlayerWallCollide.Invoke();
         }
     }
 
