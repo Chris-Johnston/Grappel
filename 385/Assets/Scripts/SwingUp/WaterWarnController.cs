@@ -14,7 +14,7 @@ public class WaterWarnController : MonoBehaviour
     private MeshRenderer meshRenderer;
 
 	void Start ()
-    {
+    	{
         meshRenderer = GetComponent<MeshRenderer>();
 	}
 
